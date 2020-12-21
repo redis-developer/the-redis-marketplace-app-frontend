@@ -7,15 +7,15 @@ import React from 'react';
 import Copyright from '../src/Copyright';
 import Link from '../src/Link';
 
-export default function Index() {
+export default function About() {
   return (
     <Container maxWidth="sm">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Next.js
         </Typography>
-        <Button variant="contained" color="primary" component={Link} naked href="/about">
-          Go to the about page
+        <Button variant="contained" color="primary" component={Link} naked href="/">
+          Go to the main page
         </Button>
         <Copyright />
       </Box>
