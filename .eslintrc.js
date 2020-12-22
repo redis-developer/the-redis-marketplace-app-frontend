@@ -32,6 +32,7 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     'sort-imports': 'off',
     'import/order': 'off',
+    'react/prop-types': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {

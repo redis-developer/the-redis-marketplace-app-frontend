@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
 
-const NextComposed = React.forwardRef(function NextComposed(props, ref) {
+const NextComposed = forwardRef(function NextComposed(props, ref) {
   const { as, href, ...other } = props;
 
   return (
