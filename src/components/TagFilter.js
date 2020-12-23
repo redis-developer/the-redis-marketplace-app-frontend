@@ -5,10 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 const useStyles = makeStyles(() => ({
-  tagsCategory: {
+  categoryHeader: {
     fontSize: '16px',
     fontWeight: 'bold',
     padding: '5px 0'
+  },
+  tagsCategory: {
+    marginBottom: '15px'
   }
 }));
 
@@ -18,8 +21,8 @@ export default function TagFilter({ tags, ...rest }) {
   return (
     <div {...rest}>
       {tags.map(({ category, options }) => (
-        <FormGroup key={category}>
-          <div className={classes.tagsCategory}>{category}</div>
+        <FormGroup key={category} className={classes.tagsCategory}>
+          <div className={classes.categoryHeader}>{category}</div>
           {options.map((option) => (
             <FormControlLabel
               key={option}
