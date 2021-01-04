@@ -7,18 +7,18 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    margin: '30px auto',
-    width: 550
+    width: '550px',
+    margin: theme.spacing(4, 'auto'),
+    padding: theme.spacing(0.25, 0.5)
   },
   input: {
-    marginLeft: theme.spacing(1),
-    flex: 1
+    flex: 1,
+    marginLeft: theme.spacing(1)
   },
   iconButton: {
-    padding: 10
+    padding: theme.spacing(1.5)
   }
 }));
 

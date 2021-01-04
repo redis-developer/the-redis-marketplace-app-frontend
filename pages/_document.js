@@ -6,7 +6,6 @@ import theme from '../src/theme';
 
 export default class MyDocument extends Document {
   render() {
-    console.log(theme.palette.backgroundColor);
     return (
       <Html lang="en">
         <Head>

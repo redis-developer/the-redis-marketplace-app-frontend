@@ -1,3 +1,4 @@
+// TODO: Filters: type, contributed_by, quick_deploy, language, redis_commands, redis_features, redis_modules, special_tags
 export const tags = [
   {
     category: 'Product',
@@ -12,8 +13,8 @@ export const tags = [
     ]
   },
   { category: 'Language', options: ['PHP', 'Java', 'JavaScript', 'Python', 'Ruby'] },
-  { category: 'Contributed By', options: ['Red Labs', 'Community', 'Partner'] },
-  { category: 'Sample Type', options: ['Building blocks', 'Applications', 'Integrations'] }
+  { category: 'Contributed By', options: ['Redis Labs', 'Community', 'Partner'] },
+  { category: 'Sample Type', options: ['Building Block', 'Full App'] }
 ];
 
 export const samples = [
@@ -22,7 +23,7 @@ export const samples = [
     app_name: 'Basic Redis caching example in Nodejs',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
-    type: 'Integration',
+    type: 'Building Block',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
     download_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs/archive/main.zip',
@@ -79,7 +80,7 @@ export const samples = [
     ],
     language: 'Java',
     redis_commands: ['SETEX'],
-    redis_features: ['caching'],
+    redis_features: ['caching', 'searching'],
     redis_modules: [],
     app_image_urls: [
       'https://github.com/redis-developer/basic-caching-demo-nodejs/blob/main/docs/screenshot001.png?raw=true'
@@ -92,7 +93,7 @@ export const samples = [
     app_name: 'Basic Redis caching example in PHP',
     description:
       'Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
-    type: 'Application',
+    type: 'Full App',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
     download_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs/archive/main.zip',
@@ -127,7 +128,7 @@ export const samples = [
     app_name: 'Basic Redis caching example in C#',
     description:
       'Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
-    type: 'Application',
+    type: 'Full App',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
     download_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs/archive/main.zip',
@@ -162,7 +163,7 @@ export const samples = [
     app_name: 'Basic Redis caching example in Ruby',
     description:
       'Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
-    type: 'Application',
+    type: 'Full App',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
     download_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs/archive/main.zip',
