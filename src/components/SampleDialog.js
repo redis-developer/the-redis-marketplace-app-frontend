@@ -10,27 +10,53 @@ import IconButton from '@material-ui/core/IconButton';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LanguageIcon from '@material-ui/icons/Language';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import Link from '../../src/components/Link';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: '700px'
+  },
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: theme.spacing(1, 1, 1, 3),
-    backgroundColor: (style) => style.light,
-    color: (style) => style.main
+    backgroundColor: (sampleStyle) => sampleStyle.light,
+    color: (sampleStyle) => sampleStyle.main
   },
   content: {
     padding: theme.spacing(3)
   },
+  description: {
+    whiteSpace: 'pre-wrap'
+  },
+  image: {
+    width: '100%'
+  },
+  buttonIcon: {
+    marginRight: theme.spacing(1)
+  },
   actions: {
     flexWrap: 'wrap'
+  },
+  youtube: {
+    backgroundColor: theme.palette.tertiary.main,
+    color: theme.palette.tertiary.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.tertiary.light
+    }
   },
   deploy: {
     display: 'flex',
@@ -45,11 +71,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SampleCard({ closeSamplePopup, sample, isOpened }) {
-  const theme = useTheme();
-  const classes = useStyles(
-    sample.type === 'Building Block' ? theme.palette.buildingBlock : theme.palette.application
-  );
+export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleStyle }) {
+  const classes = useStyles(sampleStyle);
 
   const firstDeployer = useMemo(
     () => ({
@@ -66,6 +89,8 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened }) {
   return (
     <Dialog
       open={isOpened}
+      PaperProps={{ className: classes.root }}
+      scroll="paper"
       onClose={closeSamplePopup}
       aria-labelledby="sample-dialog-title"
       aria-describedby="sample-dialog-description">
@@ -76,7 +101,12 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened }) {
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.content} dividers>
-        <DialogContentText id="sample-dialog-description">{sample.description}</DialogContentText>
+        <DialogContentText id="sample-dialog-description" className={classes.description}>
+          {sample.description}
+        </DialogContentText>
+        {sample.app_image_urls.map((imageUrl, index) => (
+          <img src={imageUrl} key={imageUrl} alt={`app_image_${index}`} className={classes.image} />
+        ))}
       </DialogContent>
       <DialogActions className={classes.actions}>
         {sample.quick_deploy && sample.deploy_buttons.length >= 2 && (
@@ -99,38 +129,68 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened }) {
             </RadioGroup>
           </Box>
         )}
+        {sample.youtube_url && (
+          <Button
+            size="small"
+            variant="contained"
+            className={classes.youtube}
+            component={Link}
+            naked
+            target="_blank"
+            href={sample.youtube_url}>
+            <YouTubeIcon className={classes.buttonIcon} />
+            YouTube
+          </Button>
+        )}
         {sample.download_url && (
           <Button
+            size="small"
             variant="contained"
             color="secondary"
             component={Link}
             naked
+            target="_blank"
             href={sample.download_url}>
+            <GetAppIcon className={classes.buttonIcon} />
             Download
           </Button>
         )}
         {sample.repo_url && (
-          <Button variant="contained" color="primary" component={Link} naked href={sample.repo_url}>
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            component={Link}
+            naked
+            target="_blank"
+            href={sample.repo_url}>
+            <GitHubIcon className={classes.buttonIcon} />
             Repository
           </Button>
         )}
         {sample.hosted_url && (
           <Button
+            size="small"
             variant="contained"
             color="primary"
             component={Link}
             naked
+            target="_blank"
             href={sample.hosted_url}>
+            <LanguageIcon className={classes.buttonIcon} />
             Hosted
           </Button>
         )}
         {sample.quick_deploy && sample.deploy_buttons.length && (
           <Button
+            size="small"
             variant="contained"
             color="primary"
             component={Link}
             naked
+            target="_blank"
             href={selectedDeployLink}>
+            <CloudDoneIcon className={classes.buttonIcon} />
             Quick Deploy
           </Button>
         )}

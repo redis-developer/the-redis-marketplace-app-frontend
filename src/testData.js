@@ -22,12 +22,12 @@ export const samples = [
     id: 'test-project-1',
     app_name: 'Basic Redis caching example in Nodejs',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nFusce tristique malesuada urna, vel pharetra turpis.\nNullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique malesuada urna, vel pharetra turpis. Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
     type: 'Building Block',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
     download_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs/archive/main.zip',
-    hosted_url: '',
+    hosted_url: 'https://google.com',
     quick_deploy: 'true',
     deploy_buttons: [
       {
@@ -50,14 +50,13 @@ export const samples = [
     app_image_urls: [
       'https://github.com/redis-developer/basic-caching-demo-nodejs/blob/main/docs/screenshot001.png?raw=true'
     ],
-    youtube_url: '',
+    youtube_url: 'https://www.youtube.com/watch?v=3qFvCPmee8U',
     special_tags: []
   },
   {
     id: 'test-project-2',
     app_name: 'Basic Redis caching example in Java',
-    description:
-      'Nullam eu lacus id dui viverra facilisis. Phasellus finibus sed enim id commodo. Sed turpis nisl, venenatis nec magna id, aliquet tincidunt nulla. Nunc luctus porta elit, non pharetra neque imperdiet eu. In sagittis placerat ante ut porttitor. Duis tincidunt varius sapien, et accumsan massa varius eget. In tincidunt, dui et aliquam blandit, nibh neque porta dolor, vestibulum vehicula odio tortor elementum nibh. Nunc venenatis semper vulputate.',
+    description: 'Showcases how to impliment caching in NodeJS',
     type: 'Building Block',
     contributed_by: 'Redis Labs',
     repo_url: 'https://github.com/redis-developer/basic-caching-demo-nodejs',
@@ -117,9 +116,7 @@ export const samples = [
     redis_commands: ['SETEX'],
     redis_features: ['caching'],
     redis_modules: [],
-    app_image_urls: [
-      'https://github.com/redis-developer/basic-caching-demo-nodejs/blob/main/docs/screenshot001.png?raw=true'
-    ],
+    app_image_urls: [],
     youtube_url: '',
     special_tags: []
   },

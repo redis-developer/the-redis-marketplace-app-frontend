@@ -12,14 +12,18 @@ const theme = createMuiTheme({
       primary: '#565b73'
     },
     primary: {
-      main: '#0263e0'
+      main: '#0263e0',
+      contrastText: '#fff'
     },
     secondary: {
       main: '#e8e8e8',
       contrastText: '#565b73'
     },
     tertiary: {
-      main: '#f22f46'
+      main: '#f22f46',
+      contrastText: '#fff',
+      dark: '#b8001f',
+      light: '#ff6a71'
     },
     application: {
       main: '#008cff',

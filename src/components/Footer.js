@@ -29,7 +29,7 @@ export default function Footer({ ...rest }) {
       </Typography>
       <Typography variant="body2" color="textPrimary" align="center" className={classes.copyright}>
         {`Copyright © ${year} `}
-        <MuiLink color="inherit" href="https://redislabs.com/">
+        <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           Redis Labs Marketplace
         </MuiLink>
       </Typography>

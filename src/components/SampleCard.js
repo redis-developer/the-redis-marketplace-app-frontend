@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogLink: {
     padding: theme.spacing(1, 0),
-    backgroundColor: (style) => style.light,
-    color: (style) => style.main,
+    backgroundColor: (sampleStyle) => sampleStyle.light,
+    color: (sampleStyle) => sampleStyle.main,
     '& p': {
-      color: (style) => style.main
+      color: (sampleStyle) => sampleStyle.main
     },
     '&:hover': {
       textDecoration: 'none'
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     top: '10px',
     zIndex: 1,
-    backgroundColor: (style) => style.main
+    backgroundColor: (sampleStyle) => sampleStyle.main
   },
   chip: {
     margin: theme.spacing(0, 0.5, 0.5, 0),
@@ -66,9 +66,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SampleCard(sample) {
   const theme = useTheme();
-  const classes = useStyles(
-    sample.type === 'Building Block' ? theme.palette.buildingBlock : theme.palette.application
+  const sampleStyle = useMemo(
+    () =>
+      sample.type === 'Building Block' ? theme.palette.buildingBlock : theme.palette.application,
+    [sample.type, theme.palette.application, theme.palette.buildingBlock]
   );
+  const classes = useStyles(sampleStyle);
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
   const tags = useMemo(
@@ -136,7 +139,12 @@ export default function SampleCard(sample) {
           By {sample.contributed_by}
         </Typography>
       </CardContent>
-      <SampleDialog sample={sample} closeSamplePopup={closeSamplePopup} isOpened={isOpened} />
+      <SampleDialog
+        sample={sample}
+        closeSamplePopup={closeSamplePopup}
+        isOpened={isOpened}
+        sampleStyle={sampleStyle}
+      />
     </Card>
   );
 }
