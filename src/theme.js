@@ -4,20 +4,30 @@ import { createMuiTheme } from '@material-ui/core/styles';
 // Create a theme instance.
 const theme = createMuiTheme({
   spacing: 8,
+  typography: {
+    fontFamily: "'Montserrat', sans-serif"
+  },
   palette: {
     borderColor: '#dee2e6',
     backgroundColor: '#fafafa',
-    footerBackgroundColor: '#0d112b',
+    appBar: {
+      main: '#fff',
+      contrastText: '#6f747a'
+    },
+    footer: {
+      main: '#3f4b5f',
+      contrastText: '#fff'
+    },
     text: {
-      primary: '#565b73'
+      primary: '#3f4b5f'
     },
     primary: {
-      main: '#0263e0',
+      main: '#5961ff',
       contrastText: '#fff'
     },
     secondary: {
       main: '#e8e8e8',
-      contrastText: '#565b73'
+      contrastText: '#3f4b5f'
     },
     tertiary: {
       main: '#f22f46',
@@ -28,10 +38,6 @@ const theme = createMuiTheme({
     application: {
       main: '#008cff',
       light: '#ebf4ff'
-    },
-    integration: {
-      main: '#f22f46',
-      light: '#feecec'
     },
     buildingBlock: {
       main: '#606b85',

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
-import SampleCard from './SampleCard';
+import { SampleCard } from './';
 
 const useStyles = makeStyles((theme) => ({
   resultsHeader: {

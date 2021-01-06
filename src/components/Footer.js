@@ -6,7 +6,8 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.footerBackgroundColor
+    background: theme.palette.footer.main,
+    color: theme.palette.footer.contrastText
   },
   mainText: {
     fontStyle: 'italic',
@@ -24,16 +25,16 @@ export default function Footer({ ...rest }) {
 
   return (
     <Box {...rest} className={classes.root} mt={6} pt={6} pb={4}>
-      <Typography variant="h3" color="textPrimary" align="center" className={classes.mainText}>
+      <Typography variant="h3" align="center" className={classes.mainText}>
         We can’t wait to see what you build.
       </Typography>
-      <Typography variant="body2" color="textPrimary" align="center" className={classes.copyright}>
+      <Typography variant="body2" align="center" className={classes.copyright}>
         {`Copyright © ${year} `}
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           Redis Labs Marketplace
         </MuiLink>
       </Typography>
-      <Typography variant="body2" color="textPrimary" align="center">
+      <Typography variant="body2" align="center">
         ALL RIGHTS RESERVED.
       </Typography>
     </Box>

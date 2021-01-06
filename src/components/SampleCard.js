@@ -1,4 +1,5 @@
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,14 +10,16 @@ import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import SampleDialog from './SampleDialog';
+import { LanguageIcon, SampleDialog } from './';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flex: '0 0 31%',
-    marginBottom: theme.spacing(5),
-    boxShadow: '1px 3px 30px 5px rgba(0,0,0,.07)',
-    borderRadius: '5px'
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '0 0 32%',
+    marginBottom: theme.spacing(3),
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
+    borderRadius: '10px'
   },
   description: {
     display: '-webkit-box',
@@ -26,14 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
   contribution: {
     paddingTop: theme.spacing(1),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(3),
     borderTop: `1px solid ${theme.palette.borderColor}`
-  },
-  appName: {
-    display: '-webkit-box',
-    overflow: 'hidden',
-    '-webkit-line-clamp': 1,
-    '-webkit-box-orient': 'vertical'
   },
   dialogLink: {
     padding: theme.spacing(1, 0),
@@ -47,7 +44,17 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   header: {
-    maxHeight: '35px'
+    maxHeight: '35px',
+    fontWeight: '500'
+  },
+  subHeader: {
+    fontWeight: '800'
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'space-between'
   },
   avatar: {
     position: 'relative',
@@ -60,7 +67,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 300
   },
   language: {
-    marginBottom: theme.spacing(1)
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2)
+  },
+  languageIcon: {
+    height: '20px',
+    width: '20px',
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -103,7 +117,7 @@ export default function SampleCard(sample) {
     <Card key={sample.id} className={classes.root}>
       <CardHeader
         subheader={subheader}
-        subheaderTypographyProps={{ variant: 'body2' }}
+        subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
             R
@@ -113,7 +127,7 @@ export default function SampleCard(sample) {
       />
       <CardActionArea onClick={openSamplePopup} className={classes.dialogLink}>
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
+          <Typography gutterBottom variant="h6" component="h2">
             {sample.app_name}
           </Typography>
           <Typography variant="body2" className={classes.description}>
@@ -121,20 +135,23 @@ export default function SampleCard(sample) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" className={classes.language}>
-          {sample.language}
-        </Typography>
-        {tags.map((tag) => (
-          <Chip
-            size="small"
-            label={tag}
-            key={tag}
-            className={classes.chip}
-            onClick={() => console.log(`TODO: filter for ${tag}`)}
-            color="secondary"
-          />
-        ))}
+      <CardContent className={classes.content}>
+        <Box>
+          <Typography variant="body2" color="textSecondary" className={classes.language}>
+            <LanguageIcon language={sample.language} className={classes.languageIcon} />
+            {sample.language}
+          </Typography>
+          {tags.map((tag) => (
+            <Chip
+              size="small"
+              label={tag}
+              key={tag}
+              className={classes.chip}
+              onClick={() => console.log(`TODO: filter for ${tag}`)}
+              color="secondary"
+            />
+          ))}
+        </Box>
         <Typography variant="body2" color="textSecondary" className={classes.contribution}>
           By {sample.contributed_by}
         </Typography>

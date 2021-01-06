@@ -19,12 +19,9 @@ import LanguageIcon from '@material-ui/icons/Language';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import Link from '../../src/components/Link';
+import { Link } from './';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: '700px'
-  },
   header: {
     display: 'flex',
     alignItems: 'center',
@@ -89,8 +86,8 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
   return (
     <Dialog
       open={isOpened}
-      PaperProps={{ className: classes.root }}
-      scroll="paper"
+      scroll="body"
+      maxWidth="md"
       onClose={closeSamplePopup}
       aria-labelledby="sample-dialog-title"
       aria-describedby="sample-dialog-description">

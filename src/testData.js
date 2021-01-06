@@ -1,20 +1,28 @@
-// TODO: Filters: type, contributed_by, quick_deploy, language, redis_commands, redis_features, redis_modules, special_tags
-export const tags = [
+export const dynamicFilters = [
   {
-    category: 'Product',
+    category: { name: 'Modules' },
     options: [
-      'RediSearch',
-      'RedisJSON',
-      'RedisGears',
-      'RedisAI',
-      'RedisGraph',
-      'RedisTimeSeries',
-      'RedisBloom'
+      { name: 'RediSearch' },
+      { name: 'RedisJSON' },
+      { name: 'RedisGears' },
+      { name: 'RedisAI' },
+      { name: 'RedisGraph' },
+      { name: 'RedisTimeSeries' },
+      { name: 'RedisBloom' }
     ]
   },
-  { category: 'Language', options: ['PHP', 'Java', 'JavaScript', 'Python', 'Ruby'] },
-  { category: 'Contributed By', options: ['Redis Labs', 'Community', 'Partner'] },
-  { category: 'Sample Type', options: ['Building Block', 'Full App'] }
+  {
+    category: { name: 'Commands' },
+    options: [{ name: 'SETEX' }]
+  },
+  {
+    category: { name: 'Features' },
+    options: [{ name: 'Caching' }]
+  },
+  {
+    category: { name: 'Special Tags' },
+    options: [{ name: 'special 1' }]
+  }
 ];
 
 export const samples = [

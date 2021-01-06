@@ -5,19 +5,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
-import { Footer, Results, SearchBar, TagFilter } from '../src/components';
-import { samples, tags } from '../src/testData';
+import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
+import { dynamicFilters, samples } from '../src/testData';
 
 const useStyles = makeStyles((theme) => ({
   hero: {
     textAlign: 'center',
-    background: `url(${'hero.png'}) no-repeat 50% local`,
-    color: 'white',
+    background: `url(${'hero.svg'}) no-repeat local`,
+    backgroundSize: '28% !important',
+    backgroundPosition: '104% -70px !important',
     '& p, & h3': {
       margin: theme.spacing(4, 0)
     },
     '& h3': {
-      fontWeight: 300
+      fontWeight: 800
     }
   },
   browser: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexFlow: 'wrap'
   },
   tagsFilter: {
-    flex: '0 0 16%'
+    flex: '0 0 18%'
   },
   introduction: {
     flex: '0 0 100%',
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   results: {
-    flex: '0 0 84%'
+    flex: '0 0 82%'
   },
   paginator: {
     display: 'flex',
@@ -66,8 +67,9 @@ export default function Index() {
   const classes = useStyles();
 
   return (
-    <Box mt={4}>
-      <Box className={classes.hero} mb={6} p={6}>
+    <Box mt={9}>
+      <Header />
+      <Box className={classes.hero} p={6}>
         <Typography variant="h3">Redis Labs Marketplace</Typography>
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
@@ -82,7 +84,7 @@ export default function Index() {
             Get started with code samples for common Redis use cases.
           </Typography>
         </Box>
-        <TagFilter tags={tags} className={classes.tagsFilter} />
+        <TagFilter dynamicFilters={dynamicFilters} className={classes.tagsFilter} />
         <Results samples={samples} className={classes.results} />
         <Box className={classes.paginator}>
           <Button
