@@ -5,14 +5,14 @@ import FormGroup from '@material-ui/core/FormGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
-import { FaCube, FaRegWindowRestore, FaUserCog, FaUserEdit, FaUsers } from 'react-icons/fa';
-import { SiDevDotTo, SiRedis } from 'react-icons/si';
+import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
+import { SiRedis } from 'react-icons/si';
 
 import { LanguageIcon } from './';
 
 export const staticFilters = [
   {
-    category: { name: 'Language', icon: <SiDevDotTo className="filterIcon" /> },
+    category: { name: 'Language' },
     options: [
       { name: 'JavaScript', icon: <LanguageIcon language="JavaScript" className="filterIcon" /> },
       { name: 'Java', icon: <LanguageIcon language="Java" className="filterIcon" /> },
@@ -31,7 +31,7 @@ export const staticFilters = [
     ]
   },
   {
-    category: { name: 'Contributed By', icon: <FaUserEdit className="filterIcon" /> },
+    category: { name: 'Contributed By' },
     options: [
       { name: 'Redis Labs', icon: <SiRedis className="filterIcon" /> },
       { name: 'Community', icon: <FaUsers className="filterIcon" /> },
@@ -53,15 +53,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     fontSize: '16px',
     fontWeight: 'bold',
-    padding: theme.spacing(1, 0)
+    paddingBottom: theme.spacing(1)
   },
   tagLabel: {
+    transition: 'all .2s ease-in-out',
     display: 'flex',
     alignItems: 'center',
     fontSize: '14px'
   },
+  tag: {
+    '&:hover span, &:active span': {
+      fontWeight: '600'
+    }
+  },
   tagsCategory: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2.5)
   }
 }));
 
@@ -81,6 +87,7 @@ export default function TagFilter({ className: classNameProps, dynamicFilters, .
           {options.map((option) => (
             <FormControlLabel
               key={option.name}
+              className={classes.tag}
               control={<Checkbox name={option.name} color="primary" />}
               label={
                 <Box className={classes.tagLabel}>

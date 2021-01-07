@@ -13,21 +13,26 @@ import { Link } from './';
 const useStyles = makeStyles((theme) => ({
   menuList: {
     display: 'flex',
-    padding: theme.spacing(7, 7, 4, 4)
+    padding: theme.spacing(4, 3.5, 4.5, 3.5),
+    marginTop: theme.spacing(3),
+    boxShadow:
+      '0 100px 80px 0 rgba(0,0,0,.07), 0 41.8px 33.4px 0 rgba(0,0,0,.05), 0 22.3px 17.9px 0 rgba(0,0,0,.04), 0 12.5px 10px 0 rgba(0,0,0,.04), 0 6.7px 5.3px 0 rgba(0,0,0,.03), 0 2.8px 2.2px 0 rgba(0,0,0,.02)'
   },
   menuTitle: {
     fontWeight: '600',
-    padding: theme.spacing(0, 1.5)
+    padding: theme.spacing(0, 1.5),
+    cursor: 'default'
   },
   category: {
-    maxWidth: '200px'
+    width: '200px'
   },
   categoryTitle: {
     paddingLeft: theme.spacing(2),
     fontWeight: '600',
     fontSize: '15px',
     paddingBottom: theme.spacing(1),
-    color: theme.palette.appBar.contrastText
+    color: theme.palette.appBar.contrastText,
+    cursor: 'default'
   },
   menuItem: {
     padding: theme.spacing(0.25, 2),
@@ -35,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.appBar.main
     },
     '&:hover p, &:active p': {
-      fontWeight: '700'
+      fontWeight: '600'
     }
   },
   linkTitle: {
@@ -79,7 +84,7 @@ export default function ToolbarMenu({ menuTitle, menuCategories }) {
         disablePortal>
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
-            <Paper>
+            <Paper elevation={0} square>
               <MenuList
                 autoFocusItem={open}
                 onMouseLeave={handleClose}
