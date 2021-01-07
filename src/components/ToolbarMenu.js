@@ -11,14 +11,19 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Link } from './';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%'
+  },
   menuList: {
     display: 'flex',
     padding: theme.spacing(4, 3.5, 4.5, 3.5),
-    marginTop: theme.spacing(3),
     boxShadow:
       '0 100px 80px 0 rgba(0,0,0,.07), 0 41.8px 33.4px 0 rgba(0,0,0,.05), 0 22.3px 17.9px 0 rgba(0,0,0,.04), 0 12.5px 10px 0 rgba(0,0,0,.04), 0 6.7px 5.3px 0 rgba(0,0,0,.03), 0 2.8px 2.2px 0 rgba(0,0,0,.02)'
   },
   menuTitle: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
     fontWeight: '600',
     padding: theme.spacing(0, 1.5),
     cursor: 'default'
@@ -65,7 +70,7 @@ export default function ToolbarMenu({ menuTitle, menuCategories }) {
   }, []);
 
   return (
-    <Box onMouseLeave={handleClose}>
+    <Box onMouseLeave={handleClose} className={classes.root}>
       <Typography
         variant="body2"
         ref={anchorRef}

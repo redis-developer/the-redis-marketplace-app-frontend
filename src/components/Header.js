@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   redisLogo: {
     height: '40px',
     marginRight: theme.spacing(3)
+  },
+  menuCategories: {
+    height: '100%'
   }
 }));
 
@@ -49,7 +52,7 @@ export default function Header() {
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
         </MuiLink>
-        <Grid container>
+        <Grid container className={classes.menuCategories}>
           {toolbarMenus.map(({ menuTitle, menuCategories }) => (
             <ToolbarMenu key={menuTitle} menuTitle={menuTitle} menuCategories={menuCategories} />
           ))}
