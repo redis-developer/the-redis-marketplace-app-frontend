@@ -114,10 +114,12 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
               {sample.app_name}
             </Typography>
           </Grid>
-          <Grid container xs={1} justify="flex-end">
-            <IconButton aria-label="close" onClick={closeSamplePopup}>
-              <CloseIcon />
-            </IconButton>
+          <Grid item xs={1}>
+            <Grid container justify="flex-end">
+              <IconButton aria-label="close" onClick={closeSamplePopup}>
+                <CloseIcon />
+              </IconButton>
+            </Grid>
           </Grid>
           <Grid item xs={12} className={classes.tags}>
             {tags}
@@ -153,7 +155,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
               ))}
             </Paper>
           </Grid>
-          <Grid item direction="column" xs={3}>
+          <Grid item xs={3}>
             {sample.quick_deploy && sample.deploy_buttons.length >= 2 && (
               <Box className={classes.deploy}>
                 <Typography variant="body1">Deploy with:</Typography>
