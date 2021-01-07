@@ -1,4 +1,4 @@
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
@@ -6,9 +6,6 @@ import { SampleCard } from './';
 
 const useStyles = makeStyles(() => ({
   resultsBody: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'space-between',
     '&::after': {
       content: '""',
       flex: '0 0 32%'
@@ -16,16 +13,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Results({ samples, ...rest }) {
+export default function Results({ samples }) {
   const classes = useStyles();
 
   return (
-    <Box {...rest}>
-      <Box className={classes.resultsBody}>
-        {samples.map((sample) => (
-          <SampleCard {...sample} key={sample.id} />
-        ))}
-      </Box>
-    </Box>
+    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between">
+      {samples.map((sample) => (
+        <SampleCard {...sample} key={sample.id} />
+      ))}
+    </Grid>
   );
 }

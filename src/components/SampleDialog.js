@@ -1,12 +1,14 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,22 +17,32 @@ import CloseIcon from '@material-ui/icons/Close';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import LanguageIcon from '@material-ui/icons/Language';
-import YouTubeIcon from '@material-ui/icons/YouTube';
+import HostedIcon from '@material-ui/icons/Language';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Link } from './';
+import { LanguageIcon, Link } from './';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    borderRadius: '10px'
+  },
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     padding: theme.spacing(1, 1, 1, 3),
-    backgroundColor: (sampleStyle) => sampleStyle.light,
+    backgroundColor: () => theme.palette.backgroundColor,
     color: (sampleStyle) => sampleStyle.main
   },
+  appName: {
+    paddingTop: theme.spacing(2),
+    fontWeight: '600'
+  },
+  tags: {
+    marginTop: theme.spacing(1)
+  },
   content: {
+    padding: theme.spacing(1, 3, 3, 3),
+    backgroundColor: () => theme.palette.backgroundColor
+  },
+  details: {
     padding: theme.spacing(3)
   },
   description: {
@@ -42,33 +54,36 @@ const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     marginRight: theme.spacing(1)
   },
-  actions: {
-    flexWrap: 'wrap'
+  action: {
+    width: '100%',
+    whiteSpace: 'nowrap',
+    marginBottom: theme.spacing(2)
   },
   youtube: {
-    backgroundColor: theme.palette.tertiary.main,
-    color: theme.palette.tertiary.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.tertiary.light
-    }
+    border: 0,
+    height: '360px',
+    marginBottom: theme.spacing(2)
   },
   deploy: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    flex: '0 0 100%',
     marginBottom: theme.spacing(1),
     '& p': {
       fontWeight: 800,
       paddingRight: theme.spacing(1)
     }
+  },
+  language: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(1)
+  },
+  languageIcon: {
+    height: '20px',
+    width: '20px',
+    marginRight: theme.spacing(1)
   }
 }));
 
-export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleStyle }) {
+export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleStyle, tags }) {
   const classes = useStyles(sampleStyle);
 
   const firstDeployer = useMemo(
@@ -90,108 +105,133 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
       maxWidth="md"
       onClose={closeSamplePopup}
       aria-labelledby="sample-dialog-title"
+      PaperProps={{ className: classes.root }}
       aria-describedby="sample-dialog-description">
       <DialogTitle disableTypography id="sample-dialog-title" className={classes.header}>
-        <Typography variant="h6">{sample.app_name}</Typography>
-        <IconButton aria-label="close" onClick={closeSamplePopup}>
-          <CloseIcon />
-        </IconButton>
+        <Grid container alignItems="center" justify="space-between">
+          <Grid item xs={11}>
+            <Typography variant="h5" className={classes.appName}>
+              {sample.app_name}
+            </Typography>
+          </Grid>
+          <Grid container xs={1} justify="flex-end">
+            <IconButton aria-label="close" onClick={closeSamplePopup}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={12} className={classes.tags}>
+            {tags}
+          </Grid>
+          <Typography variant="body2" color="textSecondary" className={classes.language}>
+            <LanguageIcon language={sample.language} className={classes.languageIcon} />
+            {sample.language}
+          </Typography>
+        </Grid>
       </DialogTitle>
-      <DialogContent className={classes.content} dividers>
-        <DialogContentText id="sample-dialog-description" className={classes.description}>
-          {sample.description}
-        </DialogContentText>
-        {sample.app_image_urls.map((imageUrl, index) => (
-          <img src={imageUrl} key={imageUrl} alt={`app_image_${index}`} className={classes.image} />
-        ))}
-      </DialogContent>
-      <DialogActions className={classes.actions}>
-        {sample.quick_deploy && sample.deploy_buttons.length >= 2 && (
-          <Box className={classes.deploy}>
-            <Typography variant="body1">Deploy with:</Typography>
-            <RadioGroup
-              row
-              aria-label="deployer"
-              name="deployer"
-              value={selectedDeployLink}
-              onChange={handleRadioChange}>
-              {sample.deploy_buttons.map((deployer) => (
-                <FormControlLabel
-                  key={deployer[Object.keys(deployer)[0]]}
-                  value={deployer[Object.keys(deployer)[0]]}
-                  control={<Radio color="primary" />}
-                  label={Object.keys(deployer)[0]}
+      <DialogContent className={classes.content}>
+        <Grid container spacing={2}>
+          <Grid item xs={9}>
+            <Paper elevation={1} className={classes.details}>
+              <DialogContentText id="sample-dialog-description" className={classes.description}>
+                {sample.youtube_url && (
+                  <CardMedia
+                    component="iframe"
+                    title="youtube-video"
+                    src={sample.youtube_url.replace('watch?v=', 'embed/')}
+                    className={classes.youtube}
+                  />
+                )}
+                {sample.description}
+              </DialogContentText>
+              {sample.app_image_urls.map((imageUrl, index) => (
+                <img
+                  src={imageUrl}
+                  key={imageUrl}
+                  alt={`app_image_${index}`}
+                  className={classes.image}
                 />
               ))}
-            </RadioGroup>
-          </Box>
-        )}
-        {sample.youtube_url && (
-          <Button
-            size="small"
-            variant="contained"
-            className={classes.youtube}
-            component={Link}
-            naked
-            target="_blank"
-            href={sample.youtube_url}>
-            <YouTubeIcon className={classes.buttonIcon} />
-            YouTube
-          </Button>
-        )}
-        {sample.download_url && (
-          <Button
-            size="small"
-            variant="contained"
-            color="secondary"
-            component={Link}
-            naked
-            target="_blank"
-            href={sample.download_url}>
-            <GetAppIcon className={classes.buttonIcon} />
-            Download
-          </Button>
-        )}
-        {sample.repo_url && (
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            component={Link}
-            naked
-            target="_blank"
-            href={sample.repo_url}>
-            <GitHubIcon className={classes.buttonIcon} />
-            Repository
-          </Button>
-        )}
-        {sample.hosted_url && (
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            component={Link}
-            naked
-            target="_blank"
-            href={sample.hosted_url}>
-            <LanguageIcon className={classes.buttonIcon} />
-            Hosted
-          </Button>
-        )}
-        {sample.quick_deploy && sample.deploy_buttons.length && (
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            component={Link}
-            naked
-            target="_blank"
-            href={selectedDeployLink}>
-            <CloudDoneIcon className={classes.buttonIcon} />
-            Quick Deploy
-          </Button>
-        )}
-      </DialogActions>
+            </Paper>
+          </Grid>
+          <Grid item direction="column" xs={3}>
+            {sample.quick_deploy && sample.deploy_buttons.length >= 2 && (
+              <Box className={classes.deploy}>
+                <Typography variant="body1">Deploy with:</Typography>
+                <RadioGroup
+                  aria-label="deployer"
+                  name="deployer"
+                  value={selectedDeployLink}
+                  onChange={handleRadioChange}>
+                  {sample.deploy_buttons.map((deployer) => (
+                    <FormControlLabel
+                      key={deployer[Object.keys(deployer)[0]]}
+                      value={deployer[Object.keys(deployer)[0]]}
+                      control={<Radio color="primary" />}
+                      label={Object.keys(deployer)[0]}
+                    />
+                  ))}
+                </RadioGroup>
+              </Box>
+            )}
+            {sample.quick_deploy && sample.deploy_buttons.length && (
+              <Button
+                size="large"
+                className={classes.action}
+                variant="contained"
+                color="primary"
+                component={Link}
+                naked
+                target="_blank"
+                href={selectedDeployLink}>
+                <CloudDoneIcon className={classes.buttonIcon} />
+                Quick Deploy
+              </Button>
+            )}
+            {sample.download_url && (
+              <Button
+                size="large"
+                className={classes.action}
+                variant="contained"
+                color="secondary"
+                component={Link}
+                naked
+                target="_blank"
+                href={sample.download_url}>
+                <GetAppIcon className={classes.buttonIcon} />
+                Download
+              </Button>
+            )}
+            {sample.repo_url && (
+              <Button
+                size="large"
+                className={classes.action}
+                variant="contained"
+                color="primary"
+                component={Link}
+                naked
+                target="_blank"
+                href={sample.repo_url}>
+                <GitHubIcon className={classes.buttonIcon} />
+                Repository
+              </Button>
+            )}
+            {sample.hosted_url && (
+              <Button
+                size="large"
+                className={classes.action}
+                variant="contained"
+                color="primary"
+                component={Link}
+                naked
+                target="_blank"
+                href={sample.hosted_url}>
+                <HostedIcon className={classes.buttonIcon} />
+                Hosted
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      </DialogContent>
     </Dialog>
   );
 }

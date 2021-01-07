@@ -1,6 +1,7 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
@@ -21,15 +22,7 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 800
     }
   },
-  browser: {
-    display: 'flex',
-    flexFlow: 'wrap'
-  },
-  tagsFilter: {
-    flex: '0 0 18%'
-  },
   introduction: {
-    flex: '0 0 100%',
     '& h4': {
       position: 'relative',
       paddingBottom: theme.spacing(5),
@@ -46,14 +39,6 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.tertiary.main
       }
     }
-  },
-  results: {
-    flex: '0 0 82%'
-  },
-  paginator: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    flex: '0 0 100%'
   },
   previousButton: {
     marginRight: theme.spacing(1)
@@ -77,16 +62,22 @@ export default function Index() {
         <SearchBar />
         <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
       </Box>
-      <Container maxWidth="lg" className={classes.browser}>
+      <Container maxWidth="lg">
         <Box className={classes.introduction} mb={4}>
           <Typography variant="h4">Code Samples</Typography>
           <Typography variant="body1">
             Get started with code samples for common Redis use cases.
           </Typography>
         </Box>
-        <TagFilter dynamicFilters={dynamicFilters} className={classes.tagsFilter} />
-        <Results samples={samples} className={classes.results} />
-        <Box className={classes.paginator}>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <TagFilter dynamicFilters={dynamicFilters} />
+          </Grid>
+          <Grid item xs={10}>
+            <Results samples={samples} />
+          </Grid>
+        </Grid>
+        <Grid container justify="flex-end">
           <Button
             variant="contained"
             color="primary"
@@ -97,7 +88,7 @@ export default function Index() {
           <Button variant="contained" color="primary" disabled={!hasNext}>
             Next
           </Button>
-        </Box>
+        </Grid>
       </Container>
       <Footer />
     </Box>

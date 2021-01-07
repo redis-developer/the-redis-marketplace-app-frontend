@@ -2,8 +2,8 @@ import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
@@ -49,16 +49,12 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   categoryHeader: {
-    display: 'flex',
-    alignItems: 'center',
     fontSize: '16px',
     fontWeight: 'bold',
     paddingBottom: theme.spacing(1)
   },
   tagLabel: {
     transition: 'all .2s ease-in-out',
-    display: 'flex',
-    alignItems: 'center',
     fontSize: '14px'
   },
   tag: {
@@ -71,29 +67,28 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TagFilter({ className: classNameProps, dynamicFilters, ...rest }) {
+export default function TagFilter({ dynamicFilters }) {
   const classes = useStyles();
-  const className = clsx(classNameProps, classes.root);
   const tags = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
-    <Box {...rest} className={className}>
+    <Box className={classes.root}>
       {tags.map(({ category, options }) => (
         <FormGroup key={category.name} className={classes.tagsCategory}>
-          <Box className={classes.categoryHeader}>
+          <Grid className={classes.categoryHeader} container alignItems="center">
             {category.icon}
-            <span>{category.name}</span>
-          </Box>
+            {category.name}
+          </Grid>
           {options.map((option) => (
             <FormControlLabel
               key={option.name}
               className={classes.tag}
               control={<Checkbox name={option.name} color="primary" />}
               label={
-                <Box className={classes.tagLabel}>
+                <Grid className={classes.tagLabel} container alignItems="center">
                   {option.icon}
-                  <span>{option.name}</span>
-                </Box>
+                  {option.name}
+                </Grid>
               }
             />
           ))}

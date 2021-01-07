@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SearchBar({ ...rest }) {
+export default function SearchBar() {
   const classes = useStyles();
 
   return (
-    <Paper component="form" className={classes.root} {...rest}>
+    <Paper component="form" className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder="Search for a code sample"

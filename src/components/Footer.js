@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
 
 const year = new Date().getFullYear();
 
-export default function Footer({ ...rest }) {
+export default function Footer() {
   const classes = useStyles();
 
   return (
-    <Box {...rest} className={classes.root} mt={6} pt={6} pb={4}>
+    <Box className={classes.root} mt={6} pt={6} pb={4}>
       <Typography variant="h3" align="center" className={classes.mainText}>
         We can’t wait to see what you build.
       </Typography>

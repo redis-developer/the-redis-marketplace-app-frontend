@@ -1,6 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import MuiLink from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,15 +23,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     margin: theme.spacing(0, 'auto')
   },
-  toolbarMenus: {
-    display: 'flex',
-    flexGrow: 1
-  },
   tryButton: {
     border: '2px solid #5961ff',
+    whiteSpace: 'nowrap',
     textTransform: 'capitalize',
     fontWeight: '700',
-    padding: theme.spacing(1, 2.5),
+    padding: theme.spacing(1, 3.5),
     borderRadius: '6px',
     '&:hover, &:active': {
       border: '2px solid #5961ff'
@@ -52,11 +49,11 @@ export default function Header() {
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
         </MuiLink>
-        <Box className={classes.toolbarMenus}>
+        <Grid container>
           {toolbarMenus.map(({ menuTitle, menuCategories }) => (
             <ToolbarMenu key={menuTitle} menuTitle={menuTitle} menuCategories={menuCategories} />
           ))}
-        </Box>
+        </Grid>
         <Button
           variant="outlined"
           color="primary"

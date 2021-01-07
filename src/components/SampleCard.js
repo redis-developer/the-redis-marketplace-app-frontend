@@ -89,14 +89,25 @@ export default function SampleCard(sample) {
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
   const tags = useMemo(
-    () => [
-      ...sample.redis_commands,
-      ...sample.redis_features,
-      ...sample.redis_modules,
-      ...sample.special_tags,
-      ...(sample.quick_deploy ? ['Quick Deploy'] : [])
-    ],
+    () =>
+      [
+        ...sample.redis_commands,
+        ...sample.redis_features,
+        ...sample.redis_modules,
+        ...sample.special_tags,
+        ...(sample.quick_deploy ? ['Quick Deploy'] : [])
+      ].map((tag) => (
+        <Chip
+          size="small"
+          label={tag}
+          key={tag}
+          className={classes.chip}
+          onClick={() => console.log(`TODO: filter for ${tag}`)}
+          color="secondary"
+        />
+      )),
     [
+      classes.chip,
       sample.quick_deploy,
       sample.redis_commands,
       sample.redis_features,
@@ -141,22 +152,14 @@ export default function SampleCard(sample) {
             <LanguageIcon language={sample.language} className={classes.languageIcon} />
             {sample.language}
           </Typography>
-          {tags.map((tag) => (
-            <Chip
-              size="small"
-              label={tag}
-              key={tag}
-              className={classes.chip}
-              onClick={() => console.log(`TODO: filter for ${tag}`)}
-              color="secondary"
-            />
-          ))}
+          {tags}
         </Box>
         <Typography variant="body2" color="textSecondary" className={classes.contribution}>
           By {sample.contributed_by}
         </Typography>
       </CardContent>
       <SampleDialog
+        tags={tags}
         sample={sample}
         closeSamplePopup={closeSamplePopup}
         isOpened={isOpened}
