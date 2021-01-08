@@ -2,20 +2,20 @@ import React from 'react';
 import { SiCsharp, SiGo, SiJava, SiJavascript, SiPhp, SiPython, SiRuby } from 'react-icons/si';
 
 export default function LanguageIcon({ language, ...rest }) {
-  switch (language) {
-    case 'JavaScript':
+  switch (language.toLowerCase()) {
+    case 'javascript':
       return <SiJavascript {...rest} />;
-    case 'Java':
+    case 'java':
       return <SiJava {...rest} />;
-    case 'Python':
+    case 'python':
       return <SiPython {...rest} />;
-    case 'GO':
+    case 'go':
       return <SiGo {...rest} />;
-    case 'C#':
+    case 'c#':
       return <SiCsharp {...rest} />;
-    case 'Ruby':
+    case 'ruby':
       return <SiRuby {...rest} />;
-    case 'PHP':
+    case 'php':
       return <SiPhp {...rest} />;
     default:
       return null;

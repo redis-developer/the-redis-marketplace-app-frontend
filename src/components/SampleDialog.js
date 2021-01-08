@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Slide from '@material-ui/core/Slide';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
@@ -18,13 +19,18 @@ import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import HostedIcon from '@material-ui/icons/Language';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useState } from 'react';
+
+const Transition = forwardRef((props, ref) => {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 import { LanguageIcon, Link } from './';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    borderRadius: '10px'
+    borderRadius: '10px',
+    marginTop: theme.spacing(10)
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
@@ -61,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   youtube: {
     border: 0,
-    height: '360px',
+    height: '460px',
     marginBottom: theme.spacing(2)
   },
   deploy: {
@@ -101,8 +107,10 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
   return (
     <Dialog
       open={isOpened}
+      keepMounted
+      TransitionComponent={Transition}
       scroll="body"
-      maxWidth="md"
+      maxWidth="lg"
       onClose={closeSamplePopup}
       aria-labelledby="sample-dialog-title"
       PaperProps={{ className: classes.root }}

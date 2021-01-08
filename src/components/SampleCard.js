@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '500'
   },
   subHeader: {
-    fontWeight: '800'
+    fontWeight: '600'
   },
   content: {
     display: 'flex',

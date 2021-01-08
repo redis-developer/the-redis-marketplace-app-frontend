@@ -2,12 +2,22 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import Alert from '@material-ui/lab/Alert';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
-import { dynamicFilters, samples } from '../src/testData';
+import { useRequest } from '../src/hooks';
+
+// API INTEGRATION TODO
+
+// TODO: apply filters on chip clicking also
+
+// TODO: use search
+// TODO: autocomplete search
+// TODO: send back autocomplete selection to API for scoring
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -45,11 +55,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const hasNext = true;
-const hasPrevious = false;
-
 export default function Index() {
   const classes = useStyles();
+  const [params, setParams] = useState({
+    limit: 9,
+    offset: 0
+  });
+
+  const nextPage = useCallback(() => {
+    setParams((params) => ({ ...params, offset: params.offset + params.limit }));
+  }, []);
+  const previousPage = useCallback(() => {
+    setParams((params) => ({ ...params, offset: params.offset - params.limit }));
+  }, []);
+
+  const { data, loading, error } = useRequest('/projects', params);
+  const hasNext = useMemo(() => !loading && params.offset + data.rows?.length < data.totalResults, [
+    data.rows?.length,
+    data.totalResults,
+    loading,
+    params.offset
+  ]);
 
   return (
     <Box mt={9}>
@@ -71,21 +97,28 @@ export default function Index() {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={2}>
-            <TagFilter dynamicFilters={dynamicFilters} />
+            <TagFilter setParams={setParams} />
           </Grid>
           <Grid item xs={10}>
-            <Results samples={samples} />
+            {loading ? (
+              <LinearProgress color="secondary" />
+            ) : error ? (
+              <Alert severity="error">Server Error. Please try again later!</Alert>
+            ) : (
+              <Results samples={data.rows} />
+            )}
           </Grid>
         </Grid>
         <Grid container justify="flex-end">
           <Button
             variant="contained"
             color="primary"
-            disabled={!hasPrevious}
-            className={classes.previousButton}>
+            disabled={!params.offset}
+            className={classes.previousButton}
+            onClick={previousPage}>
             Previous
           </Button>
-          <Button variant="contained" color="primary" disabled={!hasNext}>
+          <Button variant="contained" color="primary" disabled={!hasNext} onClick={nextPage}>
             Next
           </Button>
         </Grid>

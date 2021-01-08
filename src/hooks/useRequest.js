@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 
 import api from '../api';
 
-export default function useRequest(url) {
+export default function useRequest(url, params) {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let ignoreData = false;
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await api.get(url);
+        setError(null);
+        const response = await api.get(url, { params: params || {} });
         if (!ignoreData) setData(response.data);
       } catch (err) {
         setError(err);
@@ -24,7 +25,7 @@ export default function useRequest(url) {
     return () => {
       ignoreData = true;
     };
-  }, [url]);
+  }, [url, params]);
 
   return { data, loading, error };
 }
