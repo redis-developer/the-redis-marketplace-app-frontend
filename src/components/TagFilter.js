@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TagFilter({ setParams }) {
+export default function TagFilter({ setFilter, tags }) {
   const classes = useStyles();
 
   const { data } = useRequest('/projects/filters');
@@ -102,25 +102,6 @@ export default function TagFilter({ setParams }) {
   }, [data.redis_commands, data.redis_features, data.redis_modules, data.special_tags]);
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
-  const setFilter = useCallback(
-    ({ filter, tag, value }) => {
-      if (value) {
-        setParams((params) => ({
-          ...params,
-          offset: 0,
-          [filter]: params[filter] ? [...params[filter], tag] : [tag]
-        }));
-      } else {
-        setParams((params) => ({
-          ...params,
-          offset: 0,
-          [filter]: params[filter].filter((activeTag) => activeTag !== tag)
-        }));
-      }
-    },
-    [setParams]
-  );
-
   return (
     <Box className={classes.root}>
       {filters.map(({ category, options }) => (
@@ -129,31 +110,37 @@ export default function TagFilter({ setParams }) {
             {category.icon}
             {category.name}
           </Grid>
-          {options.map((option) => (
-            <FormControlLabel
-              key={option.name}
-              className={classes.tag}
-              control={
-                <Checkbox
-                  name={option.name}
-                  color="primary"
-                  onChange={(e) =>
-                    setFilter({
-                      filter: category.filter,
-                      tag: e.target.name,
-                      value: e.target.checked
-                    })
-                  }
-                />
-              }
-              label={
-                <Grid className={classes.tagLabel} container alignItems="center">
-                  {option.icon}
-                  {option.name}
-                </Grid>
-              }
-            />
-          ))}
+          {options.map((option) => {
+            const checked = !!(
+              tags[category.filter] && tags[category.filter].includes(option.name)
+            );
+            return (
+              <FormControlLabel
+                key={option.name}
+                className={classes.tag}
+                checked={checked}
+                control={
+                  <Checkbox
+                    name={option.name}
+                    color="primary"
+                    onChange={(e) =>
+                      setFilter({
+                        filter: category.filter,
+                        tag: e.target.name,
+                        value: e.target.checked
+                      })
+                    }
+                  />
+                }
+                label={
+                  <Grid className={classes.tagLabel} container alignItems="center">
+                    {option.icon}
+                    {option.name}
+                  </Grid>
+                }
+              />
+            );
+          })}
         </FormGroup>
       ))}
     </Box>

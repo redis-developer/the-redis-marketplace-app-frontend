@@ -1,5 +1,6 @@
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -52,30 +53,76 @@ const useStyles = makeStyles((theme) => ({
   },
   previousButton: {
     marginRight: theme.spacing(1)
+  },
+  tag: {
+    marginRight: theme.spacing(1)
   }
 }));
 
+const limit = 9;
+
+// TODO: refactor tag filter handling from arrays to objects with true or false
 export default function Index() {
   const classes = useStyles();
-  const [params, setParams] = useState({
-    limit: 9,
-    offset: 0
-  });
+
+  const [offset, setOffset] = useState(0);
+  const [tags, setTags] = useState({});
+
+  const setFilter = useCallback(
+    ({ filter, tag, value }) => {
+      if (value) {
+        setTags((tags) => ({
+          ...tags,
+          [filter]: tags[filter] ? [...tags[filter], tag] : [tag]
+        }));
+      } else {
+        setTags((tags) => ({
+          ...tags,
+          [filter]: tags[filter].filter((activeTag) => activeTag !== tag)
+        }));
+      }
+    },
+    [setTags]
+  );
+
+  const params = useMemo(
+    () => ({
+      offset,
+      limit,
+      ...tags
+    }),
+    [offset, tags]
+  );
+  const { data, loading, error } = useRequest('/projects', params);
 
   const nextPage = useCallback(() => {
-    setParams((params) => ({ ...params, offset: params.offset + params.limit }));
+    setOffset((offset) => offset + limit);
   }, []);
   const previousPage = useCallback(() => {
-    setParams((params) => ({ ...params, offset: params.offset - params.limit }));
+    setOffset((offset) => offset - limit);
   }, []);
-
-  const { data, loading, error } = useRequest('/projects', params);
-  const hasNext = useMemo(() => !loading && params.offset + data.rows?.length < data.totalResults, [
+  const hasNextPage = useMemo(() => !loading && offset + data.rows?.length < data.totalResults, [
     data.rows?.length,
     data.totalResults,
     loading,
-    params.offset
+    offset
   ]);
+
+  const tagChips = useMemo(
+    () =>
+      Object.keys(tags).map((filter) =>
+        tags[filter].map((tag) => (
+          <Chip
+            key={tag}
+            label={tag}
+            size="small"
+            onDelete={() => setFilter({ filter, tag, value: false })}
+            className={classes.tag}
+          />
+        ))
+      ),
+    [classes.tag, setFilter, tags]
+  );
 
   return (
     <Box mt={9}>
@@ -97,9 +144,10 @@ export default function Index() {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={2}>
-            <TagFilter setParams={setParams} />
+            <TagFilter setFilter={setFilter} tags={tags} />
           </Grid>
           <Grid item xs={10}>
+            <Box mb={2}>{tagChips}</Box>
             {loading ? (
               <LinearProgress color="secondary" />
             ) : error ? (
@@ -118,7 +166,7 @@ export default function Index() {
             onClick={previousPage}>
             Previous
           </Button>
-          <Button variant="contained" color="primary" disabled={!hasNext} onClick={nextPage}>
+          <Button variant="contained" color="primary" disabled={!hasNextPage} onClick={nextPage}>
             Next
           </Button>
         </Grid>
