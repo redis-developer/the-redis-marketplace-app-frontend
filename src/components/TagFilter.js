@@ -107,11 +107,13 @@ export default function TagFilter({ setParams }) {
       if (value) {
         setParams((params) => ({
           ...params,
+          offset: 0,
           [filter]: params[filter] ? [...params[filter], tag] : [tag]
         }));
       } else {
         setParams((params) => ({
           ...params,
+          offset: 0,
           [filter]: params[filter].filter((activeTag) => activeTag !== tag)
         }));
       }
