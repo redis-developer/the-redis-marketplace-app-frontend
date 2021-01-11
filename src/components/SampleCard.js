@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useMemo, useState } from 'react';
+import { FaUserCog, FaUsers } from 'react-icons/fa';
+import { SiRedis } from 'react-icons/si';
 
 import { LanguageIcon, SampleDialog } from './';
 
@@ -60,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     top: '10px',
     zIndex: 1,
-    backgroundColor: (sampleStyle) => sampleStyle.main
+    backgroundColor: (sampleStyle) => sampleStyle.main,
+    fontSize: '24px'
   },
   chip: {
     margin: theme.spacing(0, 0.5, 0.5, 0),
@@ -77,6 +80,17 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   }
 }));
+
+function CardIcon({ sample, ...rest }) {
+  switch (sample.contributed_by) {
+    case 'Community':
+      return <FaUsers {...rest} />;
+    case 'Partner':
+      return <FaUserCog {...rest} style={{ marginLeft: '4px' }} />;
+    default:
+      return <SiRedis {...rest} />;
+  }
+}
 
 export default function SampleCard({ sample, updateTags }) {
   const theme = useTheme();
@@ -125,7 +139,7 @@ export default function SampleCard({ sample, updateTags }) {
         subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            <CardIcon sample={sample} />
           </Avatar>
         }
         className={classes.header}
