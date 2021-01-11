@@ -18,7 +18,7 @@ export default function Results({ samples, updateTags }) {
 
   return (
     <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between">
-      {samples.map((sample) => (
+      {samples?.map((sample) => (
         <SampleCard sample={sample} key={sample.id} updateTags={updateTags} />
       ))}
     </Grid>

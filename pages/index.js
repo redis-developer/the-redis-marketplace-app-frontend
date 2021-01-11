@@ -13,14 +13,10 @@ import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components
 import { useRequest } from '../src/hooks';
 
 // API INTEGRATION TODO
-
-// TODO: use search
-// TODO: autocomplete search
 // TODO: send back autocomplete selection to API for scoring
 
 // Nice to have design touches:
 // - sample project skeleton on loading instead of loader
-// - clear all button for filters
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -66,14 +62,18 @@ const limit = 9;
 export default function Index() {
   const classes = useStyles();
 
+  const [textFilter, setTextFilter] = useState();
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
 
+  const updateTextFilter = useCallback((text) => {
+    setOffset(0);
+    setTextFilter(text);
+  }, []);
   const updateTags = useCallback((tags) => {
     setOffset(0);
     setTags(tags);
   }, []);
-
   const updateTag = useCallback(
     ({ filter, tag, value }) => {
       updateTags((tags) => ({
@@ -97,9 +97,14 @@ export default function Index() {
           [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
         }),
         {}
-      )
+      ),
+      ...(textFilter
+        ? {
+            text_filter: textFilter
+          }
+        : {})
     }),
-    [offset, tags]
+    [offset, tags, textFilter]
   );
   const { data, loading, error } = useRequest('/projects', projectsParams);
 
@@ -109,9 +114,9 @@ export default function Index() {
   const previousPage = useCallback(() => {
     setOffset((offset) => offset - limit);
   }, []);
-  const hasNextPage = useMemo(() => !loading && offset + data.rows?.length < data.totalResults, [
-    data.rows?.length,
-    data.totalResults,
+  const hasNextPage = useMemo(() => !loading && offset + data?.rows?.length < data?.totalResults, [
+    data?.rows?.length,
+    data?.totalResults,
     loading,
     offset
   ]);
@@ -144,7 +149,7 @@ export default function Index() {
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
-        <SearchBar />
+        <SearchBar updateTextFilter={updateTextFilter} />
         <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
       </Box>
       <Container maxWidth="lg">
@@ -160,6 +165,14 @@ export default function Index() {
           </Grid>
           <Grid item xs={10}>
             <Box mb={2}>
+              {textFilter && (
+                <Chip
+                  label={textFilter}
+                  size="small"
+                  onDelete={() => updateTextFilter()}
+                  className={classes.tag}
+                />
+              )}
               {tagChips.length > 1 && (
                 <Chip
                   label="Clear all filters"
@@ -175,7 +188,7 @@ export default function Index() {
             ) : error ? (
               <Alert severity="error">Server Error. Please try again later!</Alert>
             ) : (
-              <Results samples={data.rows} updateTags={updateTags} />
+              <Results samples={data?.rows} updateTags={updateTags} />
             )}
           </Grid>
         </Grid>

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import api from '../api';
 
-export default function useRequest(url, params) {
-  const [data, setData] = useState({});
+export default function useRequest(url, params, shouldFetch) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,10 +11,13 @@ export default function useRequest(url, params) {
     let ignoreData = false;
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        const response = await api.get(url, { params: params || {} });
-        if (!ignoreData) setData(response.data);
+        const fetch = !shouldFetch || shouldFetch(params);
+        if (fetch) {
+          setLoading(true);
+          setError(null);
+          const response = await api.get(url, { params: params || {} });
+          if (!ignoreData) setData(response.data);
+        }
       } catch (err) {
         setError(err);
       } finally {
@@ -25,7 +28,7 @@ export default function useRequest(url, params) {
     return () => {
       ignoreData = true;
     };
-  }, [url, params]);
+  }, [url, params, shouldFetch]);
 
   return { data, loading, error };
 }
