@@ -143,7 +143,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
           <Grid item xs={9}>
             <Paper elevation={1} className={classes.details}>
               <DialogContentText id="sample-dialog-description" className={classes.description}>
-                {sample.youtube_url && (
+                {isOpened && sample.youtube_url && (
                   <CardMedia
                     component="iframe"
                     title="youtube-video"
@@ -153,14 +153,15 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
                 )}
                 {sample.description}
               </DialogContentText>
-              {sample.app_image_urls.map((imageUrl, index) => (
-                <img
-                  src={imageUrl}
-                  key={imageUrl}
-                  alt={`app_image_${index}`}
-                  className={classes.image}
-                />
-              ))}
+              {isOpened &&
+                sample.app_image_urls.map((imageUrl, index) => (
+                  <img
+                    src={imageUrl}
+                    key={imageUrl}
+                    alt={`app_image_${index}`}
+                    className={classes.image}
+                  />
+                ))}
             </Paper>
           </Grid>
           <Grid item xs={3}>

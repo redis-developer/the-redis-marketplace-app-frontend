@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SampleCard(sample) {
+export default function SampleCard({ sample, updateTags }) {
   const theme = useTheme();
   const sampleStyle = useMemo(
     () =>
@@ -88,34 +88,6 @@ export default function SampleCard(sample) {
   const classes = useStyles(sampleStyle);
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
-  const tags = useMemo(
-    () =>
-      [
-        ...sample.redis_commands,
-        ...sample.redis_features,
-        ...sample.redis_modules,
-        ...sample.special_tags,
-        ...(sample.quick_deploy ? ['Quick Deploy'] : [])
-      ].map((tag) => (
-        <Chip
-          size="small"
-          label={tag}
-          key={tag}
-          className={classes.chip}
-          onClick={() => console.log(`TODO: filter for ${tag}`)}
-          color="secondary"
-        />
-      )),
-    [
-      classes.chip,
-      sample.quick_deploy,
-      sample.redis_commands,
-      sample.redis_features,
-      sample.redis_modules,
-      sample.special_tags
-    ]
-  );
-
   const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
     setIsOpened(true);
@@ -123,6 +95,28 @@ export default function SampleCard(sample) {
   const closeSamplePopup = useCallback(() => {
     setIsOpened(false);
   }, [setIsOpened]);
+
+  const tags = useMemo(
+    () =>
+      ['redis_commands', 'redis_features', 'redis_modules', 'special_tags'].map(
+        (filter) =>
+          sample[filter].map((tag) => (
+            <Chip
+              size="small"
+              label={tag}
+              key={tag}
+              className={classes.chip}
+              onClick={() => {
+                updateTags({ [filter]: { [tag]: true } });
+                closeSamplePopup();
+              }}
+              color="secondary"
+            />
+          ))
+        // TODO: add quick deploy chip and filter: sample.quick_deploy ? ['Quick Deploy']
+      ),
+    [sample, classes.chip, updateTags, closeSamplePopup]
+  );
 
   return (
     <Card key={sample.id} className={classes.root}>

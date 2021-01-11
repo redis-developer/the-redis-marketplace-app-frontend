@@ -4,7 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
 
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TagFilter({ setFilter, tags }) {
+export default function TagFilter({ updateTag, tags }) {
   const classes = useStyles();
 
   const { data } = useRequest('/projects/filters');
@@ -110,37 +110,32 @@ export default function TagFilter({ setFilter, tags }) {
             {category.icon}
             {category.name}
           </Grid>
-          {options.map((option) => {
-            const checked = !!(
-              tags[category.filter] && tags[category.filter].includes(option.name)
-            );
-            return (
-              <FormControlLabel
-                key={option.name}
-                className={classes.tag}
-                checked={checked}
-                control={
-                  <Checkbox
-                    name={option.name}
-                    color="primary"
-                    onChange={(e) =>
-                      setFilter({
-                        filter: category.filter,
-                        tag: e.target.name,
-                        value: e.target.checked
-                      })
-                    }
-                  />
-                }
-                label={
-                  <Grid className={classes.tagLabel} container alignItems="center">
-                    {option.icon}
-                    {option.name}
-                  </Grid>
-                }
-              />
-            );
-          })}
+          {options.map((option) => (
+            <FormControlLabel
+              key={option.name}
+              className={classes.tag}
+              checked={!!tags[category.filter]?.[option.name]}
+              control={
+                <Checkbox
+                  name={option.name}
+                  color="primary"
+                  onChange={(e) =>
+                    updateTag({
+                      filter: category.filter,
+                      tag: e.target.name,
+                      value: e.target.checked
+                    })
+                  }
+                />
+              }
+              label={
+                <Grid className={classes.tagLabel} container alignItems="center">
+                  {option.icon}
+                  {option.name}
+                </Grid>
+              }
+            />
+          ))}
         </FormGroup>
       ))}
     </Box>

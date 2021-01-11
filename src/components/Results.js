@@ -13,13 +13,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Results({ samples }) {
+export default function Results({ samples, updateTags }) {
   const classes = useStyles();
 
   return (
     <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between">
       {samples.map((sample) => (
-        <SampleCard {...sample} key={sample.id} />
+        <SampleCard sample={sample} key={sample.id} updateTags={updateTags} />
       ))}
     </Grid>
   );

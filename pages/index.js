@@ -14,11 +14,13 @@ import { useRequest } from '../src/hooks';
 
 // API INTEGRATION TODO
 
-// TODO: apply filters on chip clicking also
-
 // TODO: use search
 // TODO: autocomplete search
 // TODO: send back autocomplete selection to API for scoring
+
+// Nice to have design touches:
+// - sample project skeleton on loading instead of loader
+// - clear all button for filters
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -61,39 +63,45 @@ const useStyles = makeStyles((theme) => ({
 
 const limit = 9;
 
-// TODO: refactor tag filter handling from arrays to objects with true or false
 export default function Index() {
   const classes = useStyles();
 
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
 
-  const setFilter = useCallback(
+  const updateTags = useCallback((tags) => {
+    setOffset(0);
+    setTags(tags);
+  }, []);
+
+  const updateTag = useCallback(
     ({ filter, tag, value }) => {
-      if (value) {
-        setTags((tags) => ({
-          ...tags,
-          [filter]: tags[filter] ? [...tags[filter], tag] : [tag]
-        }));
-      } else {
-        setTags((tags) => ({
-          ...tags,
-          [filter]: tags[filter].filter((activeTag) => activeTag !== tag)
-        }));
-      }
+      updateTags((tags) => ({
+        ...tags,
+        [filter]: {
+          ...tags[filter],
+          [tag]: value
+        }
+      }));
     },
-    [setTags]
+    [updateTags]
   );
 
-  const params = useMemo(
+  const projectsParams = useMemo(
     () => ({
       offset,
       limit,
-      ...tags
+      ...Object.keys(tags).reduce(
+        (selectedTags, filter) => ({
+          ...selectedTags,
+          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
+        }),
+        {}
+      )
     }),
     [offset, tags]
   );
-  const { data, loading, error } = useRequest('/projects', params);
+  const { data, loading, error } = useRequest('/projects', projectsParams);
 
   const nextPage = useCallback(() => {
     setOffset((offset) => offset + limit);
@@ -110,18 +118,22 @@ export default function Index() {
 
   const tagChips = useMemo(
     () =>
-      Object.keys(tags).map((filter) =>
-        tags[filter].map((tag) => (
-          <Chip
-            key={tag}
-            label={tag}
-            size="small"
-            onDelete={() => setFilter({ filter, tag, value: false })}
-            className={classes.tag}
-          />
-        ))
-      ),
-    [classes.tag, setFilter, tags]
+      Object.keys(tags)
+        .map((filter) =>
+          Object.keys(tags[filter])
+            .filter((tag) => tags[filter][tag])
+            .map((tag) => (
+              <Chip
+                key={tag}
+                label={tag}
+                size="small"
+                onDelete={() => updateTag({ filter, tag, value: false })}
+                className={classes.tag}
+              />
+            ))
+        )
+        .flat(),
+    [classes.tag, updateTag, tags]
   );
 
   return (
@@ -144,16 +156,26 @@ export default function Index() {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={2}>
-            <TagFilter setFilter={setFilter} tags={tags} />
+            <TagFilter updateTag={updateTag} tags={tags} />
           </Grid>
           <Grid item xs={10}>
-            <Box mb={2}>{tagChips}</Box>
+            <Box mb={2}>
+              {tagChips.length > 1 && (
+                <Chip
+                  label="Clear all filters"
+                  size="small"
+                  onClick={() => updateTags({})}
+                  className={classes.tag}
+                />
+              )}
+              {tagChips}
+            </Box>
             {loading ? (
               <LinearProgress color="secondary" />
             ) : error ? (
               <Alert severity="error">Server Error. Please try again later!</Alert>
             ) : (
-              <Results samples={data.rows} />
+              <Results samples={data.rows} updateTags={updateTags} />
             )}
           </Grid>
         </Grid>
@@ -161,7 +183,7 @@ export default function Index() {
           <Button
             variant="contained"
             color="primary"
-            disabled={!params.offset}
+            disabled={!offset}
             className={classes.previousButton}
             onClick={previousPage}>
             Previous
