@@ -53,12 +53,17 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     whiteSpace: 'pre-wrap',
-    margin: theme.spacing(3, 0)
+    margin: theme.spacing(4, 0)
+  },
+  descriptionHeader: {
+    fontWeight: 600
   },
   image: {
+    display: 'block',
+    maxWidth: '700px',
     width: '100%',
-    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
-    marginBottom: theme.spacing(2)
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)',
+    margin: theme.spacing(0, 'auto', 2, 'auto')
   },
   buttonIcon: {
     marginRight: theme.spacing(1)
@@ -71,7 +76,8 @@ const useStyles = makeStyles((theme) => ({
   youtube: {
     border: 0,
     height: '460px',
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
   deploy: {
     marginBottom: theme.spacing(1),
@@ -154,6 +160,8 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
                 />
               )}
               <DialogContentText id="sample-dialog-description" className={classes.description}>
+                <span className={classes.descriptionHeader}>Description:</span>
+                <br />
                 {sample.description}
               </DialogContentText>
               {isOpened &&
