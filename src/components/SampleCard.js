@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
+import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
@@ -119,8 +120,15 @@ function CardIcon({ sample, ...rest }) {
   }
 }
 
-export default function SampleCard({ sample, updateTags, skeleton }) {
+export default function SampleCard({
+  linkedAppName,
+  sample,
+  updateTags,
+  skeleton,
+  closeLinkedApp
+}) {
   const theme = useTheme();
+
   const sampleStyle = useMemo(
     () =>
       skeleton || sample.type === 'Building Block'
@@ -129,15 +137,24 @@ export default function SampleCard({ sample, updateTags, skeleton }) {
     [sample.type, theme.palette.application, theme.palette.buildingBlock, skeleton]
   );
   const classes = useStyles(sampleStyle);
+
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(linkedAppName === sample.app_name);
   const openSamplePopup = useCallback(() => {
     setIsOpened(true);
-  }, [setIsOpened]);
+    Router.push({
+      pathname: '/',
+      query: { app_name: sample.app_name }
+    });
+  }, [sample.app_name]);
   const closeSamplePopup = useCallback(() => {
     setIsOpened(false);
-  }, [setIsOpened]);
+    if (linkedAppName) {
+      closeLinkedApp();
+    }
+    Router.push({ pathname: '/' });
+  }, [closeLinkedApp, linkedAppName]);
 
   const tags = useMemo(
     () =>

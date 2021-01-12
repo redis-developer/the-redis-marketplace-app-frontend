@@ -13,7 +13,6 @@ import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components
 import { useRequest } from '../src/hooks';
 
 // TODO: UX
-// query param for sample projects
 // mobile view
 // docs
 // finilize footer (needs input)
@@ -56,14 +55,16 @@ const useStyles = makeStyles((theme) => ({
 
 const limit = 9;
 
-export default function Index() {
+export default function Index({ query }) {
   const classes = useStyles();
 
-  const [textFilter, setTextFilter] = useState();
+  // Do we have an initial app in the link?
+  const [linkedAppName, setLinkedAppName] = useState(query?.app_name);
+
+  // Query params for the projects
+  const [textFilter, setTextFilter] = useState(linkedAppName);
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
-
-  // Get Sample Projects
   const projectsParams = useMemo(
     () => ({
       offset,
@@ -84,11 +85,11 @@ export default function Index() {
     [offset, tags, textFilter]
   );
 
+  // Get Sample Projects
   const { data, loading, error } = useRequest('/projects', projectsParams);
 
   // Pagination
   const page = useMemo(() => Math.floor(offset / limit) + 1, [offset]);
-
   const maxPage = useMemo(() => Math.floor((data?.totalResults || 0) / limit) + 1, [
     data?.totalResults
   ]);
@@ -137,7 +138,12 @@ export default function Index() {
     setTextFilter();
   }, []);
 
-  // Tag chips
+  const closeLinkedApp = useCallback(() => {
+    setLinkedAppName();
+    clearFilters();
+  }, [clearFilters]);
+
+  // Tag chips for cutting used filters
   const tagChips = useMemo(
     () =>
       Object.keys(tags)
@@ -158,7 +164,7 @@ export default function Index() {
     [classes.tag, updateTag, tags]
   );
 
-  const showClearFilters = useMemo(
+  const showClearFiltersChip = useMemo(
     () => !!(tagChips.length > 1 || (textFilter && tagChips.length)),
     [tagChips.length, textFilter]
   );
@@ -188,7 +194,7 @@ export default function Index() {
           <Grid item xs={10} style={{ position: 'relative' }}>
             <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
             <Box mb={2}>
-              {showClearFilters && (
+              {showClearFiltersChip && (
                 <Chip
                   label="Clear all filters"
                   size="small"
@@ -214,6 +220,8 @@ export default function Index() {
                 updateTags={updateTags}
                 loading={loading}
                 limit={limit}
+                linkedAppName={linkedAppName}
+                closeLinkedApp={closeLinkedApp}
               />
             )}
             <Grid container justify="center">
@@ -226,3 +234,7 @@ export default function Index() {
     </Box>
   );
 }
+
+Index.getInitialProps = ({ query }) => {
+  return { query };
+};
