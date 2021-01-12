@@ -52,10 +52,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3)
   },
   description: {
-    whiteSpace: 'pre-wrap'
+    whiteSpace: 'pre-wrap',
+    margin: theme.spacing(3, 0)
   },
   image: {
-    width: '100%'
+    width: '100%',
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
+    marginBottom: theme.spacing(2)
   },
   buttonIcon: {
     marginRight: theme.spacing(1)
@@ -142,7 +145,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
         <Grid container spacing={2}>
           <Grid item xs={9}>
             <Paper elevation={1} className={classes.details}>
-              <DialogContentText id="sample-dialog-description" className={classes.description}>
+              <DialogContentText id="sample-dialog-description">
                 {isOpened && sample.youtube_url && (
                   <CardMedia
                     component="iframe"
@@ -151,7 +154,9 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
                     className={classes.youtube}
                   />
                 )}
-                {sample.description}
+                <Typography variant="body1" className={classes.description}>
+                  {sample.description}
+                </Typography>
               </DialogContentText>
               {isOpened &&
                 sample.app_image_urls.map((imageUrl, index) => (

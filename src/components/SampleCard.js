@@ -16,10 +16,26 @@ import { SiRedis } from 'react-icons/si';
 import { LanguageIcon, SampleDialog } from './';
 
 const useStyles = makeStyles((theme) => ({
+  '@keyframes gradient': {
+    '0%': {
+      backgroundPosition: '0% 50%'
+    },
+    '50%': {
+      backgroundPosition: '100% 50%'
+    },
+    '100%': {
+      backgroundPosition: '0% 50%'
+    }
+  },
   skeleton: {
     '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & $chip': {
-      background: theme.palette.skeletonPlaceholder,
-      color: theme.palette.skeletonPlaceholder
+      color: 'transparent',
+      background: 'linear-gradient(-45deg, #c1c1c1, #dbdbdd, #e4e4e4)',
+      backgroundSize: '400% 400%',
+      animation: '$gradient 3s ease infinite'
+    },
+    '& $subHeader, & $appName, & $description, & $language, & $contribution, ': {
+      borderRadius: '5px'
     }
   },
   root: {
