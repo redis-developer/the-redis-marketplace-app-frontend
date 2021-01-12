@@ -7,6 +7,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
+import api from '../api';
 import { useRequest } from '../hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +66,9 @@ export default function SearchBar({ updateTextFilter }) {
   const onSelect = useCallback(
     (e, value) => {
       if (value?.suggestion) {
+        api
+          .post('/projects/suggestion', { term: value.suggestion, dictonary: value.dictonary })
+          .catch(() => {});
         setSearchText(value.suggestion);
         updateTextFilter(value.suggestion);
       }

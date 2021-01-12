@@ -8,6 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
@@ -15,6 +16,12 @@ import { SiRedis } from 'react-icons/si';
 import { LanguageIcon, SampleDialog } from './';
 
 const useStyles = makeStyles((theme) => ({
+  skeleton: {
+    '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & $chip': {
+      background: theme.palette.skeletonPlaceholder,
+      color: theme.palette.skeletonPlaceholder
+    }
+  },
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -22,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2.5),
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px'
+  },
+  appName: {
+    lineHeight: 1.5,
+    marginBottom: theme.spacing(1)
   },
   description: {
     display: '-webkit-box',
@@ -92,12 +103,14 @@ function CardIcon({ sample, ...rest }) {
   }
 }
 
-export default function SampleCard({ sample, updateTags }) {
+export default function SampleCard({ sample, updateTags, skeleton }) {
   const theme = useTheme();
   const sampleStyle = useMemo(
     () =>
-      sample.type === 'Building Block' ? theme.palette.buildingBlock : theme.palette.application,
-    [sample.type, theme.palette.application, theme.palette.buildingBlock]
+      skeleton || sample.type === 'Building Block'
+        ? theme.palette.buildingBlock
+        : theme.palette.application,
+    [sample.type, theme.palette.application, theme.palette.buildingBlock, skeleton]
   );
   const classes = useStyles(sampleStyle);
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
@@ -124,29 +137,30 @@ export default function SampleCard({ sample, updateTags }) {
                 updateTags({ [filter]: { [tag]: true } });
                 closeSamplePopup();
               }}
+              disabled={skeleton}
               color="secondary"
             />
           ))
         // TODO: add quick deploy chip and filter: sample.quick_deploy ? ['Quick Deploy']
       ),
-    [sample, classes.chip, updateTags, closeSamplePopup]
+    [sample, classes.chip, updateTags, closeSamplePopup, skeleton]
   );
 
   return (
-    <Card key={sample.id} className={classes.root}>
+    <Card key={sample.id} className={clsx(classes.root, skeleton && classes.skeleton)}>
       <CardHeader
         subheader={subheader}
         subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <CardIcon sample={sample} />
+            {!skeleton && <CardIcon sample={sample} />}
           </Avatar>
         }
         className={classes.header}
       />
-      <CardActionArea onClick={openSamplePopup} className={classes.dialogLink}>
+      <CardActionArea disabled={skeleton} onClick={openSamplePopup} className={classes.dialogLink}>
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2">
+          <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
             {sample.app_name}
           </Typography>
           <Typography variant="body2" className={classes.description}>
@@ -166,13 +180,15 @@ export default function SampleCard({ sample, updateTags }) {
           By {sample.contributed_by}
         </Typography>
       </CardContent>
-      <SampleDialog
-        tags={tags}
-        sample={sample}
-        closeSamplePopup={closeSamplePopup}
-        isOpened={isOpened}
-        sampleStyle={sampleStyle}
-      />
+      {!skeleton && (
+        <SampleDialog
+          tags={tags}
+          sample={sample}
+          closeSamplePopup={closeSamplePopup}
+          isOpened={isOpened}
+          sampleStyle={sampleStyle}
+        />
+      )}
     </Card>
   );
 }

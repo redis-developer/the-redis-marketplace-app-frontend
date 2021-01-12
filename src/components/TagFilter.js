@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .filterIcon': {
       marginRight: theme.spacing(1),
-      height: '22px',
-      width: '22px'
+      height: '20px',
+      width: '20px'
     }
   },
   categoryHeader: {
@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tagsCategory: {
     marginBottom: theme.spacing(2.5)
+  },
+  checkbox: {
+    padding: theme.spacing(1)
   }
 }));
 
@@ -119,6 +122,8 @@ export default function TagFilter({ updateTag, tags }) {
                 <Checkbox
                   name={option.name}
                   color="primary"
+                  size="small"
+                  className={classes.checkbox}
                   onChange={(e) =>
                     updateTag({
                       filter: category.filter,

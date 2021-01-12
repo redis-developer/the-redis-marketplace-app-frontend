@@ -10,6 +10,7 @@ const theme = createMuiTheme({
   palette: {
     borderColor: '#dee2e6',
     backgroundColor: '#fafafa',
+    skeletonPlaceholder: '#DBDBDD',
     appBar: {
       main: '#fff',
       contrastText: '#6f747a'

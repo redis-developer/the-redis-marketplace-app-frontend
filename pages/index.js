@@ -1,22 +1,22 @@
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
+import Pagination from '@material-ui/lab/Pagination';
 import React, { useCallback, useMemo, useState } from 'react';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
 import { useRequest } from '../src/hooks';
 
-// API INTEGRATION TODO
-// TODO: send back autocomplete selection to API for scoring
-
-// Nice to have design touches:
-// - sample project skeleton on loading instead of loader
+// TODO: UX
+// query param for sample projects
+// mobile view
+// docs
+// finilize footer (needs input)
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -49,9 +49,6 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
-  previousButton: {
-    marginRight: theme.spacing(1)
-  },
   tag: {
     marginRight: theme.spacing(1)
   }
@@ -66,27 +63,7 @@ export default function Index() {
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
 
-  const updateTextFilter = useCallback((text) => {
-    setOffset(0);
-    setTextFilter(text);
-  }, []);
-  const updateTags = useCallback((tags) => {
-    setOffset(0);
-    setTags(tags);
-  }, []);
-  const updateTag = useCallback(
-    ({ filter, tag, value }) => {
-      updateTags((tags) => ({
-        ...tags,
-        [filter]: {
-          ...tags[filter],
-          [tag]: value
-        }
-      }));
-    },
-    [updateTags]
-  );
-
+  // Get Sample Projects
   const projectsParams = useMemo(
     () => ({
       offset,
@@ -106,21 +83,61 @@ export default function Index() {
     }),
     [offset, tags, textFilter]
   );
+
   const { data, loading, error } = useRequest('/projects', projectsParams);
 
-  const nextPage = useCallback(() => {
-    setOffset((offset) => offset + limit);
-  }, []);
-  const previousPage = useCallback(() => {
-    setOffset((offset) => offset - limit);
-  }, []);
-  const hasNextPage = useMemo(() => !loading && offset + data?.rows?.length < data?.totalResults, [
-    data?.rows?.length,
-    data?.totalResults,
-    loading,
-    offset
+  // Pagination
+  const page = useMemo(() => Math.floor(offset / limit) + 1, [offset]);
+
+  const maxPage = useMemo(() => Math.floor((data?.totalResults || 0) / limit) + 1, [
+    data?.totalResults
   ]);
 
+  const changePage = useCallback((e, newPage) => {
+    scrollIntoView(document.getElementById('top-of-results'), {
+      scrollMode: 'if-needed',
+      block: 'start',
+      behavior: 'smooth'
+    });
+    setOffset((newPage - 1) * limit);
+  }, []);
+
+  // Filtering
+  const updateTextFilter = useCallback((text) => {
+    scrollIntoView(document.getElementById('top-of-results'), {
+      scrollMode: 'always',
+      block: 'start',
+      behavior: 'smooth'
+    });
+    setOffset(0);
+    setTextFilter(text);
+  }, []);
+
+  const updateTags = useCallback((tags) => {
+    setOffset(0);
+    setTags(tags);
+  }, []);
+
+  const updateTag = useCallback(
+    ({ filter, tag, value }) => {
+      updateTags((tags) => ({
+        ...tags,
+        [filter]: {
+          ...tags[filter],
+          [tag]: value
+        }
+      }));
+    },
+    [updateTags]
+  );
+
+  const clearFilters = useCallback(() => {
+    setOffset(0);
+    setTags({});
+    setTextFilter();
+  }, []);
+
+  // Tag chips
   const tagChips = useMemo(
     () =>
       Object.keys(tags)
@@ -139,6 +156,11 @@ export default function Index() {
         )
         .flat(),
     [classes.tag, updateTag, tags]
+  );
+
+  const showClearFilters = useMemo(
+    () => !!(tagChips.length > 1 || (textFilter && tagChips.length)),
+    [tagChips.length, textFilter]
   );
 
   return (
@@ -163,8 +185,17 @@ export default function Index() {
           <Grid item xs={2}>
             <TagFilter updateTag={updateTag} tags={tags} />
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={10} style={{ position: 'relative' }}>
+            <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
             <Box mb={2}>
+              {showClearFilters && (
+                <Chip
+                  label="Clear all filters"
+                  size="small"
+                  onClick={clearFilters}
+                  className={classes.tag}
+                />
+              )}
               {textFilter && (
                 <Chip
                   label={textFilter}
@@ -173,37 +204,22 @@ export default function Index() {
                   className={classes.tag}
                 />
               )}
-              {tagChips.length > 1 && (
-                <Chip
-                  label="Clear all filters"
-                  size="small"
-                  onClick={() => updateTags({})}
-                  className={classes.tag}
-                />
-              )}
               {tagChips}
             </Box>
-            {loading ? (
-              <LinearProgress color="secondary" />
-            ) : error ? (
+            {error ? (
               <Alert severity="error">Server Error. Please try again later!</Alert>
             ) : (
-              <Results samples={data?.rows} updateTags={updateTags} />
+              <Results
+                samples={data?.rows}
+                updateTags={updateTags}
+                loading={loading}
+                limit={limit}
+              />
             )}
+            <Grid container justify="center">
+              <Pagination count={maxPage} page={page} onChange={changePage} disabled={loading} />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container justify="flex-end">
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!offset}
-            className={classes.previousButton}
-            onClick={previousPage}>
-            Previous
-          </Button>
-          <Button variant="contained" color="primary" disabled={!hasNextPage} onClick={nextPage}>
-            Next
-          </Button>
         </Grid>
       </Container>
       <Footer />
