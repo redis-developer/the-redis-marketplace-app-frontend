@@ -19,7 +19,8 @@ const theme = createMuiTheme({
       contrastText: '#fff'
     },
     text: {
-      primary: '#3f4b5f'
+      primary: '#3f4b5f',
+      secondary: '#3f4b5f'
     },
     primary: {
       main: '#5961ff',
@@ -35,19 +36,42 @@ const theme = createMuiTheme({
       dark: '#b8001f',
       light: '#ff6a71'
     },
-    application: {
+    card: {
       main: '#008cff',
-      light: '#ebf4ff'
-    },
-    buildingBlock: {
-      main: '#606b85',
-      light: '#f4f4f6'
+      light: '#ebf4ff',
+      dark: '#0060cb'
     },
     error: {
       main: red.A400
     },
     background: {
       default: '#fff'
+    },
+    brandColors: {
+      github: {
+        main: '#24292e',
+        contrastText: '#ffffff',
+        dark: '#000004',
+        light: '#4c5157'
+      },
+      heroku: {
+        main: '#9e7cc1',
+        contrastText: '#ffffff',
+        dark: '#6e4f90',
+        light: '#d0abf4'
+      },
+      google: {
+        main: '#1a73e8',
+        contrastText: '#ffffff',
+        dark: '#0049b5',
+        light: '#69a1ff'
+      },
+      vercel: {
+        main: '#111111',
+        contrastText: '#ffffff',
+        dark: '#000000',
+        light: '#373737'
+      }
     }
   }
 });

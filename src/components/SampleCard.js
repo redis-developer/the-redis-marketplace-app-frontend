@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import Router from 'next/router';
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   skeleton: {
     '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & $chip': {
       color: 'transparent',
-      background: 'linear-gradient(-45deg, #c1c1c1, #dbdbdd, #e4e4e4)',
+      background: 'linear-gradient(-45deg, #4fb0ff, #81c6ff, #c0e3ff)',
       backgroundSize: '400% 400%',
       animation: '$gradient 3s ease infinite'
     },
@@ -64,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
   },
   dialogLink: {
     padding: theme.spacing(1, 0),
-    backgroundColor: (sampleStyle) => sampleStyle.light,
-    color: (sampleStyle) => sampleStyle.main,
+    backgroundColor: theme.palette.card.light,
+    color: theme.palette.card.main,
     '& p': {
-      color: (sampleStyle) => sampleStyle.main
+      color: theme.palette.card.main
     },
     '&:hover': {
       textDecoration: 'none'
@@ -90,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     top: '10px',
     zIndex: 1,
-    backgroundColor: (sampleStyle) => sampleStyle.main,
+    backgroundColor: theme.palette.card.main,
     fontSize: '24px'
   },
   chip: {
@@ -127,16 +126,7 @@ export default function SampleCard({
   skeleton,
   closeLinkedApp
 }) {
-  const theme = useTheme();
-
-  const sampleStyle = useMemo(
-    () =>
-      skeleton || sample.type === 'Building Block'
-        ? theme.palette.buildingBlock
-        : theme.palette.application,
-    [sample.type, theme.palette.application, theme.palette.buildingBlock, skeleton]
-  );
-  const classes = useStyles(sampleStyle);
+  const classes = useStyles();
 
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
@@ -219,7 +209,6 @@ export default function SampleCard({
           sample={sample}
           closeSamplePopup={closeSamplePopup}
           isOpened={isOpened}
-          sampleStyle={sampleStyle}
         />
       )}
     </Card>

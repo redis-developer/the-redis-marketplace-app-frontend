@@ -9,17 +9,23 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import Popover from '@material-ui/core/Popover';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Slide from '@material-ui/core/Slide';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import HostedIcon from '@material-ui/icons/Language';
+import clsx from 'clsx';
+import copy from 'copy-to-clipboard';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
+import { AiOutlineLink } from 'react-icons/ai';
+import { DiHeroku } from 'react-icons/di';
+import { IoLogoVercel } from 'react-icons/io5';
+import { SiGooglecloud } from 'react-icons/si';
 
 const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -29,34 +35,49 @@ import { LanguageIcon, Link } from './';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: '1300px',
     borderRadius: '10px',
     marginTop: theme.spacing(10)
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
-    backgroundColor: () => theme.palette.backgroundColor,
-    color: (sampleStyle) => sampleStyle.main
+    backgroundColor: theme.palette.backgroundColor
   },
   appName: {
-    paddingTop: theme.spacing(2),
-    fontWeight: '600'
+    fontWeight: '600',
+    color: theme.palette.card.main,
+    marginRight: theme.spacing(1)
+  },
+  copyLinkIcon: {
+    color: theme.palette.card.main
+  },
+  copiedMessage: {
+    padding: theme.spacing(1),
+    fontWeight: 600,
+    fontSize: '14px',
+    color: theme.palette.card.main
+  },
+  copiedPaper: {
+    borderRadius: '5px',
+    background: theme.palette.card.light
   },
   tags: {
     marginTop: theme.spacing(1)
   },
   content: {
     padding: theme.spacing(1, 3, 3, 3),
-    backgroundColor: () => theme.palette.backgroundColor
+    backgroundColor: theme.palette.backgroundColor
   },
   details: {
     padding: theme.spacing(3)
   },
   description: {
     whiteSpace: 'pre-wrap',
-    margin: theme.spacing(4, 0)
+    margin: theme.spacing(1, 0, 4),
+    color: theme.palette.text.primary
   },
   descriptionHeader: {
-    fontWeight: 600
+    fontWeight: 800
   },
   image: {
     display: 'block',
@@ -65,13 +86,19 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)',
     margin: theme.spacing(0, 'auto', 2, 'auto')
   },
-  buttonIcon: {
-    marginRight: theme.spacing(1)
-  },
   action: {
-    width: '100%',
-    whiteSpace: 'nowrap',
-    marginBottom: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    whiteSpace: 'nowrap'
+  },
+  github: {
+    backgroundColor: theme.palette.brandColors.github.main,
+    color: theme.palette.brandColors.github.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.brandColors.github.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.brandColors.github.light
+    }
   },
   youtube: {
     border: 0,
@@ -80,10 +107,63 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
   deploy: {
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(3, 0, 1),
     '& p': {
       fontWeight: 800,
       paddingRight: theme.spacing(1)
+    }
+  },
+  deployer: {
+    width: '140px',
+    '&:hover span, &:active span': {
+      fontWeight: '600'
+    }
+  },
+  deployerLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'all .2s ease-in-out',
+    '& span:first-letter': {
+      textTransform: 'capitalize'
+    }
+  },
+  heroku: {
+    color: theme.palette.brandColors.heroku.main
+  },
+  google: {
+    color: theme.palette.brandColors.google.main
+  },
+  vercel: {
+    color: theme.palette.brandColors.vercel.main
+  },
+  herokuButton: {
+    backgroundColor: theme.palette.brandColors.heroku.main,
+    color: theme.palette.brandColors.heroku.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.brandColors.heroku.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.brandColors.heroku.light
+    }
+  },
+  googleButton: {
+    backgroundColor: theme.palette.brandColors.google.main,
+    color: theme.palette.brandColors.google.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.brandColors.google.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.brandColors.google.light
+    }
+  },
+  vercelButton: {
+    backgroundColor: theme.palette.brandColors.vercel.main,
+    color: theme.palette.brandColors.vercel.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.brandColors.vercel.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.brandColors.vercel.light
     }
   },
   language: {
@@ -91,27 +171,74 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: theme.spacing(1)
   },
-  languageIcon: {
+  icon: {
     height: '20px',
     width: '20px',
     marginRight: theme.spacing(1)
   }
 }));
 
-export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleStyle, tags }) {
-  const classes = useStyles(sampleStyle);
+function DeployerIcon({ deployer, ...rest }) {
+  switch (deployer) {
+    case 'heroku':
+      return <DiHeroku {...rest} />;
+    case 'vercel':
+      return <IoLogoVercel {...rest} />;
+    case 'google':
+      return <SiGooglecloud {...rest} />;
+    default:
+      return null;
+  }
+}
 
-  const firstDeployer = useMemo(
-    () => ({
-      link: sample.deploy_buttons[0][Object.keys(sample.deploy_buttons[0])[0]],
-      name: Object.keys(sample.deploy_buttons[0])[0]
-    }),
+function DeployerRadioButton({ deployerName, classes }) {
+  return (
+    <FormControlLabel
+      key={deployerName}
+      value={deployerName}
+      className={classes.deployer}
+      control={<Radio color="primary" />}
+      label={
+        <Box className={clsx(classes.deployerLabel, classes[deployerName])}>
+          <DeployerIcon deployer={deployerName} className={classes.icon} />
+          <span>{deployerName}</span>
+        </Box>
+      }
+    />
+  );
+}
+
+export default function SampleCard({ closeSamplePopup, sample, isOpened, tags }) {
+  const classes = useStyles();
+
+  const deployers = useMemo(
+    () =>
+      sample.deploy_buttons.reduce(
+        (deployers, deployer) => ({
+          ...deployers,
+          [Object.keys(deployer)[0].toLowerCase()]: deployer[Object.keys(deployer)[0]]
+        }),
+        {}
+      ),
     [sample.deploy_buttons]
   );
-  const [selectedDeployLink, setSelectedDeployLink] = useState(firstDeployer.link);
+  const [selectedDeployer, setSelectedDeployer] = useState(Object.keys(deployers)[0]);
   const handleRadioChange = useCallback((event) => {
-    setSelectedDeployLink(event.target.value);
+    setSelectedDeployer(event.target.value);
   }, []);
+
+  const [copiedAnchorEl, setCopiedAnchorEl] = useState();
+  const copyToClipboard = useCallback((e) => {
+    copy(window.location.href);
+    setCopiedAnchorEl(e.currentTarget);
+    setTimeout(() => {
+      setCopiedAnchorEl();
+    }, 2000);
+  }, []);
+  const closeCopiedMessage = useCallback(() => {
+    setCopiedAnchorEl();
+  }, []);
+  const showCopiedMessage = useMemo(() => Boolean(copiedAnchorEl), [copiedAnchorEl]);
 
   return (
     <Dialog
@@ -127,9 +254,30 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
       <DialogTitle disableTypography id="sample-dialog-title" className={classes.header}>
         <Grid container alignItems="center" justify="space-between">
           <Grid item xs={11}>
-            <Typography variant="h5" className={classes.appName}>
-              {sample.app_name}
-            </Typography>
+            <Grid container alignItems="center">
+              <Typography variant="h5" className={classes.appName}>
+                {sample.app_name}
+              </Typography>
+              <IconButton onClick={copyToClipboard}>
+                <AiOutlineLink className={classes.copyLinkIcon} />
+              </IconButton>
+              <Popover
+                elevation={2}
+                open={showCopiedMessage}
+                anchorEl={copiedAnchorEl}
+                onClose={closeCopiedMessage}
+                PaperProps={{ className: classes.copiedPaper }}
+                anchorOrigin={{
+                  vertical: 'center',
+                  horizontal: 'right'
+                }}
+                transformOrigin={{
+                  vertical: 'center',
+                  horizontal: 'left'
+                }}>
+                <Typography className={classes.copiedMessage}>Link copied!</Typography>
+              </Popover>
+            </Grid>
           </Grid>
           <Grid item xs={1}>
             <Grid container justify="flex-end">
@@ -142,104 +290,39 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
             {tags}
           </Grid>
           <Typography variant="body2" color="textSecondary" className={classes.language}>
-            <LanguageIcon language={sample.language} className={classes.languageIcon} />
+            <LanguageIcon language={sample.language} className={classes.icon} />
             {sample.language}
           </Typography>
         </Grid>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <Grid container spacing={2}>
-          <Grid item xs={9}>
-            <Paper elevation={1} className={classes.details}>
-              {isOpened && sample.youtube_url && (
-                <CardMedia
-                  component="iframe"
-                  title="youtube-video"
-                  src={sample.youtube_url.replace('watch?v=', 'embed/')}
-                  className={classes.youtube}
-                />
-              )}
-              <DialogContentText id="sample-dialog-description" className={classes.description}>
-                <span className={classes.descriptionHeader}>Description:</span>
-                <br />
-                {sample.description}
-              </DialogContentText>
-              {isOpened &&
-                sample.app_image_urls.map((imageUrl, index) => (
-                  <img
-                    src={imageUrl}
-                    key={imageUrl}
-                    alt={`app_image_${index}`}
-                    className={classes.image}
-                  />
-                ))}
-            </Paper>
-          </Grid>
-          <Grid item xs={3}>
-            {sample.quick_deploy && sample.deploy_buttons.length >= 2 && (
-              <Box className={classes.deploy}>
-                <Typography variant="body1">Deploy with:</Typography>
-                <RadioGroup
-                  aria-label="deployer"
-                  name="deployer"
-                  value={selectedDeployLink}
-                  onChange={handleRadioChange}>
-                  {sample.deploy_buttons.map((deployer) => (
-                    <FormControlLabel
-                      key={deployer[Object.keys(deployer)[0]]}
-                      value={deployer[Object.keys(deployer)[0]]}
-                      control={<Radio color="primary" />}
-                      label={Object.keys(deployer)[0]}
-                    />
-                  ))}
-                </RadioGroup>
-              </Box>
-            )}
-            {sample.quick_deploy && sample.deploy_buttons.length && (
+        <Paper elevation={1} className={classes.details}>
+          {isOpened && sample.youtube_url && (
+            <CardMedia
+              component="iframe"
+              title="youtube-video"
+              src={sample.youtube_url.replace('watch?v=', 'embed/')}
+              className={classes.youtube}
+            />
+          )}
+          <Box mt={3} mb={3}>
+            {sample.quick_deploy && Object.keys(deployers).length && (
               <Button
-                size="large"
-                className={classes.action}
+                size="medium"
+                className={clsx(classes.action, classes[`${selectedDeployer}Button`])}
                 variant="contained"
                 color="primary"
                 component={Link}
                 naked
                 target="_blank"
-                href={selectedDeployLink}>
-                <CloudDoneIcon className={classes.buttonIcon} />
+                href={deployers[selectedDeployer]}>
+                <DeployerIcon deployer={selectedDeployer} className={classes.icon} />
                 Quick Deploy
-              </Button>
-            )}
-            {sample.download_url && (
-              <Button
-                size="large"
-                className={classes.action}
-                variant="contained"
-                color="secondary"
-                component={Link}
-                naked
-                target="_blank"
-                href={sample.download_url}>
-                <GetAppIcon className={classes.buttonIcon} />
-                Download
-              </Button>
-            )}
-            {sample.repo_url && (
-              <Button
-                size="large"
-                className={classes.action}
-                variant="contained"
-                color="primary"
-                component={Link}
-                naked
-                target="_blank"
-                href={sample.repo_url}>
-                <GitHubIcon className={classes.buttonIcon} />
-                Repository
               </Button>
             )}
             {sample.hosted_url && (
               <Button
-                size="large"
+                size="medium"
                 className={classes.action}
                 variant="contained"
                 color="primary"
@@ -247,12 +330,73 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, sampleS
                 naked
                 target="_blank"
                 href={sample.hosted_url}>
-                <HostedIcon className={classes.buttonIcon} />
+                <HostedIcon className={classes.icon} />
                 Hosted
               </Button>
             )}
-          </Grid>
-        </Grid>
+            {sample.repo_url && (
+              <Button
+                size="medium"
+                className={clsx(classes.action, classes.github)}
+                variant="contained"
+                color="primary"
+                component={Link}
+                naked
+                target="_blank"
+                href={sample.repo_url}>
+                <GitHubIcon className={classes.icon} />
+                Repository
+              </Button>
+            )}
+            {sample.download_url && (
+              <Button
+                size="medium"
+                className={classes.action}
+                variant="contained"
+                color="primary"
+                component={Link}
+                naked
+                target="_blank"
+                href={sample.download_url}>
+                <GetAppIcon className={classes.icon} />
+                Download
+              </Button>
+            )}
+          </Box>
+          {sample.quick_deploy && Object.keys(deployers).length >= 2 && (
+            <Box className={classes.deploy}>
+              <Typography variant="body1">Deploy with:</Typography>
+              <RadioGroup
+                row
+                aria-label="deployer"
+                name="deployer"
+                value={selectedDeployer}
+                onChange={handleRadioChange}>
+                {Object.keys(deployers).map((deployerName) => (
+                  <DeployerRadioButton
+                    deployerName={deployerName}
+                    classes={classes}
+                    key={deployerName}
+                  />
+                ))}
+              </RadioGroup>
+            </Box>
+          )}
+          <DialogContentText id="sample-dialog-description" className={classes.description}>
+            <span className={classes.descriptionHeader}>Description:</span>
+            <br />
+            {sample.description}
+          </DialogContentText>
+          {isOpened &&
+            sample.app_image_urls.map((imageUrl, index) => (
+              <img
+                src={imageUrl}
+                key={imageUrl}
+                alt={`app_image_${index}`}
+                className={classes.image}
+              />
+            ))}
+        </Paper>
       </DialogContent>
     </Dialog>
   );
