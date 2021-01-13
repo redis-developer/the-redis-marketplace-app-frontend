@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    width: '550px',
+    width: '680px',
     margin: theme.spacing(4, 'auto'),
     padding: theme.spacing(0.25, 0.5),
     '& .MuiInputBase-root': {
@@ -40,7 +40,7 @@ export default function SearchBar({ updateTextFilter }) {
   const suggestionParams = useMemo(
     () => ({
       search_text: debouncedAutocompleteText,
-      max: 5,
+      max: 10,
       fuzzy: true
     }),
     [debouncedAutocompleteText]
@@ -110,6 +110,7 @@ export default function SearchBar({ updateTextFilter }) {
       getOptionLabel={(option) => option?.suggestion || option}
       options={options || []}
       loading={loading}
+      filterOptions={(options) => options}
       renderInput={(params) => (
         <TextField
           {...params}

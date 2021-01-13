@@ -13,6 +13,13 @@ import { LanguageIcon } from './';
 
 const staticFilters = [
   {
+    category: { name: 'Sample Type', filter: 'type' },
+    options: [
+      { name: 'Building Block', icon: <FaCube className="filterIcon" /> },
+      { name: 'Full App', icon: <FaRegWindowRestore className="filterIcon" /> }
+    ]
+  },
+  {
     category: { name: 'Language', filter: 'language' },
     options: [
       { name: 'JavaScript', icon: <LanguageIcon language="JavaScript" className="filterIcon" /> },
@@ -22,13 +29,6 @@ const staticFilters = [
       { name: 'C#', icon: <LanguageIcon language="C#" className="filterIcon" /> },
       { name: 'Ruby', icon: <LanguageIcon language="Ruby" className="filterIcon" /> },
       { name: 'PHP', icon: <LanguageIcon language="PHP" className="filterIcon" /> }
-    ]
-  },
-  {
-    category: { name: 'Sample Type', filter: 'type' },
-    options: [
-      { name: 'Building Block', icon: <FaCube className="filterIcon" /> },
-      { name: 'Full App', icon: <FaRegWindowRestore className="filterIcon" /> }
     ]
   },
   {

@@ -47,7 +47,7 @@ export default function Header() {
   const classes = useStyles();
 
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
