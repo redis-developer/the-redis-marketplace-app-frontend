@@ -9,10 +9,12 @@ export default {
   hosted_url: '',
   quick_deploy: 'false',
   deploy_buttons: [],
-  language: 'JavaScript',
+  language: ['JavaScript'],
   redis_commands: ['command1', 'command2', 'command3', 'command4'],
   redis_features: ['header'],
   redis_modules: [],
   app_image_urls: [],
-  special_tags: []
+  special_tags: [],
+  markdown: '',
+  verticals: []
 };

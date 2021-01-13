@@ -5,6 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
@@ -193,10 +194,16 @@ export default function SampleCard({
       </CardActionArea>
       <CardContent className={classes.content}>
         <Box>
-          <Typography variant="body2" color="textSecondary" className={classes.language}>
-            <LanguageIcon language={sample.language} className={classes.languageIcon} />
-            {sample.language}
-          </Typography>
+          <Grid container spacing={1}>
+            {sample.language.map((lang) => (
+              <Grid item key={lang}>
+                <Typography variant="body2" color="textSecondary" className={classes.language}>
+                  <LanguageIcon language={lang} className={classes.languageIcon} />
+                  {lang}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
           {tags}
         </Box>
         <Typography variant="body2" color="textSecondary" className={classes.contribution}>

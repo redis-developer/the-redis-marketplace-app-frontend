@@ -289,10 +289,16 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
           <Grid item xs={12} className={classes.tags}>
             {tags}
           </Grid>
-          <Typography variant="body2" color="textSecondary" className={classes.language}>
-            <LanguageIcon language={sample.language} className={classes.icon} />
-            {sample.language}
-          </Typography>
+        </Grid>
+        <Grid container spacing={1}>
+          {sample.language.map((lang) => (
+            <Grid item key={lang}>
+              <Typography variant="body2" color="textSecondary" className={classes.language}>
+                <LanguageIcon language={lang} className={classes.icon} />
+                {lang}
+              </Typography>
+            </Grid>
+          ))}
         </Grid>
       </DialogTitle>
       <DialogContent className={classes.content}>
