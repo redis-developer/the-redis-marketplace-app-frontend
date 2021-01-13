@@ -149,7 +149,7 @@ export default function SampleCard({
 
   const tags = useMemo(
     () =>
-      ['redis_commands', 'redis_features', 'redis_modules', 'special_tags'].map(
+      ['redis_commands', 'redis_features', 'redis_modules', 'special_tags', 'verticals'].map(
         (filter) =>
           sample[filter].map((tag) => (
             <Chip

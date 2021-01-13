@@ -83,16 +83,22 @@ export default function TagFilter({ updateTag, tags }) {
         options: data?.redis_modules.map((name) => ({ name }))
       });
     }
-    if (data?.redis_commands?.length) {
+    if (data?.verticals?.length) {
       formattedFilters.push({
-        category: { name: 'Commands', filter: 'redis_commands' },
-        options: data?.redis_commands.map((name) => ({ name }))
+        category: { name: 'Verticals', filter: 'verticals' },
+        options: data?.verticals.map((name) => ({ name }))
       });
     }
     if (data?.redis_features?.length) {
       formattedFilters.push({
         category: { name: 'Features', filter: 'redis_features' },
         options: data?.redis_features.map((name) => ({ name }))
+      });
+    }
+    if (data?.redis_commands?.length) {
+      formattedFilters.push({
+        category: { name: 'Commands', filter: 'redis_commands' },
+        options: data?.redis_commands.map((name) => ({ name }))
       });
     }
     if (data?.special_tags?.length) {
@@ -102,7 +108,13 @@ export default function TagFilter({ updateTag, tags }) {
       });
     }
     return formattedFilters;
-  }, [data?.redis_commands, data?.redis_features, data?.redis_modules, data?.special_tags]);
+  }, [
+    data?.redis_commands,
+    data?.redis_features,
+    data?.redis_modules,
+    data?.special_tags,
+    data?.verticals
+  ]);
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
