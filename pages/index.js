@@ -25,24 +25,6 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 800
     }
   },
-  introduction: {
-    '& h4': {
-      position: 'relative',
-      paddingBottom: theme.spacing(5),
-      marginBottom: theme.spacing(5),
-      fontWeight: 300,
-      '&::after': {
-        content: '" "',
-        display: 'block',
-        position: 'absolute',
-        left: 0,
-        bottom: '-2px',
-        height: '4px',
-        width: '96px',
-        background: theme.palette.tertiary.main
-      }
-    }
-  },
   tag: {
     marginRight: theme.spacing(1)
   }
@@ -176,12 +158,6 @@ export default function Index({ query }) {
         <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
       </Box>
       <Container maxWidth="lg">
-        <Box className={classes.introduction} mb={4}>
-          <Typography variant="h4">Code Samples</Typography>
-          <Typography variant="body1">
-            Get started with code samples for common Redis use cases.
-          </Typography>
-        </Box>
         <Grid container spacing={2}>
           <Grid item xs={2}>
             <TagFilter updateTag={updateTag} tags={tags} />

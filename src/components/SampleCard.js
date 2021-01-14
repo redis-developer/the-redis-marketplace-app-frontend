@@ -200,7 +200,7 @@ export default function SampleCard({
             {sample.language.map((lang) => (
               <Grid item key={lang}>
                 <Typography variant="body2" color="textSecondary" className={classes.language}>
-                  <LanguageIcon language={lang} className={classes.languageIcon} />
+                  {!skeleton && <LanguageIcon language={lang} className={classes.languageIcon} />}
                   {lang}
                 </Typography>
               </Grid>
