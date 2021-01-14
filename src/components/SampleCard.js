@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   skeleton: {
     '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & $chip': {
       color: 'transparent',
-      background: 'linear-gradient(-45deg, #4fb0ff, #81c6ff, #c0e3ff)',
+      background: 'linear-gradient(-45deg, #81c6ff, #c6e5ff, #d3ecff)',
       backgroundSize: '400% 400%',
       animation: '$gradient 3s ease infinite'
     },
@@ -110,54 +110,19 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   },
   chip_redis_modules: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.light
-    }
+    color: theme.palette.filterCategoryColors.redis_modules.contrastText
   },
   chip_verticals: {
-    backgroundColor: theme.palette.filterCategoryColors.verticals.main,
-    color: theme.palette.filterCategoryColors.verticals.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.verticals.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.verticals.light
-    }
+    color: theme.palette.filterCategoryColors.verticals.contrastText
   },
   chip_redis_features: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
-    color: theme.palette.filterCategoryColors.redis_features.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.light
-    }
+    color: theme.palette.filterCategoryColors.redis_features.contrastText
   },
   chip_redis_commands: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_commands.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_commands.light
-    }
+    color: theme.palette.filterCategoryColors.redis_commands.contrastText
   },
   chip_special_tags: {
-    backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
-    color: theme.palette.filterCategoryColors.special_tags.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.special_tags.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.special_tags.light
-    }
+    color: theme.palette.filterCategoryColors.special_tags.contrastText
   }
 }));
 

@@ -54,43 +54,46 @@ const useStyles = makeStyles((theme) => ({
       width: '20px'
     },
     '& .category': {
+      position: 'relative',
       fontSize: '15px',
       fontWeight: 'bold',
       width: '100%',
-      borderRadius: '5px',
-      padding: theme.spacing(2)
+      borderRadius: '0',
+      backgroundColor: 'transparent',
+      padding: theme.spacing(2),
+      '&::after': {
+        content: '""',
+        width: '15px',
+        borderRadius: '5px 0 0 5px',
+        height: '100%',
+        position: 'absolute',
+        left: 0,
+        top: 0
+      }
     },
-    '& .typeCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.type.main,
-      color: theme.palette.filterCategoryColors.type.contrastText
+    '& .typeCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.type.main
     },
-    '& .languageCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.language.main,
-      color: theme.palette.filterCategoryColors.language.contrastText
+    '& .languageCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.language.main
     },
-    '& .contributedByCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main,
-      color: theme.palette.filterCategoryColors.contributed_by.contrastText
+    '& .contributedByCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     },
-    '& .redisModulesCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
-      color: theme.palette.filterCategoryColors.redis_modules.contrastText
+    '& .redisModulesCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
     },
-    '& .verticalsCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.verticals.main,
-      color: theme.palette.filterCategoryColors.verticals.contrastText
+    '& .verticalsCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main
     },
-    '& .redisFeaturesCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
-      color: theme.palette.filterCategoryColors.redis_features.contrastText
+    '& .redisFeaturesCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     },
-    '& .redisCommandsCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
-      color: theme.palette.filterCategoryColors.redis_commands.contrastText
+    '& .redisCommandsCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
     },
-    '& .specialTagsCategory': {
-      backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
-      color: theme.palette.filterCategoryColors.special_tags.contrastText
+    '& .specialTagsCategory::after': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
   },
   categoryHeader: {
@@ -177,7 +180,7 @@ export default function TagFilter({ updateTag, tags }) {
   return (
     <Box className={classes.root}>
       {filters.map(({ category, options }) => (
-        <FormGroup key={category.name} className={classes.tagsCategory}>
+        <FormGroup key={category.filter} className={classes.tagsCategory}>
           <Grid className={classes.categoryHeader} container alignItems="center">
             {category.icon}
             {category.name}

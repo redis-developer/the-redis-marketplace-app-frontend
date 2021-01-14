@@ -49,52 +49,36 @@ const theme = createMuiTheme({
     },
     filterCategoryColors: {
       type: {
-        main: '#ffebee',
-        contrastText: '#ba000d',
-        dark: '#ccb9bc',
-        light: '#ffffff'
+        main: '#ef9a9a',
+        contrastText: '#f44336'
       },
       language: {
-        main: '#e3f2fd',
-        contrastText: '#0069c0',
-        dark: '#b1bfca',
-        light: '#eeffff'
+        main: '#90caf9',
+        contrastText: '#2196f3'
       },
       contributed_by: {
-        main: '#f3e5f5',
-        contrastText: '#6a0080',
-        dark: '#c0b3c2',
-        light: '#fff1ff'
+        main: '#b39ddb',
+        contrastText: '#673ab7'
       },
       redis_modules: {
-        main: '#e0f7fa',
-        contrastText: '#008ba3',
-        dark: '#aec4c7',
-        light: '#e5ffff'
+        main: '#80cbc4',
+        contrastText: '#009688'
       },
       verticals: {
-        main: '#e8f5e9',
-        contrastText: '#087f23',
-        dark: '#b6c2b7',
-        light: '#fbfffc'
+        main: '#ffeb3b',
+        contrastText: '#fbc02d'
       },
       redis_features: {
-        main: '#fffde7',
-        contrastText: '#c66900',
-        dark: '#cccab5',
-        light: '#ffffe4'
+        main: '#ffcc80',
+        contrastText: '#ff9800'
       },
       redis_commands: {
-        main: '#fff9c4',
-        contrastText: '#c6a700',
-        dark: '#cbc693',
-        light: '#fffff7'
+        main: '#c5e1a5',
+        contrastText: '#8bc34a'
       },
       special_tags: {
-        main: '#fce4ec',
-        contrastText: '#b0003a',
-        dark: '#c9b2ba',
-        light: '#ffeeff'
+        main: '#f48fb1',
+        contrastText: '#e91e63'
       }
     },
     brandColors: {

@@ -4,6 +4,7 @@ import { Alert, Pagination } from '@material-ui/lab';
 import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { useDebounce } from 'use-debounce';
 
 import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
 import { useRequest } from '../src/hooks';
@@ -25,84 +26,28 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 1, 2, 0)
   },
   chip_type: {
-    backgroundColor: theme.palette.filterCategoryColors.type.main,
-    color: theme.palette.filterCategoryColors.type.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.type.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.type.light
-    }
+    color: theme.palette.filterCategoryColors.type.contrastText
   },
   chip_language: {
-    backgroundColor: theme.palette.filterCategoryColors.language.main,
-    color: theme.palette.filterCategoryColors.language.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.language.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.language.light
-    }
+    color: theme.palette.filterCategoryColors.language.contrastText
   },
   chip_contributed_by: {
-    backgroundColor: theme.palette.filterCategoryColors.contributed_by.main,
-    color: theme.palette.filterCategoryColors.contributed_by.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.contributed_by.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.contributed_by.light
-    }
+    color: theme.palette.filterCategoryColors.contributed_by.contrastText
   },
   chip_redis_modules: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.light
-    }
+    color: theme.palette.filterCategoryColors.redis_modules.contrastText
   },
   chip_verticals: {
-    backgroundColor: theme.palette.filterCategoryColors.verticals.main,
-    color: theme.palette.filterCategoryColors.verticals.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.verticals.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.verticals.light
-    }
+    color: theme.palette.filterCategoryColors.verticals.contrastText
   },
   chip_redis_features: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
-    color: theme.palette.filterCategoryColors.redis_features.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.light
-    }
+    color: theme.palette.filterCategoryColors.redis_features.contrastText
   },
   chip_redis_commands: {
-    backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_commands.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_commands.light
-    }
+    color: theme.palette.filterCategoryColors.redis_commands.contrastText
   },
   chip_special_tags: {
-    backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
-    color: theme.palette.filterCategoryColors.special_tags.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.filterCategoryColors.special_tags.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.filterCategoryColors.special_tags.light
-    }
+    color: theme.palette.filterCategoryColors.special_tags.contrastText
   }
 }));
 
@@ -118,14 +63,15 @@ export default function Index({ query }) {
   const [textFilter, setTextFilter] = useState(linkedAppName);
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
+  const [debouncedTags] = useDebounce(tags, 300);
   const projectsParams = useMemo(
     () => ({
       offset,
       limit,
-      ...Object.keys(tags).reduce(
+      ...Object.keys(debouncedTags).reduce(
         (selectedTags, filter) => ({
           ...selectedTags,
-          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
+          [filter]: Object.keys(debouncedTags[filter]).filter((tag) => debouncedTags[filter][tag])
         }),
         {}
       ),
@@ -135,7 +81,7 @@ export default function Index({ query }) {
           }
         : {})
     }),
-    [offset, tags, textFilter]
+    [offset, debouncedTags, textFilter]
   );
 
   // Get Sample Projects
@@ -199,10 +145,10 @@ export default function Index({ query }) {
   // Tag chips for cutting used filters
   const tagChips = useMemo(
     () =>
-      Object.keys(tags)
+      Object.keys(debouncedTags)
         .map((filter) =>
-          Object.keys(tags[filter])
-            .filter((tag) => tags[filter][tag])
+          Object.keys(debouncedTags[filter])
+            .filter((tag) => debouncedTags[filter][tag])
             .map((tag) => (
               <Chip
                 key={tag}
@@ -214,7 +160,7 @@ export default function Index({ query }) {
             ))
         )
         .flat(),
-    [tags, classes, updateTag]
+    [debouncedTags, classes, updateTag]
   );
 
   const showClearFiltersChip = useMemo(
