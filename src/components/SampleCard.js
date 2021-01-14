@@ -7,6 +7,7 @@ import {
   CardHeader,
   Chip,
   Grid,
+  Grow,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -142,7 +143,8 @@ export default function SampleCard({
   sample,
   updateTags,
   skeleton,
-  closeLinkedApp
+  closeLinkedApp,
+  timeout
 }) {
   const classes = useStyles();
 
@@ -188,53 +190,58 @@ export default function SampleCard({
   );
 
   return (
-    <Card key={sample.id} className={clsx(classes.root, skeleton && classes.skeleton)}>
-      <CardHeader
-        subheader={subheader}
-        subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {!skeleton && <CardIcon sample={sample} />}
-          </Avatar>
-        }
-        className={classes.header}
-      />
-      <CardActionArea disabled={skeleton} onClick={openSamplePopup} className={classes.dialogLink}>
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
-            {sample.app_name}
-          </Typography>
-          <Typography variant="body2" className={classes.description}>
-            {sample.description}
+    <Grow in timeout={timeout}>
+      <Card key={sample.id} className={clsx(classes.root, skeleton && classes.skeleton)}>
+        <CardHeader
+          subheader={subheader}
+          subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {!skeleton && <CardIcon sample={sample} />}
+            </Avatar>
+          }
+          className={classes.header}
+        />
+        <CardActionArea
+          disabled={skeleton}
+          onClick={openSamplePopup}
+          className={classes.dialogLink}>
+          <CardContent>
+            <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
+              {sample.app_name}
+            </Typography>
+            <Typography variant="body2" className={classes.description}>
+              {sample.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardContent className={classes.content}>
+          <Box>
+            <Grid container spacing={1}>
+              {sample.language.map((lang) => (
+                <Grid item key={lang}>
+                  <Typography variant="body2" color="textSecondary" className={classes.language}>
+                    {!skeleton && <LanguageIcon language={lang} className={classes.languageIcon} />}
+                    {lang}
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
+            {tags}
+          </Box>
+          <Typography variant="body2" color="textSecondary" className={classes.contribution}>
+            By {sample.contributed_by}
           </Typography>
         </CardContent>
-      </CardActionArea>
-      <CardContent className={classes.content}>
-        <Box>
-          <Grid container spacing={1}>
-            {sample.language.map((lang) => (
-              <Grid item key={lang}>
-                <Typography variant="body2" color="textSecondary" className={classes.language}>
-                  {!skeleton && <LanguageIcon language={lang} className={classes.languageIcon} />}
-                  {lang}
-                </Typography>
-              </Grid>
-            ))}
-          </Grid>
-          {tags}
-        </Box>
-        <Typography variant="body2" color="textSecondary" className={classes.contribution}>
-          By {sample.contributed_by}
-        </Typography>
-      </CardContent>
-      {!skeleton && (
-        <SampleDialog
-          tags={tags}
-          sample={sample}
-          closeSamplePopup={closeSamplePopup}
-          isOpened={isOpened}
-        />
-      )}
-    </Card>
+        {!skeleton && (
+          <SampleDialog
+            tags={tags}
+            sample={sample}
+            closeSamplePopup={closeSamplePopup}
+            isOpened={isOpened}
+          />
+        )}
+      </Card>
+    </Grow>
   );
 }

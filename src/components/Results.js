@@ -30,13 +30,14 @@ export default function Results({
     <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between">
       {loading
         ? skeletonArray.map((i) => <SampleCard sample={sampleForSkeleton} skeleton key={i} />)
-        : samples?.map((sample) => (
+        : samples?.map((sample, i) => (
             <SampleCard
               sample={sample}
               key={sample.id}
               updateTags={updateTags}
               linkedAppName={linkedAppName}
               closeLinkedApp={closeLinkedApp}
+              timeout={(i + 1) * 200}
             />
           ))}
     </Grid>
