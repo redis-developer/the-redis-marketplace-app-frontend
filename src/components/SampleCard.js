@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: theme.spacing(0, 0.5, 0.5, 0),
-    fontWeight: 300
+    fontWeight: 500
   },
   language: {
     display: 'flex',
@@ -108,6 +108,56 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     width: '20px',
     marginRight: theme.spacing(1)
+  },
+  chip_redis_modules: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
+    color: theme.palette.filterCategoryColors.redis_modules.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.light
+    }
+  },
+  chip_verticals: {
+    backgroundColor: theme.palette.filterCategoryColors.verticals.main,
+    color: theme.palette.filterCategoryColors.verticals.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.light
+    }
+  },
+  chip_redis_features: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
+    color: theme.palette.filterCategoryColors.redis_features.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.light
+    }
+  },
+  chip_redis_commands: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
+    color: theme.palette.filterCategoryColors.redis_commands.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.light
+    }
+  },
+  chip_special_tags: {
+    backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
+    color: theme.palette.filterCategoryColors.special_tags.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.light
+    }
   }
 }));
 
@@ -158,7 +208,7 @@ export default function SampleCard({
               size="small"
               label={tag}
               key={tag}
-              className={classes.chip}
+              className={clsx(classes.chip, classes[`chip_${filter}`])}
               onClick={() => {
                 updateTags({ [filter]: { [tag]: true } });
                 closeSamplePopup();
@@ -169,7 +219,7 @@ export default function SampleCard({
           ))
         // TODO: add quick deploy chip and filter: sample.quick_deploy ? ['Quick Deploy']
       ),
-    [sample, classes.chip, updateTags, closeSamplePopup, skeleton]
+    [sample, classes, updateTags, closeSamplePopup, skeleton]
   );
 
   return (

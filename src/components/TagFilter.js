@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
+import { Box, Checkbox, Chip, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
@@ -9,14 +9,20 @@ import { LanguageIcon } from './';
 
 const staticFilters = [
   {
-    category: { name: 'Sample Type', filter: 'type' },
+    category: {
+      name: <Chip label="Sample Type" className="category typeCategory" />,
+      filter: 'type'
+    },
     options: [
       { name: 'Building Block', icon: <FaCube className="filterIcon" /> },
       { name: 'Full App', icon: <FaRegWindowRestore className="filterIcon" /> }
     ]
   },
   {
-    category: { name: 'Language', filter: 'language' },
+    category: {
+      name: <Chip label="Language" className="category languageCategory" />,
+      filter: 'language'
+    },
     options: [
       { name: 'JavaScript', icon: <LanguageIcon language="JavaScript" className="filterIcon" /> },
       { name: 'Java', icon: <LanguageIcon language="Java" className="filterIcon" /> },
@@ -28,7 +34,10 @@ const staticFilters = [
     ]
   },
   {
-    category: { name: 'Contributed By', filter: 'contributed_by' },
+    category: {
+      name: <Chip label="Contributed By" className="category contributedByCategory" />,
+      filter: 'contributed_by'
+    },
     options: [
       { name: 'Redis Labs', icon: <SiRedis className="filterIcon" /> },
       { name: 'Community', icon: <FaUsers className="filterIcon" /> },
@@ -43,11 +52,48 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
       height: '20px',
       width: '20px'
+    },
+    '& .category': {
+      fontSize: '15px',
+      fontWeight: 'bold',
+      width: '100%',
+      borderRadius: '5px',
+      padding: theme.spacing(2)
+    },
+    '& .typeCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.type.main,
+      color: theme.palette.filterCategoryColors.type.contrastText
+    },
+    '& .languageCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.language.main,
+      color: theme.palette.filterCategoryColors.language.contrastText
+    },
+    '& .contributedByCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main,
+      color: theme.palette.filterCategoryColors.contributed_by.contrastText
+    },
+    '& .redisModulesCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
+      color: theme.palette.filterCategoryColors.redis_modules.contrastText
+    },
+    '& .verticalsCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main,
+      color: theme.palette.filterCategoryColors.verticals.contrastText
+    },
+    '& .redisFeaturesCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
+      color: theme.palette.filterCategoryColors.redis_features.contrastText
+    },
+    '& .redisCommandsCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
+      color: theme.palette.filterCategoryColors.redis_commands.contrastText
+    },
+    '& .specialTagsCategory': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
+      color: theme.palette.filterCategoryColors.special_tags.contrastText
     }
   },
   categoryHeader: {
-    fontSize: '16px',
-    fontWeight: 'bold',
     paddingBottom: theme.spacing(1)
   },
   tagLabel: {
@@ -75,31 +121,46 @@ export default function TagFilter({ updateTag, tags }) {
     const formattedFilters = [];
     if (data?.redis_modules?.length) {
       formattedFilters.push({
-        category: { name: 'Modules', filter: 'redis_modules' },
+        category: {
+          name: <Chip label="Modules" className="category redisModulesCategory" />,
+          filter: 'redis_modules'
+        },
         options: data?.redis_modules.map((name) => ({ name }))
       });
     }
     if (data?.verticals?.length) {
       formattedFilters.push({
-        category: { name: 'Verticals', filter: 'verticals' },
+        category: {
+          name: <Chip label="Verticals" className="category verticalsCategory" />,
+          filter: 'verticals'
+        },
         options: data?.verticals.map((name) => ({ name }))
       });
     }
     if (data?.redis_features?.length) {
       formattedFilters.push({
-        category: { name: 'Features', filter: 'redis_features' },
+        category: {
+          name: <Chip label="Features" className="category redisFeaturesCategory" />,
+          filter: 'redis_features'
+        },
         options: data?.redis_features.map((name) => ({ name }))
       });
     }
     if (data?.redis_commands?.length) {
       formattedFilters.push({
-        category: { name: 'Commands', filter: 'redis_commands' },
+        category: {
+          name: <Chip label="Commands" className="category redisCommandsCategory" />,
+          filter: 'redis_commands'
+        },
         options: data?.redis_commands.map((name) => ({ name }))
       });
     }
     if (data?.special_tags?.length) {
       formattedFilters.push({
-        category: { name: 'Special Tags', filter: 'special_tags' },
+        category: {
+          name: <Chip label="Special Tags" className="category specialTagsCategory" />,
+          filter: 'special_tags'
+        },
         options: data?.special_tags.map((name) => ({ name }))
       });
     }

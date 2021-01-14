@@ -1,16 +1,12 @@
 import { Box, Chip, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
+import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
 import { useRequest } from '../src/hooks';
-
-// TODO: UX
-// mobile view
-// docs
-// finilize footer (needs input)
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -26,7 +22,87 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   tag: {
-    marginRight: theme.spacing(1)
+    margin: theme.spacing(0, 1, 2, 0)
+  },
+  chip_type: {
+    backgroundColor: theme.palette.filterCategoryColors.type.main,
+    color: theme.palette.filterCategoryColors.type.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.type.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.type.light
+    }
+  },
+  chip_language: {
+    backgroundColor: theme.palette.filterCategoryColors.language.main,
+    color: theme.palette.filterCategoryColors.language.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.language.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.language.light
+    }
+  },
+  chip_contributed_by: {
+    backgroundColor: theme.palette.filterCategoryColors.contributed_by.main,
+    color: theme.palette.filterCategoryColors.contributed_by.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.light
+    }
+  },
+  chip_redis_modules: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_modules.main,
+    color: theme.palette.filterCategoryColors.redis_modules.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.light
+    }
+  },
+  chip_verticals: {
+    backgroundColor: theme.palette.filterCategoryColors.verticals.main,
+    color: theme.palette.filterCategoryColors.verticals.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.light
+    }
+  },
+  chip_redis_features: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_features.main,
+    color: theme.palette.filterCategoryColors.redis_features.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.light
+    }
+  },
+  chip_redis_commands: {
+    backgroundColor: theme.palette.filterCategoryColors.redis_commands.main,
+    color: theme.palette.filterCategoryColors.redis_commands.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.light
+    }
+  },
+  chip_special_tags: {
+    backgroundColor: theme.palette.filterCategoryColors.special_tags.main,
+    color: theme.palette.filterCategoryColors.special_tags.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.dark
+    },
+    '&:disabled': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.light
+    }
   }
 }));
 
@@ -133,12 +209,12 @@ export default function Index({ query }) {
                 label={tag}
                 size="small"
                 onDelete={() => updateTag({ filter, tag, value: false })}
-                className={classes.tag}
+                className={clsx(classes.tag, classes[`chip_${filter}`])}
               />
             ))
         )
         .flat(),
-    [classes.tag, updateTag, tags]
+    [tags, classes, updateTag]
   );
 
   const showClearFiltersChip = useMemo(
@@ -164,7 +240,7 @@ export default function Index({ query }) {
           </Grid>
           <Grid item xs={10} style={{ position: 'relative' }}>
             <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
-            <Box mb={2}>
+            <Box>
               {showClearFiltersChip && (
                 <Chip
                   label="Clear all filters"

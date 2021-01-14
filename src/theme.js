@@ -47,6 +47,56 @@ const theme = createMuiTheme({
     background: {
       default: '#fff'
     },
+    filterCategoryColors: {
+      type: {
+        main: '#ffebee',
+        contrastText: '#ba000d',
+        dark: '#ccb9bc',
+        light: '#ffffff'
+      },
+      language: {
+        main: '#e3f2fd',
+        contrastText: '#0069c0',
+        dark: '#b1bfca',
+        light: '#eeffff'
+      },
+      contributed_by: {
+        main: '#f3e5f5',
+        contrastText: '#6a0080',
+        dark: '#c0b3c2',
+        light: '#fff1ff'
+      },
+      redis_modules: {
+        main: '#e0f7fa',
+        contrastText: '#008ba3',
+        dark: '#aec4c7',
+        light: '#e5ffff'
+      },
+      verticals: {
+        main: '#e8f5e9',
+        contrastText: '#087f23',
+        dark: '#b6c2b7',
+        light: '#fbfffc'
+      },
+      redis_features: {
+        main: '#fffde7',
+        contrastText: '#c66900',
+        dark: '#cccab5',
+        light: '#ffffe4'
+      },
+      redis_commands: {
+        main: '#fff9c4',
+        contrastText: '#c6a700',
+        dark: '#cbc693',
+        light: '#fffff7'
+      },
+      special_tags: {
+        main: '#fce4ec',
+        contrastText: '#b0003a',
+        dark: '#c9b2ba',
+        light: '#ffeeff'
+      }
+    },
     brandColors: {
       github: {
         main: '#24292e',
