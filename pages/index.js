@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 800
     }
   },
+  tags: {
+    minHeight: '40px'
+  },
   tag: {
     margin: theme.spacing(0, 1, 2, 0)
   },
@@ -63,7 +66,7 @@ export default function Index({ query }) {
   const [textFilter, setTextFilter] = useState(linkedAppName);
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
-  const [debouncedTags] = useDebounce(tags, 300);
+  const [debouncedTags] = useDebounce(tags, 200);
   const projectsParams = useMemo(
     () => ({
       offset,
@@ -180,12 +183,9 @@ export default function Index({ query }) {
         <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
       </Box>
       <Container maxWidth="lg">
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <TagFilter updateTag={updateTag} tags={tags} />
-          </Grid>
-          <Grid item xs={10} style={{ position: 'relative' }}>
-            <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
+        <Grid container className={classes.tags}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={10}>
             <Box>
               {showClearFiltersChip && (
                 <Chip
@@ -204,7 +204,15 @@ export default function Index({ query }) {
                 />
               )}
               {tagChips}
-            </Box>
+            </Box>{' '}
+          </Grid>{' '}
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <TagFilter updateTag={updateTag} tags={tags} />
+          </Grid>
+          <Grid item xs={10} style={{ position: 'relative' }}>
+            <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
             {error ? (
               <Alert severity="error">Server Error. Please try again later!</Alert>
             ) : (

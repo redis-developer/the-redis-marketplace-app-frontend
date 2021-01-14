@@ -45,14 +45,13 @@ export default function SearchBar({ updateTextFilter }) {
 
   // autocompleteText for fetching suggestions
   const [autocompleteText, setAutocompleteText] = useState();
-  const [debouncedAutocompleteText] = useDebounce(autocompleteText, 300);
   const suggestionParams = useMemo(
     () => ({
-      search_text: debouncedAutocompleteText,
+      search_text: autocompleteText,
       max: 10,
       fuzzy: true
     }),
-    [debouncedAutocompleteText]
+    [autocompleteText]
   );
   // Only fetch API for suggestions when more than 2 characters pressed
   const shouldFetch = useCallback(
