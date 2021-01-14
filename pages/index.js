@@ -4,7 +4,6 @@ import { Alert, Pagination } from '@material-ui/lab';
 import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { useDebounce } from 'use-debounce';
 
 import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
 import { useRequest } from '../src/hooks';
@@ -66,15 +65,14 @@ export default function Index({ query }) {
   const [textFilter, setTextFilter] = useState(linkedAppName);
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
-  const [debouncedTags] = useDebounce(tags, 200);
   const projectsParams = useMemo(
     () => ({
       offset,
       limit,
-      ...Object.keys(debouncedTags).reduce(
+      ...Object.keys(tags).reduce(
         (selectedTags, filter) => ({
           ...selectedTags,
-          [filter]: Object.keys(debouncedTags[filter]).filter((tag) => debouncedTags[filter][tag])
+          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
         }),
         {}
       ),
@@ -84,7 +82,7 @@ export default function Index({ query }) {
           }
         : {})
     }),
-    [offset, debouncedTags, textFilter]
+    [offset, tags, textFilter]
   );
 
   // Get Sample Projects
@@ -148,10 +146,10 @@ export default function Index({ query }) {
   // Tag chips for cutting used filters
   const tagChips = useMemo(
     () =>
-      Object.keys(debouncedTags)
+      Object.keys(tags)
         .map((filter) =>
-          Object.keys(debouncedTags[filter])
-            .filter((tag) => debouncedTags[filter][tag])
+          Object.keys(tags[filter])
+            .filter((tag) => tags[filter][tag])
             .map((tag) => (
               <Chip
                 key={tag}
@@ -163,7 +161,7 @@ export default function Index({ query }) {
             ))
         )
         .flat(),
-    [debouncedTags, classes, updateTag]
+    [tags, classes, updateTag]
   );
 
   const showClearFiltersChip = useMemo(

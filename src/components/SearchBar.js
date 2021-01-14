@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useDebounce } from 'use-debounce';
 
 import api from '../api';
 import { useRequest } from '../hooks';
