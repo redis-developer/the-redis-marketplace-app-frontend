@@ -23,6 +23,17 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: theme.spacing(1),
     marginLeft: theme.spacing(0.5)
+  },
+  listBox: {
+    padding: 0,
+    marginBottom: 0,
+    '&::after': {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      borderTop: `1px solid ${theme.palette.borderColor}`,
+      padding: theme.spacing(0.5),
+      content: `url('/redisearch.png')`
+    }
   }
 }));
 
@@ -107,6 +118,7 @@ export default function SearchBar({ updateTextFilter }) {
       getOptionSelected={() => false}
       getOptionLabel={(option) => option?.suggestion || option}
       options={options || []}
+      ListboxProps={{ className: classes.listBox }}
       loading={loading}
       filterOptions={(options) => options}
       renderInput={(params) => (
