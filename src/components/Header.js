@@ -1,9 +1,5 @@
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import MuiLink from '@material-ui/core/Link';
+import { AppBar, Button, Grid, Link as MuiLink, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import React from 'react';
 
 import { toolbarMenus } from '../constants';

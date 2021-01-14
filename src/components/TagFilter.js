@@ -1,8 +1,4 @@
-import Box from '@material-ui/core/Box';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import Grid from '@material-ui/core/Grid';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';

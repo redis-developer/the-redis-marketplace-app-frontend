@@ -1,11 +1,6 @@
-import Box from '@material-ui/core/Box';
-import Chip from '@material-ui/core/Chip';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import { Box, Chip, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Alert from '@material-ui/lab/Alert';
-import Pagination from '@material-ui/lab/Pagination';
+import { Alert, Pagination } from '@material-ui/lab';
 import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 

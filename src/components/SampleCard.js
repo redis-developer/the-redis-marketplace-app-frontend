@@ -1,13 +1,15 @@
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Chip from '@material-ui/core/Chip';
-import Grid from '@material-ui/core/Grid';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  Chip,
+  Grid,
+  Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';

@@ -1,4 +1,4 @@
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 

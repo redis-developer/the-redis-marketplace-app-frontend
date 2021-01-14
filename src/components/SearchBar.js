@@ -1,9 +1,7 @@
-import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
+import { CircularProgress, IconButton, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Search as SearchIcon } from '@material-ui/icons';
+import { Autocomplete } from '@material-ui/lab';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 

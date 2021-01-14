@@ -21,8 +21,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.1.0",
-    "remark": "^13.0.0",
-    "remark-html": "^13.0.1",
+    "react-markdown": "^5.0.3",
+    "remark-gfm": "^1.0.0",
     "scroll-into-view-if-needed": "^2.2.26",
     "use-debounce": "^5.2.0"
   },

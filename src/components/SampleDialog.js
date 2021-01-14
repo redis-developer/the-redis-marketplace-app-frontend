@@ -1,24 +1,28 @@
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import CardMedia from '@material-ui/core/CardMedia';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Popover from '@material-ui/core/Popover';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Slide from '@material-ui/core/Slide';
+import {
+  Box,
+  Button,
+  CardMedia,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Paper,
+  Popover,
+  Radio,
+  RadioGroup,
+  Slide,
+  Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import HostedIcon from '@material-ui/icons/Language';
+import {
+  Close as CloseIcon,
+  GetApp as GetAppIcon,
+  GitHub as GitHubIcon,
+  Language as HostedIcon
+} from '@material-ui/icons';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
@@ -27,11 +31,7 @@ import { DiHeroku } from 'react-icons/di';
 import { IoLogoVercel } from 'react-icons/io5';
 import { SiGooglecloud } from 'react-icons/si';
 
-const Transition = forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-import { LanguageIcon, Link } from './';
+import { LanguageIcon, Link, Markdown } from './';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -208,9 +208,14 @@ function DeployerRadioButton({ deployerName, classes }) {
   );
 }
 
+const Transition = forwardRef((props, ref) => {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function SampleCard({ closeSamplePopup, sample, isOpened, tags }) {
   const classes = useStyles();
 
+  // Deployer selection
   const deployers = useMemo(
     () =>
       sample.deploy_buttons.reduce(
@@ -227,6 +232,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
     setSelectedDeployer(event.target.value);
   }, []);
 
+  // Copy button
   const [copiedAnchorEl, setCopiedAnchorEl] = useState();
   const copyToClipboard = useCallback((e) => {
     copy(window.location.href);
@@ -402,6 +408,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
                 className={classes.image}
               />
             ))}
+          {isOpened && sample.markdown && <Markdown link={sample.markdown} />}
         </Paper>
       </DialogContent>
     </Dialog>

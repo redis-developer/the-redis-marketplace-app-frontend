@@ -1,11 +1,5 @@
-import Box from '@material-ui/core/Box';
-import Grow from '@material-ui/core/Grow';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
+import { Box, Grow, MenuItem, MenuList, Paper, Popper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Link } from './';
