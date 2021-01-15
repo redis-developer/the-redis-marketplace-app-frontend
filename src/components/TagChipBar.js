@@ -1,14 +1,14 @@
-import { Box, Chip, Grid, Grow } from '@material-ui/core';
+import { Box, Chip, Grow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   tags: {
-    minHeight: '40px'
+    minHeight: '32px'
   },
   tag: {
-    margin: theme.spacing(0, 1, 2, 0)
+    margin: theme.spacing(0, 1, 1, 0)
   },
   chip_type: {
     color: theme.palette.filterCategoryColors.type.contrastText
@@ -72,33 +72,28 @@ export default function TagChipBar({
   );
 
   return (
-    <Grid container className={classes.tags}>
-      <Grid item xs={2}></Grid>
-      <Grid item xs={10}>
-        <Box>
-          {showClearFiltersChip && (
-            <Grow in>
-              <Chip
-                label="Clear all filters"
-                size="small"
-                onClick={clearFilters}
-                className={classes.tag}
-              />
-            </Grow>
-          )}
-          {textFilter && (
-            <Grow in>
-              <Chip
-                label={textFilter}
-                size="small"
-                onDelete={() => updateTextFilter()}
-                className={classes.tag}
-              />
-            </Grow>
-          )}
-          {tagChips}
-        </Box>
-      </Grid>
-    </Grid>
+    <Box className={classes.tags}>
+      {showClearFiltersChip && (
+        <Grow in>
+          <Chip
+            label="Clear all filters"
+            size="small"
+            onClick={clearFilters}
+            className={classes.tag}
+          />
+        </Grow>
+      )}
+      {textFilter && (
+        <Grow in>
+          <Chip
+            label={textFilter}
+            size="small"
+            onDelete={() => updateTextFilter()}
+            className={classes.tag}
+          />
+        </Grow>
+      )}
+      {tagChips}
+    </Box>
   );
 }

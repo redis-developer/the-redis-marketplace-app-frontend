@@ -45,8 +45,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    flex: '0 0 32%',
-    marginBottom: theme.spacing(2.5),
+    height: '100%',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px'
   },

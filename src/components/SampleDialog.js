@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '1300px',
     borderRadius: '10px',
-    marginTop: theme.spacing(10)
+    marginTop: theme.spacing(10),
+    [theme.breakpoints.down('sm')]: {
+      margin: 0,
+      display: 'inline'
+    }
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
@@ -88,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
   },
   action: {
     marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     whiteSpace: 'nowrap'
   },
   github: {
@@ -104,10 +109,13 @@ const useStyles = makeStyles((theme) => ({
     border: 0,
     height: '460px',
     marginBottom: theme.spacing(2),
-    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)',
+    [theme.breakpoints.down('xs')]: {
+      height: '200px'
+    }
   },
   deploy: {
-    margin: theme.spacing(3, 0, 1),
+    margin: theme.spacing(1, 0),
     '& p': {
       fontWeight: 800,
       paddingRight: theme.spacing(1)
@@ -317,7 +325,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
               className={classes.youtube}
             />
           )}
-          <Box mt={3} mb={3}>
+          <Box mt={3} mb={1}>
             {sample.quick_deploy && Object.keys(deployers).length && (
               <Button
                 size="medium"

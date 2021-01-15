@@ -178,43 +178,45 @@ export default function TagFilter({ updateTag, tags }) {
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
-    <Box className={classes.root}>
+    <Grid container className={classes.root}>
       {filters.map(({ category, options }) => (
-        <FormGroup key={category.filter} className={classes.tagsCategory}>
-          <Grid className={classes.categoryHeader} container alignItems="center">
-            {category.icon}
-            {category.name}
-          </Grid>
-          {options.map((option) => (
-            <FormControlLabel
-              key={option.name}
-              className={classes.tag}
-              checked={!!tags[category.filter]?.[option.name]}
-              control={
-                <Checkbox
-                  name={option.name}
-                  color="primary"
-                  size="small"
-                  className={classes.checkbox}
-                  onChange={(e) =>
-                    updateTag({
-                      filter: category.filter,
-                      tag: e.target.name,
-                      value: e.target.checked
-                    })
-                  }
-                />
-              }
-              label={
-                <Grid className={classes.tagLabel} container alignItems="center">
-                  {option.icon}
-                  {option.name}
-                </Grid>
-              }
-            />
-          ))}
-        </FormGroup>
+        <Grid item xs={6} sm={3} md={12} key={category.filter}>
+          <FormGroup className={classes.tagsCategory}>
+            <Grid className={classes.categoryHeader} container alignItems="center">
+              {category.icon}
+              {category.name}
+            </Grid>
+            {options.map((option) => (
+              <FormControlLabel
+                key={option.name}
+                className={classes.tag}
+                checked={!!tags[category.filter]?.[option.name]}
+                control={
+                  <Checkbox
+                    name={option.name}
+                    color="primary"
+                    size="small"
+                    className={classes.checkbox}
+                    onChange={(e) =>
+                      updateTag({
+                        filter: category.filter,
+                        tag: e.target.name,
+                        value: e.target.checked
+                      })
+                    }
+                  />
+                }
+                label={
+                  <Grid className={classes.tagLabel} container alignItems="center">
+                    {option.icon}
+                    {option.name}
+                  </Grid>
+                }
+              />
+            ))}
+          </FormGroup>
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 }

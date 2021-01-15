@@ -5,11 +5,12 @@ import React, { useMemo } from 'react';
 import { sampleForSkeleton } from '../constants';
 import { SampleCard } from './';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   resultsBody: {
+    marginBottom: theme.spacing(2.5),
     '&::after': {
       content: '""',
-      flex: '0 0 32%'
+      flex: '0 0 33%'
     }
   }
 }));
@@ -27,18 +28,23 @@ export default function Results({
   const skeletonArray = useMemo(() => Array.from({ length: limit }, (_, i) => i), [limit]);
 
   return (
-    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between">
+    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={2}>
       {loading
-        ? skeletonArray.map((i) => <SampleCard sample={sampleForSkeleton} skeleton key={i} />)
+        ? skeletonArray.map((i) => (
+            <Grid item sm={6} md={4} key={i}>
+              <SampleCard sample={sampleForSkeleton} skeleton />
+            </Grid>
+          ))
         : samples?.map((sample, i) => (
-            <SampleCard
-              sample={sample}
-              key={sample.id}
-              updateTags={updateTags}
-              linkedAppName={linkedAppName}
-              closeLinkedApp={closeLinkedApp}
-              timeout={(i + 1) * 200}
-            />
+            <Grid item sm={6} md={4} key={sample.id}>
+              <SampleCard
+                sample={sample}
+                updateTags={updateTags}
+                linkedAppName={linkedAppName}
+                closeLinkedApp={closeLinkedApp}
+                timeout={(i + 1) * 200}
+              />
+            </Grid>
           ))}
     </Grid>
   );

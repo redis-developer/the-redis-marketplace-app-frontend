@@ -1,4 +1,4 @@
-import { AppBar, Button, Grid, Link as MuiLink, Toolbar } from '@material-ui/core';
+import { AppBar, Box, Button, Grid, Link as MuiLink, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 0 6px 0 rgba(140,140,141,.5)'
   },
   toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
     width: '90%',
     height: '100%',
     padding: theme.spacing(0),
@@ -48,11 +50,13 @@ export default function Header() {
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
         </MuiLink>
-        <Grid container className={classes.menuCategories}>
-          {toolbarMenus.map(({ menuTitle, menuCategories }) => (
-            <ToolbarMenu key={menuTitle} menuTitle={menuTitle} menuCategories={menuCategories} />
-          ))}
-        </Grid>
+        <Box display={{ xs: 'none', sm: 'none', md: 'block' }} width={1}>
+          <Grid container className={classes.menuCategories}>
+            {toolbarMenus.map(({ menuTitle, menuCategories }) => (
+              <ToolbarMenu key={menuTitle} menuTitle={menuTitle} menuCategories={menuCategories} />
+            ))}
+          </Grid>
+        </Box>
         <Button
           variant="outlined"
           color="primary"

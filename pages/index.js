@@ -9,15 +9,26 @@ import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
   hero: {
+    [theme.breakpoints.down('xs')]: {
+      backgroundSize: '48%'
+    },
+    [theme.breakpoints.up('sm')]: {
+      backgroundSize: '28%'
+    },
     textAlign: 'center',
     background: `url(${'hero.svg'}) no-repeat local`,
-    backgroundSize: '28% !important',
-    backgroundPosition: '104% -70px !important',
+    backgroundPosition: '104% -70px',
     '& p, & h3': {
       margin: theme.spacing(4, 0)
     },
     '& h3': {
       fontWeight: 800
+    }
+  },
+  examples: {
+    marginBottom: 0,
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: theme.spacing(1)
     }
   }
 }));
@@ -115,27 +126,32 @@ export default function Index({ query }) {
   return (
     <Box mt={9}>
       <Header />
-      <Box className={classes.hero} p={6}>
+      <Box className={classes.hero} p={{ xs: 2, md: 6 }}>
         <Typography variant="h3">Redis Labs Marketplace</Typography>
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
         <SearchBar updateTextFilter={updateTextFilter} setLinkedAppName={setLinkedAppName} />
-        <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
+        <Typography variant="body1" className={classes.examples}>
+          Examples: Voice IVR, Appointment reminders
+        </Typography>
       </Box>
       <Container maxWidth="lg">
-        <TagChipBar
-          tags={tags}
-          textFilter={textFilter}
-          updateTextFilter={updateTextFilter}
-          updateTag={updateTag}
-          clearFilters={clearFilters}
-        />
         <Grid container spacing={2}>
-          <Grid item xs={2}>
+          <Grid item md={2} />
+          <Grid item md={10}>
+            <TagChipBar
+              tags={tags}
+              textFilter={textFilter}
+              updateTextFilter={updateTextFilter}
+              updateTag={updateTag}
+              clearFilters={clearFilters}
+            />
+          </Grid>
+          <Grid item md={2}>
             <TagFilter updateTag={updateTag} tags={tags} />
           </Grid>
-          <Grid item xs={10} style={{ position: 'relative' }}>
+          <Grid item md={10} style={{ position: 'relative' }}>
             <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
             {error ? (
               <Alert severity="error">Server Error. Please try again later!</Alert>

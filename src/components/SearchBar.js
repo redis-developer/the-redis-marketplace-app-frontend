@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    width: '680px',
+    maxWidth: '680px',
+    width: '100%',
     margin: theme.spacing(4, 'auto'),
     padding: theme.spacing(0.25, 0.5),
     '& .MuiInputBase-root': {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   listBox: {
     padding: theme.spacing(0, 0, 5, 0),
     margin: 0,
-    maxHeight: '400px',
+    maxHeight: '420px',
     overflow: 'scroll',
     '&::after': {
       display: 'flex',
