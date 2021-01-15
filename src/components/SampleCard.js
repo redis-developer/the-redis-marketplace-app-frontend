@@ -137,33 +137,23 @@ function CardIcon({ sample, ...rest }) {
   }
 }
 
-export default function SampleCard({
-  linkedAppName,
-  sample,
-  updateTags,
-  skeleton,
-  closeLinkedApp,
-  timeout
-}) {
+export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
   const classes = useStyles();
 
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
-  const [isOpened, setIsOpened] = useState(linkedAppName === sample.app_name);
+  const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
     setIsOpened(true);
     Router.push({
       pathname: '/',
-      query: { app_name: sample.app_name }
+      query: { id: sample.id }
     });
-  }, [sample.app_name]);
+  }, [sample.id]);
   const closeSamplePopup = useCallback(() => {
     setIsOpened(false);
-    if (linkedAppName) {
-      closeLinkedApp();
-    }
     Router.push({ pathname: '/' });
-  }, [closeLinkedApp, linkedAppName]);
+  }, []);
 
   const tags = useMemo(
     () =>

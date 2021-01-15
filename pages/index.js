@@ -1,10 +1,19 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
-import React, { useCallback, useMemo, useState } from 'react';
+import Router from 'next/router';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import { Footer, Header, Results, SearchBar, TagChipBar, TagFilter } from '../src/components';
+import {
+  Footer,
+  Header,
+  LinkedSample,
+  Results,
+  SearchBar,
+  TagChipBar,
+  TagFilter
+} from '../src/components';
 import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,10 +48,37 @@ export default function Index({ query }) {
   const classes = useStyles();
 
   // Do we have an initial app to open up in the url query?
-  const [linkedAppName, setLinkedAppName] = useState(query?.app_name);
+  const [linkedSampleId, setLinkedSampleId] = useState(query?.id);
+  // linkedSample can come from query param or by the search bar
+  const [linkedSample, setLinkedSample] = useState();
+  const [linkedSampleIsOpened, setLinkedSampleIsOpened] = useState(false);
+
+  const shouldFetch = useCallback(() => linkedSampleId, [linkedSampleId]);
+  const { data: linkedSampleData } = useRequest({ url: `/project/${linkedSampleId}`, shouldFetch });
+
+  useEffect(() => {
+    if (linkedSampleData) {
+      setLinkedSample(linkedSampleData);
+    }
+  }, [linkedSampleData]);
+
+  const openLinkedSample = useCallback((sample) => {
+    setLinkedSample(sample);
+    setLinkedSampleIsOpened(true);
+    Router.push({
+      pathname: '/',
+      query: { id: sample.id }
+    });
+  }, []);
+
+  const closeLinkedSample = useCallback(() => {
+    setLinkedSampleId();
+    setLinkedSampleIsOpened(false);
+    Router.push({ pathname: '/' });
+  }, []);
 
   // Query params for the /projects
-  const [textFilter, setTextFilter] = useState(linkedAppName);
+  const [textFilter, setTextFilter] = useState();
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
   const projectsParams = useMemo(
@@ -66,7 +102,7 @@ export default function Index({ query }) {
   );
 
   // Get Sample Projects
-  const { data, loading, error } = useRequest('/projects', projectsParams);
+  const { data, loading, error } = useRequest({ url: '/projects', params: projectsParams });
 
   // Pagination
   const page = useMemo(() => Math.floor(offset / LIMIT) + 1, [offset]);
@@ -118,11 +154,6 @@ export default function Index({ query }) {
     setTextFilter();
   }, []);
 
-  const closeLinkedApp = useCallback(() => {
-    setLinkedAppName();
-    clearFilters();
-  }, [clearFilters]);
-
   return (
     <Box mt={9}>
       <Header />
@@ -131,12 +162,20 @@ export default function Index({ query }) {
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
-        <SearchBar updateTextFilter={updateTextFilter} setLinkedAppName={setLinkedAppName} />
+        <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
         <Typography variant="body1" className={classes.examples}>
           Examples: Voice IVR, Appointment reminders
         </Typography>
       </Box>
       <Container maxWidth="lg">
+        {linkedSample && (
+          <LinkedSample
+            sample={linkedSample}
+            closeLinkedSample={closeLinkedSample}
+            updateTags={updateTags}
+            isOpened={linkedSampleIsOpened}
+          />
+        )}
         <Grid container spacing={2}>
           <Grid item md={2} />
           <Grid item md={10}>
@@ -161,8 +200,6 @@ export default function Index({ query }) {
                 updateTags={updateTags}
                 loading={loading}
                 limit={LIMIT}
-                linkedAppName={linkedAppName}
-                closeLinkedApp={closeLinkedApp}
               />
             )}
             <Grid container justify="center">

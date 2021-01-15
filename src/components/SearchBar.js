@@ -2,7 +2,6 @@ import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
-import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { useRequest } from '../hooks';
@@ -59,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 10;
 
-export default function SearchBar({ updateTextFilter, setLinkedAppName }) {
+export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   const classes = useStyles();
 
   // autocompleteText for fetching suggestions
@@ -77,7 +76,11 @@ export default function SearchBar({ updateTextFilter, setLinkedAppName }) {
     (params) => params.text_filter && params.text_filter.length > 2,
     []
   );
-  const { data, loading, error } = useRequest('/projects', suggestionParams, shouldFetch);
+  const { data, loading, error } = useRequest({
+    url: '/projects',
+    params: suggestionParams,
+    shouldFetch
+  });
 
   const disabled = useMemo(() => autocompleteText.trim().length <= 2, [autocompleteText]);
   const options = useMemo(() => (!error && !disabled && !loading && data?.rows) || [], [
@@ -89,24 +92,21 @@ export default function SearchBar({ updateTextFilter, setLinkedAppName }) {
 
   // Listener for typing
   const onInputChange = useCallback((e) => {
-    setAutocompleteText(e.target.value || '');
+    setAutocompleteText(e?.target?.value || '');
   }, []);
 
   // Action for selecting an option
   const onSelect = useCallback(
     (e, value) => {
       if (value?.app_name) {
-        const app_name = value.app_name.replace('<b>', '').replace('</b>', '');
-        setLinkedAppName(app_name);
-        updateTextFilter(app_name);
-        Router.push({
-          pathname: '/',
-          query: { app_name }
-        });
+        const sample = { ...value };
+        sample.app_name = value.app_name.replace('<b>', '').replace('</b>', '');
+        sample.description = value.description.replace('<b>', '').replace('</b>', '');
+        openLinkedSample(sample);
         setAutocompleteText('');
       }
     },
-    [updateTextFilter, setLinkedAppName]
+    [openLinkedSample]
   );
 
   // Action for pressing enter without and option select
@@ -132,6 +132,8 @@ export default function SearchBar({ updateTextFilter, setLinkedAppName }) {
       return option.app_name.replace('<b>', '').replace('</b>', '');
     } else if (option?.description?.includes('<b>')) {
       return option.description.replace('<b>', '').replace('</b>', '');
+    } else if (option?.app_name) {
+      return option.app_name;
     } else {
       return option;
     }

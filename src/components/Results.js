@@ -15,14 +15,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Results({
-  samples,
-  updateTags,
-  loading,
-  limit,
-  linkedAppName,
-  closeLinkedApp
-}) {
+export default function Results({ samples, updateTags, loading, limit }) {
   const classes = useStyles();
 
   const skeletonArray = useMemo(() => Array.from({ length: limit }, (_, i) => i), [limit]);
@@ -37,13 +30,7 @@ export default function Results({
           ))
         : samples?.map((sample, i) => (
             <Grid item sm={6} md={4} key={sample.id}>
-              <SampleCard
-                sample={sample}
-                updateTags={updateTags}
-                linkedAppName={linkedAppName}
-                closeLinkedApp={closeLinkedApp}
-                timeout={(i + 1) * 200}
-              />
+              <SampleCard sample={sample} updateTags={updateTags} timeout={(i + 1) * 200} />
             </Grid>
           ))}
     </Grid>

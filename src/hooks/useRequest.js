@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import api from '../api';
 
-export default function useRequest(url, params, shouldFetch) {
+export default function useRequest({ url, params, shouldFetch }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

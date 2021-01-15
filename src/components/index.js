@@ -2,6 +2,7 @@ export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as LanguageIcon } from './LanguageIcon';
 export { default as Link } from './Link';
+export { default as LinkedSample } from './LinkedSample';
 export { default as Markdown } from './Markdown';
 export { default as Results } from './Results';
 export { default as SampleCard } from './SampleCard';

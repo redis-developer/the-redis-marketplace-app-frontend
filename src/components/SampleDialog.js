@@ -416,7 +416,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
                 className={classes.image}
               />
             ))}
-          {isOpened && sample.markdown && <Markdown link={sample.markdown} />}
+          {isOpened && sample.markdown && <Markdown url={sample.markdown} />}
         </Paper>
       </DialogContent>
     </Dialog>

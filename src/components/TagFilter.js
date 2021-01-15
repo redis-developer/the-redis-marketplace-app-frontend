@@ -1,4 +1,4 @@
-import { Box, Checkbox, Chip, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
+import { Checkbox, Chip, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TagFilter({ updateTag, tags }) {
   const classes = useStyles();
 
-  const { data } = useRequest('/projects/filters');
+  const { data } = useRequest({ url: '/projects/filters' });
   const dynamicFilters = useMemo(() => {
     const formattedFilters = [];
     if (data?.redis_modules?.length) {
