@@ -1,11 +1,10 @@
-import { Box, Chip, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
-import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import { Footer, Header, Results, SearchBar, TagFilter } from '../src/components';
+import { Footer, Header, Results, SearchBar, TagChipBar, TagFilter } from '../src/components';
 import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,55 +19,25 @@ const useStyles = makeStyles((theme) => ({
     '& h3': {
       fontWeight: 800
     }
-  },
-  tags: {
-    minHeight: '40px'
-  },
-  tag: {
-    margin: theme.spacing(0, 1, 2, 0)
-  },
-  chip_type: {
-    color: theme.palette.filterCategoryColors.type.contrastText
-  },
-  chip_language: {
-    color: theme.palette.filterCategoryColors.language.contrastText
-  },
-  chip_contributed_by: {
-    color: theme.palette.filterCategoryColors.contributed_by.contrastText
-  },
-  chip_redis_modules: {
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText
-  },
-  chip_verticals: {
-    color: theme.palette.filterCategoryColors.verticals.contrastText
-  },
-  chip_redis_features: {
-    color: theme.palette.filterCategoryColors.redis_features.contrastText
-  },
-  chip_redis_commands: {
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText
-  },
-  chip_special_tags: {
-    color: theme.palette.filterCategoryColors.special_tags.contrastText
   }
 }));
 
-const limit = 9;
+const LIMIT = 9;
 
 export default function Index({ query }) {
   const classes = useStyles();
 
-  // Do we have an initial app in the link?
+  // Do we have an initial app to open up in the url query?
   const [linkedAppName, setLinkedAppName] = useState(query?.app_name);
 
-  // Query params for the projects
+  // Query params for the /projects
   const [textFilter, setTextFilter] = useState(linkedAppName);
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
   const projectsParams = useMemo(
     () => ({
       offset,
-      limit,
+      limit: LIMIT,
       ...Object.keys(tags).reduce(
         (selectedTags, filter) => ({
           ...selectedTags,
@@ -89,8 +58,8 @@ export default function Index({ query }) {
   const { data, loading, error } = useRequest('/projects', projectsParams);
 
   // Pagination
-  const page = useMemo(() => Math.floor(offset / limit) + 1, [offset]);
-  const maxPage = useMemo(() => Math.floor((data?.totalResults || 0) / limit) + 1, [
+  const page = useMemo(() => Math.floor(offset / LIMIT) + 1, [offset]);
+  const maxPage = useMemo(() => Math.floor((data?.totalResults || 0) / LIMIT) + 1, [
     data?.totalResults
   ]);
 
@@ -100,7 +69,7 @@ export default function Index({ query }) {
       block: 'start',
       behavior: 'smooth'
     });
-    setOffset((newPage - 1) * limit);
+    setOffset((newPage - 1) * LIMIT);
   }, []);
 
   // Filtering
@@ -143,32 +112,6 @@ export default function Index({ query }) {
     clearFilters();
   }, [clearFilters]);
 
-  // Tag chips for cutting used filters
-  const tagChips = useMemo(
-    () =>
-      Object.keys(tags)
-        .map((filter) =>
-          Object.keys(tags[filter])
-            .filter((tag) => tags[filter][tag])
-            .map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                size="small"
-                onDelete={() => updateTag({ filter, tag, value: false })}
-                className={clsx(classes.tag, classes[`chip_${filter}`])}
-              />
-            ))
-        )
-        .flat(),
-    [tags, classes, updateTag]
-  );
-
-  const showClearFiltersChip = useMemo(
-    () => !!(tagChips.length > 1 || (textFilter && tagChips.length)),
-    [tagChips.length, textFilter]
-  );
-
   return (
     <Box mt={9}>
       <Header />
@@ -177,34 +120,17 @@ export default function Index({ query }) {
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
-        <SearchBar updateTextFilter={updateTextFilter} />
+        <SearchBar updateTextFilter={updateTextFilter} setLinkedAppName={setLinkedAppName} />
         <Typography variant="body1">Examples: Voice IVR, Appointment reminders</Typography>
       </Box>
       <Container maxWidth="lg">
-        <Grid container className={classes.tags}>
-          <Grid item xs={2}></Grid>
-          <Grid item xs={10}>
-            <Box>
-              {showClearFiltersChip && (
-                <Chip
-                  label="Clear all filters"
-                  size="small"
-                  onClick={clearFilters}
-                  className={classes.tag}
-                />
-              )}
-              {textFilter && (
-                <Chip
-                  label={textFilter}
-                  size="small"
-                  onDelete={() => updateTextFilter()}
-                  className={classes.tag}
-                />
-              )}
-              {tagChips}
-            </Box>{' '}
-          </Grid>{' '}
-        </Grid>
+        <TagChipBar
+          tags={tags}
+          textFilter={textFilter}
+          updateTextFilter={updateTextFilter}
+          updateTag={updateTag}
+          clearFilters={clearFilters}
+        />
         <Grid container spacing={2}>
           <Grid item xs={2}>
             <TagFilter updateTag={updateTag} tags={tags} />
@@ -218,7 +144,7 @@ export default function Index({ query }) {
                 samples={data?.rows}
                 updateTags={updateTags}
                 loading={loading}
-                limit={limit}
+                limit={LIMIT}
                 linkedAppName={linkedAppName}
                 closeLinkedApp={closeLinkedApp}
               />

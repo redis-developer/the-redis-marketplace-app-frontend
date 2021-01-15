@@ -1,10 +1,10 @@
-import { CircularProgress, IconButton, TextField } from '@material-ui/core';
+import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
+import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import api from '../api';
 import { useRequest } from '../hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,78 +21,179 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding: theme.spacing(1),
-    marginLeft: theme.spacing(0.5)
+    marginLeft: theme.spacing(0.5),
+    height: '100%',
+    position: 'absolute',
+    right: 0,
+    boxShadow: 'none',
+    borderRadius: '0 4px 4px 0'
   },
   listBox: {
-    padding: 0,
-    marginBottom: 0,
+    padding: theme.spacing(0, 0, 5, 0),
+    margin: 0,
+    maxHeight: '400px',
+    overflow: 'scroll',
     '&::after': {
       display: 'flex',
       justifyContent: 'flex-end',
-      borderTop: `1px solid ${theme.palette.borderColor}`,
+      position: 'fixed',
+      right: 0,
+      bottom: '4px',
+      height: '44px',
+      width: '100%',
       padding: theme.spacing(0.5),
-      content: `url('/redisearch.png')`
+      content: `url('/redisearch.png')`,
+      backgroundColor: 'white',
+      borderTop: `1px solid ${theme.palette.borderColor}`,
+      borderRadius: theme.spacing(0, 0, 0.5, 0.5)
+    },
+    '& .MuiAutocomplete-groupUl': {
+      borderBottom: `1px solid ${theme.palette.borderColor}`
     }
+  },
+  descriptionOptionAppName: {
+    fontSize: '12px'
   }
 }));
 
-export default function SearchBar({ updateTextFilter }) {
+const LIMIT = 10;
+
+export default function SearchBar({ updateTextFilter, setLinkedAppName }) {
   const classes = useStyles();
 
-  // searchText for pressing the IconButton
-  const [searchText, setSearchText] = useState();
-
   // autocompleteText for fetching suggestions
-  const [autocompleteText, setAutocompleteText] = useState();
+  const [autocompleteText, setAutocompleteText] = useState('');
   const suggestionParams = useMemo(
     () => ({
-      search_text: autocompleteText,
-      max: 10,
-      fuzzy: true
+      text_filter: autocompleteText.trim(),
+      limit: LIMIT,
+      highlight: true
     }),
     [autocompleteText]
   );
   // Only fetch API for suggestions when more than 2 characters pressed
   const shouldFetch = useCallback(
-    (params) => params.search_text && params.search_text.length > 2,
+    (params) => params.text_filter && params.text_filter.length > 2,
     []
   );
-  const { data: options, loading } = useRequest(
-    '/projects/suggestion',
-    suggestionParams,
-    shouldFetch
-  );
+  const { data, loading, error } = useRequest('/projects', suggestionParams, shouldFetch);
+
+  const disabled = useMemo(() => autocompleteText.trim().length <= 2, [autocompleteText]);
+  const options = useMemo(() => (!error && !disabled && !loading && data?.rows) || [], [
+    error,
+    disabled,
+    data?.rows,
+    loading
+  ]);
 
   // Listener for typing
   const onInputChange = useCallback((e) => {
-    setSearchText(e.target.value);
-    setAutocompleteText(e.target.value);
+    setAutocompleteText(e.target.value || '');
   }, []);
 
-  // Listener for selecting an option
+  // Action for selecting an option
   const onSelect = useCallback(
     (e, value) => {
-      if (value?.suggestion) {
-        api
-          .post('/projects/suggestion', { term: value.suggestion, dictonary: value.dictonary })
-          .catch(() => {});
-        setSearchText(value.suggestion);
-        updateTextFilter(value.suggestion);
+      if (value?.app_name) {
+        const app_name = value.app_name.replace('<b>', '').replace('</b>', '');
+        setLinkedAppName(app_name);
+        updateTextFilter(app_name);
+        Router.push({
+          pathname: '/',
+          query: { app_name }
+        });
+        setAutocompleteText('');
       }
     },
-    [updateTextFilter]
+    [updateTextFilter, setLinkedAppName]
   );
 
-  // Listener for pressing enter
+  // Action for pressing enter without and option select
   const onKeyPress = useCallback(
     (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && !disabled) {
         e.preventDefault();
-        setSearchText(e.target.value);
-        updateTextFilter(e.target.value);
+        setAutocompleteText('');
+        updateTextFilter(e.target.value.trim());
       }
     },
-    [updateTextFilter]
+    [updateTextFilter, disabled]
+  );
+
+  // Action for pressing the IconButton
+  const onIconButtonClick = useCallback(() => {
+    setAutocompleteText('');
+    updateTextFilter(autocompleteText.trim());
+  }, [autocompleteText, updateTextFilter]);
+
+  const getOptionLabel = useCallback((option) => {
+    if (option?.app_name?.includes('<b>')) {
+      return option.app_name.replace('<b>', '').replace('</b>', '');
+    } else if (option?.description?.includes('<b>')) {
+      return option.description.replace('<b>', '').replace('</b>', '');
+    } else {
+      return option;
+    }
+  }, []);
+
+  const renderOption = useCallback(
+    (option) => {
+      if (option.app_name.includes('<b>')) {
+        return <span dangerouslySetInnerHTML={{ __html: option.app_name }} />;
+      } else if (option.description.includes('<b>')) {
+        return (
+          <Box>
+            <Box className={classes.descriptionOptionAppName}>{option.app_name}</Box>
+            <Box>
+              <span dangerouslySetInnerHTML={{ __html: option.description }} />
+            </Box>
+          </Box>
+        );
+      }
+    },
+    [classes.descriptionOptionAppName]
+  );
+
+  const groupBy = useCallback((option) => {
+    if (option.app_name.includes('<b>')) {
+      return 'App Name';
+    } else if (option.description.includes('<b>')) {
+      return 'Description';
+    }
+  }, []);
+
+  const renderInput = useCallback(
+    (params) => (
+      <TextField
+        {...params}
+        onKeyPress={onKeyPress}
+        label="Search for a code sample"
+        variant="outlined"
+        inputProps={{
+          ...params.inputProps,
+          value: autocompleteText
+        }}
+        InputProps={{
+          ...params.InputProps,
+          endAdornment: (
+            <>
+              {loading ? <CircularProgress color="inherit" size={20} /> : null}
+              <Button
+                variant="contained"
+                type="button"
+                color="primary"
+                className={classes.iconButton}
+                aria-label="search"
+                disabled={disabled}
+                onClick={onIconButtonClick}>
+                <SearchIcon />
+              </Button>
+            </>
+          )
+        }}
+      />
+    ),
+    [onKeyPress, autocompleteText, loading, classes.iconButton, disabled, onIconButtonClick]
   );
 
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -114,34 +215,14 @@ export default function SearchBar({ updateTextFilter }) {
       disableClearable
       freeSolo
       getOptionSelected={() => false}
-      getOptionLabel={(option) => option?.suggestion || option}
-      options={options || []}
+      getOptionLabel={getOptionLabel}
+      renderOption={renderOption}
+      groupBy={groupBy}
+      options={options}
       ListboxProps={{ className: classes.listBox }}
       loading={loading}
       filterOptions={(options) => options}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          onKeyPress={onKeyPress}
-          label="Search for a code sample"
-          variant="outlined"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                <IconButton
-                  type="button"
-                  className={classes.iconButton}
-                  aria-label="search"
-                  onClick={() => updateTextFilter(searchText)}>
-                  <SearchIcon />
-                </IconButton>
-              </>
-            )
-          }}
-        />
-      )}
+      renderInput={renderInput}
     />
   );
 }

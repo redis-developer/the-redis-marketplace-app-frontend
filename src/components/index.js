@@ -7,5 +7,6 @@ export { default as Results } from './Results';
 export { default as SampleCard } from './SampleCard';
 export { default as SampleDialog } from './SampleDialog';
 export { default as SearchBar } from './SearchBar';
+export { default as TagChipBar } from './TagChipBar';
 export { default as TagFilter } from './TagFilter';
 export { default as ToolbarMenu } from './ToolbarMenu';
