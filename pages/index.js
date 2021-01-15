@@ -59,6 +59,7 @@ export default function Index({ query }) {
   useEffect(() => {
     if (linkedSampleData) {
       setLinkedSample(linkedSampleData);
+      setLinkedSampleIsOpened(true);
     }
   }, [linkedSampleData]);
 
