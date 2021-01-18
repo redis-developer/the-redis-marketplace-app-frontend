@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
       color: 'transparent',
       background: 'linear-gradient(-45deg, #81c6ff, #c6e5ff, #d3ecff)',
       backgroundSize: '400% 400%',
-      animation: '$gradient 3s ease infinite'
+      animation: '$gradient 3s ease infinite',
+      border: 'none'
     },
     '& $subHeader, & $appName, & $description, & $language, & $contribution, ': {
       borderRadius: '5px'
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     '& p': {
       color: theme.palette.card.main
     },
-    '&:hover': {
+    '&:hover, &:active': {
       textDecoration: 'none'
     }
   },

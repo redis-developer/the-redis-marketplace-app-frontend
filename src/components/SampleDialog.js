@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   github: {
     backgroundColor: theme.palette.brandColors.github.main,
     color: theme.palette.brandColors.github.contrastText,
-    '&:hover': {
+    '&:hover, &:active': {
       backgroundColor: theme.palette.brandColors.github.dark
     },
     '&:disabled': {
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
   herokuButton: {
     backgroundColor: theme.palette.brandColors.heroku.main,
     color: theme.palette.brandColors.heroku.contrastText,
-    '&:hover': {
+    '&:hover, &:active': {
       backgroundColor: theme.palette.brandColors.heroku.dark
     },
     '&:disabled': {
@@ -166,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
   googleButton: {
     backgroundColor: theme.palette.brandColors.google.main,
     color: theme.palette.brandColors.google.contrastText,
-    '&:hover': {
+    '&:hover &:active': {
       backgroundColor: theme.palette.brandColors.google.dark
     },
     '&:disabled': {
@@ -176,7 +176,7 @@ const useStyles = makeStyles((theme) => ({
   vercelButton: {
     backgroundColor: theme.palette.brandColors.vercel.main,
     color: theme.palette.brandColors.vercel.contrastText,
-    '&:hover': {
+    '&:hover &:active': {
       backgroundColor: theme.palette.brandColors.vercel.dark
     },
     '&:disabled': {

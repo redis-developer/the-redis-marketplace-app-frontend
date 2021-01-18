@@ -8,31 +8,56 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '32px'
   },
   tag: {
-    margin: theme.spacing(0, 1, 1, 0)
+    margin: theme.spacing(0, 1, 1, 0),
+    transition: 'all .15s ease-in-out !important'
   },
   chip_type: {
-    color: theme.palette.filterCategoryColors.type.contrastText
+    borderColor: theme.palette.filterCategoryColors.type.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.type.main} !important`
+    }
   },
   chip_language: {
-    color: theme.palette.filterCategoryColors.language.contrastText
+    borderColor: theme.palette.filterCategoryColors.language.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.language.main} !important`
+    }
   },
   chip_contributed_by: {
-    color: theme.palette.filterCategoryColors.contributed_by.contrastText
+    borderColor: theme.palette.filterCategoryColors.contributed_by.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.contributed_by.main} !important`
+    }
   },
   chip_redis_modules: {
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_modules.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+    }
   },
   chip_verticals: {
-    color: theme.palette.filterCategoryColors.verticals.contrastText
+    borderColor: theme.palette.filterCategoryColors.verticals.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
+    }
   },
   chip_redis_features: {
-    color: theme.palette.filterCategoryColors.redis_features.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_features.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+    }
   },
   chip_redis_commands: {
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_commands.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
+    }
   },
   chip_special_tags: {
-    color: theme.palette.filterCategoryColors.special_tags.contrastText
+    borderColor: theme.palette.filterCategoryColors.special_tags.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
+    }
   }
 }));
 
@@ -56,6 +81,7 @@ export default function TagChipBar({
                 <Chip
                   label={tag}
                   size="small"
+                  variant="outlined"
                   onDelete={() => updateTag({ filter, tag, value: false })}
                   className={clsx(classes.tag, classes[`chip_${filter}`])}
                 />

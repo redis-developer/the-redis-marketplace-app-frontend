@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
       width: '20px'
     },
     '& .category': {
+      justifyContent: 'flex-start',
       position: 'relative',
       fontSize: '15px',
       fontWeight: 'bold',

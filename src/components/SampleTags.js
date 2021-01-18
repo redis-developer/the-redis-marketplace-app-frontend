@@ -6,22 +6,38 @@ import React, { useMemo } from 'react';
 const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0, 0.5, 0.5, 0),
-    fontWeight: 500
+    fontWeight: 500,
+    color: theme.palette.text.primary
   },
   chip_redis_modules: {
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_modules.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+    }
   },
   chip_verticals: {
-    color: theme.palette.filterCategoryColors.verticals.contrastText
+    borderColor: theme.palette.filterCategoryColors.verticals.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
+    }
   },
   chip_redis_features: {
-    color: theme.palette.filterCategoryColors.redis_features.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_features.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+    }
   },
   chip_redis_commands: {
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText
+    borderColor: theme.palette.filterCategoryColors.redis_commands.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
+    }
   },
   chip_special_tags: {
-    color: theme.palette.filterCategoryColors.special_tags.contrastText
+    borderColor: theme.palette.filterCategoryColors.special_tags.contrastText,
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
+    }
   }
 }));
 
@@ -37,6 +53,7 @@ export default function SampleTags({ sample, closePopup, updateTags, disabled })
               size="small"
               label={tag}
               key={tag}
+              variant="outlined"
               className={clsx('chip', classes.chip, classes[`chip_${filter}`])}
               onClick={() => {
                 updateTags({ [filter]: { [tag]: true } });
