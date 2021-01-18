@@ -220,7 +220,7 @@ const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function SampleCard({ closeSamplePopup, sample, isOpened, tags }) {
+export default function SampleCard({ closePopup, sample, isOpened, tags }) {
   const classes = useStyles();
 
   // Deployer selection
@@ -261,7 +261,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
       TransitionComponent={Transition}
       scroll="body"
       maxWidth="lg"
-      onClose={closeSamplePopup}
+      onClose={closePopup}
       aria-labelledby="sample-dialog-title"
       PaperProps={{ className: classes.root }}
       aria-describedby="sample-dialog-description">
@@ -295,7 +295,7 @@ export default function SampleCard({ closeSamplePopup, sample, isOpened, tags })
           </Grid>
           <Grid item xs={1}>
             <Grid container justify="flex-end">
-              <IconButton aria-label="close" onClick={closeSamplePopup}>
+              <IconButton aria-label="close" onClick={closePopup}>
                 <CloseIcon />
               </IconButton>
             </Grid>

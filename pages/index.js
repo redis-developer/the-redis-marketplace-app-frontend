@@ -27,18 +27,16 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     background: `url(${'hero.svg'}) no-repeat local`,
     backgroundPosition: '104% -70px',
-    '& p, & h3': {
-      margin: theme.spacing(4, 0)
-    },
     '& h3': {
-      fontWeight: 800
+      margin: theme.spacing(4, 0),
+      fontWeight: 800,
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '2.6rem'
+      }
     }
   },
   examples: {
-    marginBottom: 0,
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(1)
-    }
+    margin: theme.spacing(4, 0, 0, 0)
   }
 }));
 
@@ -66,16 +64,20 @@ export default function Index({ query }) {
   const openLinkedSample = useCallback((sample) => {
     setLinkedSample(sample);
     setLinkedSampleIsOpened(true);
-    Router.push({
-      pathname: '/',
-      query: { id: sample.id }
-    });
+    Router.push(
+      {
+        pathname: '/',
+        query: { id: sample.id }
+      },
+      null,
+      { scroll: false }
+    );
   }, []);
 
   const closeLinkedSample = useCallback(() => {
     setLinkedSampleId();
     setLinkedSampleIsOpened(false);
-    Router.push({ pathname: '/' });
+    Router.push({ pathname: '/' }, null, { scroll: false });
   }, []);
 
   // Query params for the /projects
@@ -158,14 +160,18 @@ export default function Index({ query }) {
   return (
     <Box mt={9}>
       <Header />
-      <Box className={classes.hero} p={{ xs: 2, md: 6 }}>
+      <Box
+        className={classes.hero}
+        px={{ xs: 1, md: 6 }}
+        pt={{ xs: 1, md: 6 }}
+        pb={{ xs: 1, md: 2 }}>
         <Typography variant="h3">Redis Labs Marketplace</Typography>
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
         <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
         <Typography variant="body1" className={classes.examples}>
-          Examples: Voice IVR, Appointment reminders
+          Examples: Redisearch, RedisJSON, Caching
         </Typography>
       </Box>
       <Container maxWidth="lg">
@@ -178,35 +184,43 @@ export default function Index({ query }) {
           />
         )}
         <Grid container spacing={2}>
-          <Grid item md={2} />
-          <Grid item md={10}>
-            <TagChipBar
-              tags={tags}
-              textFilter={textFilter}
-              updateTextFilter={updateTextFilter}
-              updateTag={updateTag}
-              clearFilters={clearFilters}
-            />
-          </Grid>
-          <Grid item md={2}>
-            <TagFilter updateTag={updateTag} tags={tags} />
-          </Grid>
-          <Grid item md={10} style={{ position: 'relative' }}>
-            <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
-            {error ? (
-              <Alert severity="error">Server Error. Please try again later!</Alert>
-            ) : (
-              <Results
-                samples={data?.rows}
-                updateTags={updateTags}
-                loading={loading}
-                limit={LIMIT}
+          <Box clone order={1}>
+            <Grid item md={2} />
+          </Box>
+          <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
+            <Grid item md={10}>
+              <TagChipBar
+                tags={tags}
+                textFilter={textFilter}
+                updateTextFilter={updateTextFilter}
+                updateTag={updateTag}
+                clearFilters={clearFilters}
               />
-            )}
-            <Grid container justify="center">
-              <Pagination count={maxPage} page={page} onChange={changePage} disabled={loading} />
             </Grid>
-          </Grid>
+          </Box>
+          <Box clone order={{ xs: 2, sm: 2, md: 3 }}>
+            <Grid item md={2}>
+              <TagFilter updateTag={updateTag} tags={tags} />
+            </Grid>
+          </Box>
+          <Box clone order={4}>
+            <Grid item md={10} style={{ position: 'relative' }}>
+              <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
+              {error ? (
+                <Alert severity="error">Server Error. Please try again later!</Alert>
+              ) : (
+                <Results
+                  samples={data?.rows}
+                  updateTags={updateTags}
+                  loading={loading}
+                  limit={LIMIT}
+                />
+              )}
+              <Grid container justify="center">
+                <Pagination count={maxPage} page={page} onChange={changePage} disabled={loading} />
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Container>
       <Footer />

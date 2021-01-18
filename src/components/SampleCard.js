@@ -5,7 +5,6 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
-  Chip,
   Grid,
   Grow,
   Typography
@@ -17,7 +16,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
 
-import { LanguageIcon, SampleDialog } from './';
+import { LanguageIcon, SampleDialog, SampleTags } from './';
 
 const useStyles = makeStyles((theme) => ({
   '@keyframes gradient': {
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   skeleton: {
-    '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & $chip': {
+    '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & .chip': {
       color: 'transparent',
       background: 'linear-gradient(-45deg, #81c6ff, #c6e5ff, #d3ecff)',
       backgroundSize: '400% 400%',
@@ -95,10 +94,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.card.main,
     fontSize: '24px'
   },
-  chip: {
-    margin: theme.spacing(0, 0.5, 0.5, 0),
-    fontWeight: 500
-  },
   language: {
     display: 'flex',
     alignItems: 'center',
@@ -108,21 +103,6 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     width: '20px',
     marginRight: theme.spacing(1)
-  },
-  chip_redis_modules: {
-    color: theme.palette.filterCategoryColors.redis_modules.contrastText
-  },
-  chip_verticals: {
-    color: theme.palette.filterCategoryColors.verticals.contrastText
-  },
-  chip_redis_features: {
-    color: theme.palette.filterCategoryColors.redis_features.contrastText
-  },
-  chip_redis_commands: {
-    color: theme.palette.filterCategoryColors.redis_commands.contrastText
-  },
-  chip_special_tags: {
-    color: theme.palette.filterCategoryColors.special_tags.contrastText
   }
 }));
 
@@ -145,37 +125,30 @@ export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
   const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
     setIsOpened(true);
-    Router.push({
-      pathname: '/',
-      query: { id: sample.id }
-    });
+    Router.push(
+      {
+        pathname: '/',
+        query: { id: sample.id }
+      },
+      null,
+      { scroll: false }
+    );
   }, [sample.id]);
-  const closeSamplePopup = useCallback(() => {
+  const closePopup = useCallback(() => {
     setIsOpened(false);
-    Router.push({ pathname: '/' });
+    Router.push({ pathname: '/' }, null, { scroll: false });
   }, []);
 
   const tags = useMemo(
-    () =>
-      ['redis_commands', 'redis_features', 'redis_modules', 'special_tags', 'verticals'].map(
-        (filter) =>
-          sample[filter].map((tag) => (
-            <Chip
-              size="small"
-              label={tag}
-              key={tag}
-              className={clsx(classes.chip, classes[`chip_${filter}`])}
-              onClick={() => {
-                updateTags({ [filter]: { [tag]: true } });
-                closeSamplePopup();
-              }}
-              disabled={skeleton}
-              color="secondary"
-            />
-          ))
-        // TODO: add quick deploy chip and filter: sample.quick_deploy ? ['Quick Deploy']
-      ),
-    [sample, classes, updateTags, closeSamplePopup, skeleton]
+    () => (
+      <SampleTags
+        sample={sample}
+        closePopup={closePopup}
+        updateTags={updateTags}
+        disabled={skeleton}
+      />
+    ),
+    [sample, updateTags, closePopup, skeleton]
   );
 
   return (
@@ -223,12 +196,7 @@ export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
           </Typography>
         </CardContent>
         {!skeleton && (
-          <SampleDialog
-            tags={tags}
-            sample={sample}
-            closeSamplePopup={closeSamplePopup}
-            isOpened={isOpened}
-          />
+          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
         )}
       </Card>
     </Grow>

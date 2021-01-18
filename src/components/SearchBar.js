@@ -1,4 +1,12 @@
-import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
@@ -31,25 +39,33 @@ const useStyles = makeStyles((theme) => ({
   listBox: {
     padding: theme.spacing(0, 0, 5, 0),
     margin: 0,
-    maxHeight: '420px',
+    maxHeight: '45vh',
     overflow: 'scroll',
-    '&::after': {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      position: 'fixed',
-      right: 0,
-      bottom: '4px',
-      height: '44px',
-      width: '100%',
-      padding: theme.spacing(0.5),
-      content: `url('/redisearch.png')`,
-      backgroundColor: 'white',
-      borderTop: `1px solid ${theme.palette.borderColor}`,
-      borderRadius: theme.spacing(0, 0, 0.5, 0.5)
-    },
     '& .MuiAutocomplete-groupUl': {
       borderBottom: `1px solid ${theme.palette.borderColor}`
     }
+  },
+  footer: {
+    alignItems: 'center',
+    position: 'fixed',
+    right: 0,
+    zIndex: 1,
+    bottom: '4px',
+    minHeight: '44px',
+    width: '100%',
+    padding: theme.spacing(0.5, 0.5, 0.5, 2),
+    backgroundColor: 'white',
+    borderTop: `1px solid ${theme.palette.borderColor}`,
+    borderRadius: theme.spacing(0, 0, 0.5, 0.5),
+    fontSize: '14px'
+  },
+  executeTime: {
+    fontSize: '12px',
+    fontWeight: 600
+  },
+  redisearch: {
+    width: '28px',
+    marginLeft: theme.spacing(0.5)
   },
   descriptionOptionAppName: {
     fontSize: '12px'
@@ -201,6 +217,39 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
 
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
+  const executeTime = useMemo(() => data?.executeTime, [data?.executeTime]);
+  const AutocompletePaper = useCallback(
+    ({ children, ...rest }) => (
+      <Paper {...rest}>
+        {children}
+        {suggestionsOpen && !loading && !!options.length && (
+          <Grid container className={classes.footer}>
+            <Grid item xs={6}>
+              <Typography variant="body2" className={classes.executeTime}>
+                Execution time: {executeTime}s
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
+                Powered by: Redisearch
+                <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+      </Paper>
+    ),
+    [
+      suggestionsOpen,
+      loading,
+      options.length,
+      classes.footer,
+      classes.executeTime,
+      classes.redisearch,
+      executeTime
+    ]
+  );
+
   return (
     <Autocomplete
       id="asynchronous-demo"
@@ -226,6 +275,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       loading={loading}
       filterOptions={(options) => options}
       renderInput={renderInput}
+      PaperComponent={AutocompletePaper}
     />
   );
 }

@@ -120,6 +120,7 @@ export default function TagFilter({ updateTag, tags }) {
   const classes = useStyles();
 
   const { data } = useRequest({ url: '/projects/filters' });
+
   const dynamicFilters = useMemo(() => {
     const formattedFilters = [];
     if (data?.redis_modules?.length) {
@@ -175,6 +176,7 @@ export default function TagFilter({ updateTag, tags }) {
     data?.special_tags,
     data?.verticals
   ]);
+
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
