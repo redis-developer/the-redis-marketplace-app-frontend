@@ -275,7 +275,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       PaperProps={{ className: classes.root }}
       aria-describedby="sample-dialog-description">
       <DialogTitle disableTypography id="sample-dialog-title" className={classes.header}>
-        <Grid container alignItems="center" justify="space-between">
+        <Grid container alignItems="flex-start" justify="space-between">
           <Grid item xs={11}>
             <Grid container alignItems="center">
               <Typography variant="h5" className={classes.appName}>
