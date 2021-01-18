@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
   },
   mainText: {
     fontStyle: 'italic',
-    fontWeight: 300
+    fontWeight: 300,
+    padding: theme.spacing(1)
   },
   copyright: {
     marginTop: theme.spacing(3)

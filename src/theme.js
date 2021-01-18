@@ -30,12 +30,6 @@ const theme = createMuiTheme({
       main: '#e8e8e8',
       contrastText: '#3f4b5f'
     },
-    tertiary: {
-      main: '#f22f46',
-      contrastText: '#fff',
-      dark: '#b8001f',
-      light: '#ff6a71'
-    },
     card: {
       main: '#008cff',
       light: '#ebf4ff',

@@ -45,7 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
-    backgroundColor: theme.palette.backgroundColor
+    backgroundColor: theme.palette.backgroundColor,
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(1, 1, 1, 2)
+    }
   },
   appName: {
     fontWeight: '600',
@@ -70,10 +73,16 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: theme.spacing(1, 3, 3, 3),
-    backgroundColor: theme.palette.backgroundColor
+    backgroundColor: theme.palette.backgroundColor,
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(1)
+    }
   },
   details: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2)
+    }
   },
   description: {
     whiteSpace: 'pre-wrap',
