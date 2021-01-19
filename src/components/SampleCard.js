@@ -1,18 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  Grid,
-  Grow,
-  Typography
-} from '@material-ui/core';
+import { Box, Card, CardActionArea, CardContent, Grid, Grow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
-import { FaUserCog, FaUsers } from 'react-icons/fa';
+import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
 
 import { LanguageIcon, SampleDialog, SampleTags } from './';
@@ -38,20 +28,25 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     lineHeight: 1.5,
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    '& $icon': {
+      marginRight: theme.spacing(1.5)
+    }
   },
   description: {
     display: '-webkit-box',
     overflow: 'hidden',
-    '-webkit-line-clamp': 2,
+    '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical'
   },
-  contribution: {
+  footer: {
     paddingTop: theme.spacing(1),
-    marginTop: theme.spacing(3),
     borderTop: `1px solid ${theme.palette.borderColor}`
   },
   dialogLink: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'flex-start',
     padding: theme.spacing(1, 0),
     backgroundColor: theme.palette.card.light,
     color: theme.palette.card.main,
@@ -62,44 +57,41 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none'
     }
   },
-  header: {
-    maxHeight: '35px',
-    fontWeight: '500'
-  },
-  subHeader: {
-    fontWeight: '600'
-  },
   content: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end',
+    paddingBottom: `${theme.spacing(2)}px !important`
   },
-  avatar: {
-    position: 'relative',
-    top: '10px',
-    zIndex: 1,
-    backgroundColor: theme.palette.card.main,
-    fontSize: '24px'
-  },
-  language: {
+  iconBox: {
     display: 'flex',
-    alignItems: 'center',
-    marginBottom: theme.spacing(2)
+    alignItems: 'center'
   },
-  languageIcon: {
+  icon: {
     height: '20px',
     width: '20px',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    color: theme.palette.text.primary
   },
   tags: {
-    maxHeight: '90px',
+    height: '91px',
     overflow: 'scroll'
   }
 }));
 
-function CardIcon({ sample, ...rest }) {
-  switch (sample.contributed_by) {
+function TypeIcon({ type, ...rest }) {
+  switch (type) {
+    case 'Building Block':
+      return <FaCube {...rest} />;
+    case 'Full App':
+      return <FaRegWindowRestore {...rest} />;
+    default:
+      return null;
+  }
+}
+
+function ContributerIcon({ contributedBy, ...rest }) {
+  switch (contributedBy) {
     case 'Community':
       return <FaUsers {...rest} />;
     case 'Partner':
@@ -111,8 +103,6 @@ function CardIcon({ sample, ...rest }) {
 
 export default function SampleCard({ sample, updateTags, timeout, loading }) {
   const classes = useStyles();
-
-  const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
 
   const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
@@ -139,19 +129,10 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
   return (
     <Grow in={!loading} timeout={timeout}>
       <Card key={sample.id} className={classes.root}>
-        <CardHeader
-          subheader={subheader}
-          subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              <CardIcon sample={sample} />
-            </Avatar>
-          }
-          className={classes.header}
-        />
         <CardActionArea onClick={openSamplePopup} className={classes.dialogLink}>
           <CardContent>
             <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
+              <TypeIcon type={sample.type} className={classes.icon} />
               {sample.app_name}
             </Typography>
             <Typography variant="body2" className={classes.description}>
@@ -160,22 +141,29 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
           </CardContent>
         </CardActionArea>
         <CardContent className={classes.content}>
-          <Box>
-            <Grid container spacing={1}>
-              {sample.language.map((lang) => (
-                <Grid item key={lang}>
-                  <Typography variant="body2" color="textSecondary" className={classes.language}>
-                    <LanguageIcon language={lang} className={classes.languageIcon} />
-                    {lang}
-                  </Typography>
-                </Grid>
-              ))}
+          <Box className={classes.tags}>{tags}</Box>
+          <Grid container className={classes.footer} wrap="nowrap">
+            <Grid item xs={7}>
+              <Grid container spacing={1}>
+                {sample.language.map((lang) => (
+                  <Grid item key={lang}>
+                    <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
+                      <LanguageIcon language={lang} className={classes.icon} />
+                      {lang}
+                    </Typography>
+                  </Grid>
+                ))}{' '}
+              </Grid>
             </Grid>
-            <Box className={classes.tags}>{tags}</Box>
-          </Box>
-          <Typography variant="body2" color="textSecondary" className={classes.contribution}>
-            By {sample.contributed_by}
-          </Typography>
+            <Grid item xs={5}>
+              <Grid container justify="flex-end">
+                <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
+                  <ContributerIcon contributedBy={sample.contributed_by} className={classes.icon} />
+                  {sample.contributed_by}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
         </CardContent>
         <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
       </Card>
