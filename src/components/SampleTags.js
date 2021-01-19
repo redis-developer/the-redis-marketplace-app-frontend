@@ -7,36 +7,57 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0, 0.5, 0.5, 0),
     fontWeight: 500,
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
+    '& span': {
+      padding: theme.spacing(0.25, 1, 0.25, 2)
+    },
+    '&::before': {
+      content: '""',
+      width: theme.spacing(1),
+      height: theme.spacing(1),
+      borderRadius: '100%',
+      position: 'absolute',
+      left: theme.spacing(0.5)
+    }
   },
   chip_redis_modules: {
-    borderColor: theme.palette.filterCategoryColors.redis_modules.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
     }
   },
   chip_verticals: {
-    borderColor: theme.palette.filterCategoryColors.verticals.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main
     }
   },
   chip_redis_features: {
-    borderColor: theme.palette.filterCategoryColors.redis_features.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     }
   },
   chip_redis_commands: {
-    borderColor: theme.palette.filterCategoryColors.redis_commands.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
     }
   },
   chip_special_tags: {
-    borderColor: theme.palette.filterCategoryColors.special_tags.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
   }
 }));
@@ -54,7 +75,7 @@ export default function SampleTags({ sample, closePopup, updateTags, disabled })
               label={tag}
               key={tag}
               variant="outlined"
-              className={clsx('chip', classes.chip, classes[`chip_${filter}`])}
+              className={clsx(classes.chip, classes[`chip_${filter}`])}
               onClick={() => {
                 updateTags({ [filter]: { [tag]: true } });
                 closePopup();

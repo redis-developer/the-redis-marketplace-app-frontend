@@ -10,7 +10,6 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FaUserCog, FaUsers } from 'react-icons/fa';
@@ -28,18 +27,6 @@ const useStyles = makeStyles((theme) => ({
     },
     '100%': {
       backgroundPosition: '0% 50%'
-    }
-  },
-  skeleton: {
-    '& $subHeader, & $appName, & $description, & $avatar, & $language, & $contribution, & .chip': {
-      color: 'transparent',
-      background: 'linear-gradient(-45deg, #81c6ff, #c6e5ff, #d3ecff)',
-      backgroundSize: '400% 400%',
-      animation: '$gradient 3s ease infinite',
-      border: 'none'
-    },
-    '& $subHeader, & $appName, & $description, & $language, & $contribution, ': {
-      borderRadius: '5px'
     }
   },
   root: {
@@ -104,6 +91,10 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     width: '20px',
     marginRight: theme.spacing(1)
+  },
+  tags: {
+    maxHeight: '90px',
+    overflow: 'scroll'
   }
 }));
 
@@ -118,7 +109,7 @@ function CardIcon({ sample, ...rest }) {
   }
 }
 
-export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
+export default function SampleCard({ sample, updateTags, timeout, loading }) {
   const classes = useStyles();
 
   const subheader = useMemo(() => sample.redis_features.join(', '), [sample.redis_features]);
@@ -141,34 +132,24 @@ export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
   }, []);
 
   const tags = useMemo(
-    () => (
-      <SampleTags
-        sample={sample}
-        closePopup={closePopup}
-        updateTags={updateTags}
-        disabled={skeleton}
-      />
-    ),
-    [sample, updateTags, closePopup, skeleton]
+    () => <SampleTags sample={sample} closePopup={closePopup} updateTags={updateTags} />,
+    [sample, updateTags, closePopup]
   );
 
   return (
-    <Grow in timeout={timeout}>
-      <Card key={sample.id} className={clsx(classes.root, skeleton && classes.skeleton)}>
+    <Grow in={!loading} timeout={timeout}>
+      <Card key={sample.id} className={classes.root}>
         <CardHeader
           subheader={subheader}
           subheaderTypographyProps={{ variant: 'body2', className: classes.subHeader }}
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              {!skeleton && <CardIcon sample={sample} />}
+              <CardIcon sample={sample} />
             </Avatar>
           }
           className={classes.header}
         />
-        <CardActionArea
-          disabled={skeleton}
-          onClick={openSamplePopup}
-          className={classes.dialogLink}>
+        <CardActionArea onClick={openSamplePopup} className={classes.dialogLink}>
           <CardContent>
             <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
               {sample.app_name}
@@ -184,21 +165,19 @@ export default function SampleCard({ sample, updateTags, skeleton, timeout }) {
               {sample.language.map((lang) => (
                 <Grid item key={lang}>
                   <Typography variant="body2" color="textSecondary" className={classes.language}>
-                    {!skeleton && <LanguageIcon language={lang} className={classes.languageIcon} />}
+                    <LanguageIcon language={lang} className={classes.languageIcon} />
                     {lang}
                   </Typography>
                 </Grid>
               ))}
             </Grid>
-            {tags}
+            <Box className={classes.tags}>{tags}</Box>
           </Box>
           <Typography variant="body2" color="textSecondary" className={classes.contribution}>
             By {sample.contributed_by}
           </Typography>
         </CardContent>
-        {!skeleton && (
-          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
-        )}
+        <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
       </Card>
     </Grow>
   );

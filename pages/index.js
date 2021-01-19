@@ -124,11 +124,6 @@ export default function Index({ query }) {
 
   // Filtering
   const updateTextFilter = useCallback((text) => {
-    scrollIntoView(document.getElementById('top-of-results'), {
-      scrollMode: 'always',
-      block: 'start',
-      behavior: 'smooth'
-    });
     setOffset(0);
     setTextFilter(text);
   }, []);
@@ -183,7 +178,7 @@ export default function Index({ query }) {
             isOpened={linkedSampleIsOpened}
           />
         )}
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Box clone order={1}>
             <Grid item md={2} />
           </Box>

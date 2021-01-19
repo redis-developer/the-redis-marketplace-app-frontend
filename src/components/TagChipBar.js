@@ -4,59 +4,91 @@ import clsx from 'clsx';
 import React, { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
-  tags: {
+  chips: {
     minHeight: '32px'
   },
+  chip: {
+    color: theme.palette.text.primary,
+    margin: theme.spacing(0, 0.5, 0.5, 0),
+    fontWeight: 500
+  },
   tag: {
-    margin: theme.spacing(0, 1, 1, 0),
-    transition: 'all .15s ease-in-out !important'
+    position: 'relative',
+    '& span': {
+      padding: theme.spacing(0.25, 1, 0.25, 2)
+    },
+    transition: 'all .15s ease-in-out !important',
+    '&::before': {
+      content: '""',
+      width: theme.spacing(1),
+      height: theme.spacing(1),
+      borderRadius: '100%',
+      position: 'absolute',
+      left: theme.spacing(0.5)
+    }
   },
   chip_type: {
-    borderColor: theme.palette.filterCategoryColors.type.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.type.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.type.main
     }
   },
   chip_language: {
-    borderColor: theme.palette.filterCategoryColors.language.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.language.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.language.main
     }
   },
   chip_contributed_by: {
-    borderColor: theme.palette.filterCategoryColors.contributed_by.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.contributed_by.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     }
   },
   chip_redis_modules: {
-    borderColor: theme.palette.filterCategoryColors.redis_modules.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
     }
   },
   chip_verticals: {
-    borderColor: theme.palette.filterCategoryColors.verticals.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main
     }
   },
   chip_redis_features: {
-    borderColor: theme.palette.filterCategoryColors.redis_features.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     }
   },
   chip_redis_commands: {
-    borderColor: theme.palette.filterCategoryColors.redis_commands.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
     }
   },
   chip_special_tags: {
-    borderColor: theme.palette.filterCategoryColors.special_tags.contrastText,
     '&:hover, &:active': {
       backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
   }
 }));
@@ -83,7 +115,7 @@ export default function TagChipBar({
                   size="small"
                   variant="outlined"
                   onDelete={() => updateTag({ filter, tag, value: false })}
-                  className={clsx(classes.tag, classes[`chip_${filter}`])}
+                  className={clsx(classes.tag, classes.chip, classes[`chip_${filter}`])}
                 />
               </Grow>
             ))
@@ -98,14 +130,14 @@ export default function TagChipBar({
   );
 
   return (
-    <Box className={classes.tags}>
+    <Box className={classes.chips}>
       {showClearFiltersChip && (
         <Grow in>
           <Chip
             label="Clear all filters"
             size="small"
             onClick={clearFilters}
-            className={classes.tag}
+            className={classes.chip}
           />
         </Grow>
       )}
@@ -115,7 +147,7 @@ export default function TagChipBar({
             label={textFilter}
             size="small"
             onDelete={() => updateTextFilter()}
-            className={classes.tag}
+            className={classes.chip}
           />
         </Grow>
       )}

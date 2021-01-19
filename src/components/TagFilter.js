@@ -1,4 +1,4 @@
-import { Checkbox, Chip, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useMemo } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
@@ -10,7 +10,7 @@ import { LanguageIcon } from './';
 const staticFilters = [
   {
     category: {
-      name: <Chip label="Sample Type" className="category typeCategory" />,
+      name: <Box className="category typeCategory">Sample Type</Box>,
       filter: 'type'
     },
     options: [
@@ -20,7 +20,7 @@ const staticFilters = [
   },
   {
     category: {
-      name: <Chip label="Language" className="category languageCategory" />,
+      name: <Box className="category languageCategory">Language</Box>,
       filter: 'language'
     },
     options: [
@@ -35,7 +35,7 @@ const staticFilters = [
   },
   {
     category: {
-      name: <Chip label="Contributed By" className="category contributedByCategory" />,
+      name: <Box className="category contributedByCategory">Contributed By</Box>,
       filter: 'contributed_by'
     },
     options: [
@@ -60,40 +60,38 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'bold',
       width: '100%',
       borderRadius: '0',
-      backgroundColor: 'transparent',
-      padding: theme.spacing(2),
-      '&::after': {
+      padding: theme.spacing(2, 2, 2, 3),
+      '&::before': {
         content: '""',
         width: '15px',
-        borderRadius: '5px 0 0 5px',
-        height: '100%',
+        height: '15px',
+        borderRadius: '100%',
         position: 'absolute',
-        left: 0,
-        top: 0
+        left: 0
       }
     },
-    '& .typeCategory::after': {
+    '& .typeCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.type.main
     },
-    '& .languageCategory::after': {
+    '& .languageCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.language.main
     },
-    '& .contributedByCategory::after': {
+    '& .contributedByCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     },
-    '& .redisModulesCategory::after': {
+    '& .redisModulesCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
     },
-    '& .verticalsCategory::after': {
+    '& .verticalsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.verticals.main
     },
-    '& .redisFeaturesCategory::after': {
+    '& .redisFeaturesCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     },
-    '& .redisCommandsCategory::after': {
+    '& .redisCommandsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
     },
-    '& .specialTagsCategory::after': {
+    '& .specialTagsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
   },
@@ -127,7 +125,7 @@ export default function TagFilter({ updateTag, tags }) {
     if (data?.redis_modules?.length) {
       formattedFilters.push({
         category: {
-          name: <Chip label="Modules" className="category redisModulesCategory" />,
+          name: <Box className="category redisModulesCategory">Modules</Box>,
           filter: 'redis_modules'
         },
         options: data?.redis_modules.map((name) => ({ name }))
@@ -136,7 +134,7 @@ export default function TagFilter({ updateTag, tags }) {
     if (data?.verticals?.length) {
       formattedFilters.push({
         category: {
-          name: <Chip label="Verticals" className="category verticalsCategory" />,
+          name: <Box className="category verticalsCategory">Verticals</Box>,
           filter: 'verticals'
         },
         options: data?.verticals.map((name) => ({ name }))
@@ -145,7 +143,7 @@ export default function TagFilter({ updateTag, tags }) {
     if (data?.redis_features?.length) {
       formattedFilters.push({
         category: {
-          name: <Chip label="Features" className="category redisFeaturesCategory" />,
+          name: <Box className="category redisFeaturesCategory">Features</Box>,
           filter: 'redis_features'
         },
         options: data?.redis_features.map((name) => ({ name }))
@@ -154,7 +152,7 @@ export default function TagFilter({ updateTag, tags }) {
     if (data?.redis_commands?.length) {
       formattedFilters.push({
         category: {
-          name: <Chip label="Commands" className="category redisCommandsCategory" />,
+          name: <Box className="category redisCommandsCategory">Commands</Box>,
           filter: 'redis_commands'
         },
         options: data?.redis_commands.map((name) => ({ name }))
@@ -163,7 +161,7 @@ export default function TagFilter({ updateTag, tags }) {
     if (data?.special_tags?.length) {
       formattedFilters.push({
         category: {
-          name: <Chip label="Special Tags" className="category specialTagsCategory" />,
+          name: <Box className="category specialTagsCategory">Special Tags</Box>,
           filter: 'special_tags'
         },
         options: data?.special_tags.map((name) => ({ name }))
