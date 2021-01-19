@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     height: '100%',
     alignItems: 'flex-start',
-    padding: theme.spacing(1, 0),
     backgroundColor: theme.palette.card.light,
     color: theme.palette.card.main,
     '& p': {
