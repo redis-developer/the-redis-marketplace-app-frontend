@@ -4,32 +4,20 @@ import {
   CardMedia,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  FormControlLabel,
   Grid,
   IconButton,
   Paper,
   Popover,
-  Radio,
-  RadioGroup,
   Slide,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Close as CloseIcon,
-  GetApp as GetAppIcon,
-  GitHub as GitHubIcon,
-  Language as HostedIcon
-} from '@material-ui/icons';
+import { Close as CloseIcon, GetApp as GetAppIcon, GitHub as GitHubIcon } from '@material-ui/icons';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
-import { AiOutlineLink } from 'react-icons/ai';
-import { DiHeroku } from 'react-icons/di';
-import { IoLogoVercel } from 'react-icons/io5';
-import { SiGooglecloud } from 'react-icons/si';
+import { AiOutlineShareAlt } from 'react-icons/ai';
 
 import { LanguageIcon, Link, Markdown } from './';
 
@@ -52,45 +40,34 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     fontWeight: '600',
-    color: theme.palette.card.main,
     marginRight: theme.spacing(1)
   },
-  copyLinkIcon: {
-    color: theme.palette.card.main
+  iconButton: {
+    color: theme.palette.text.primary
   },
   copiedMessage: {
     padding: theme.spacing(1),
     fontWeight: 600,
     fontSize: '14px',
-    color: theme.palette.card.main
+    color: theme.palette.text.primary
   },
   copiedPaper: {
     borderRadius: '5px',
-    background: theme.palette.card.light
-  },
-  tags: {
-    marginTop: theme.spacing(1)
-  },
-  content: {
-    padding: theme.spacing(1, 3, 3, 3),
-    backgroundColor: theme.palette.backgroundColor,
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(1)
-    }
-  },
-  details: {
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2)
-    }
+    background: theme.palette.backgroundColor
   },
   description: {
     whiteSpace: 'pre-wrap',
-    margin: theme.spacing(1, 0, 4),
     color: theme.palette.text.primary
   },
-  descriptionHeader: {
-    fontWeight: 800
+  content: {
+    padding: theme.spacing(1, 0, 0),
+    backgroundColor: theme.palette.backgroundColor
+  },
+  details: {
+    padding: theme.spacing(6),
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(2)
+    }
   },
   image: {
     display: 'block',
@@ -99,9 +76,19 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)',
     margin: theme.spacing(0, 'auto', 2, 'auto')
   },
+  liveDemoBox: {
+    margin: theme.spacing(2, 0, 3)
+  },
+  liveDemoButton: {
+    padding: theme.spacing(1, 8),
+    fontWeight: 600,
+    fontSize: '16px',
+    borderRadius: '8px'
+  },
+  actions: {
+    margin: theme.spacing(2, 0)
+  },
   action: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(2),
     whiteSpace: 'nowrap'
   },
   github: {
@@ -114,125 +101,67 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.brandColors.github.light
     }
   },
+  youtubeBox: {
+    position: 'relative',
+    width: '100%',
+    paddingTop: '56.25%',
+    marginBottom: theme.spacing(2)
+  },
   youtube: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
     border: 0,
-    height: '460px',
-    marginBottom: theme.spacing(2),
-    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)',
-    [theme.breakpoints.down('xs')]: {
-      height: '200px'
-    }
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
-  deploy: {
-    margin: theme.spacing(1, 0),
-    '& p': {
-      fontWeight: 800,
-      paddingRight: theme.spacing(1)
-    }
-  },
-  deployer: {
-    width: '140px',
-    '&:hover span, &:active span': {
-      fontWeight: '600'
-    }
-  },
-  deployerLabel: {
+  iconBox: {
     display: 'flex',
-    alignItems: 'center',
-    transition: 'all .2s ease-in-out',
-    '& span:first-letter': {
-      textTransform: 'capitalize'
-    }
-  },
-  heroku: {
-    color: theme.palette.brandColors.heroku.main
-  },
-  google: {
-    color: theme.palette.brandColors.google.main
-  },
-  vercel: {
-    color: theme.palette.brandColors.vercel.main
-  },
-  herokuButton: {
-    backgroundColor: theme.palette.brandColors.heroku.main,
-    color: theme.palette.brandColors.heroku.contrastText,
-    '&:hover, &:active': {
-      backgroundColor: theme.palette.brandColors.heroku.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.brandColors.heroku.light
-    }
-  },
-  googleButton: {
-    backgroundColor: theme.palette.brandColors.google.main,
-    color: theme.palette.brandColors.google.contrastText,
-    '&:hover &:active': {
-      backgroundColor: theme.palette.brandColors.google.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.brandColors.google.light
-    }
-  },
-  vercelButton: {
-    backgroundColor: theme.palette.brandColors.vercel.main,
-    color: theme.palette.brandColors.vercel.contrastText,
-    '&:hover &:active': {
-      backgroundColor: theme.palette.brandColors.vercel.dark
-    },
-    '&:disabled': {
-      backgroundColor: theme.palette.brandColors.vercel.light
-    }
-  },
-  language: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: theme.spacing(1)
+    alignItems: 'center'
   },
   icon: {
     height: '20px',
     width: '20px',
     marginRight: theme.spacing(1)
+  },
+  languages: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(3)
+  },
+  tags: {
+    margin: theme.spacing(1, 0)
   }
 }));
-
-function DeployerIcon({ deployer, ...rest }) {
-  switch (deployer) {
-    case 'heroku':
-      return <DiHeroku {...rest} />;
-    case 'vercel':
-      return <IoLogoVercel {...rest} />;
-    case 'google':
-      return <SiGooglecloud {...rest} />;
-    default:
-      return null;
-  }
-}
-
-function DeployerRadioButton({ deployerName, classes }) {
-  return (
-    <FormControlLabel
-      key={deployerName}
-      value={deployerName}
-      className={classes.deployer}
-      control={<Radio color="primary" />}
-      label={
-        <Box className={clsx(classes.deployerLabel, classes[deployerName])}>
-          <DeployerIcon deployer={deployerName} className={classes.icon} />
-          <span>{deployerName}</span>
-        </Box>
-      }
-    />
-  );
-}
 
 const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+function DeployerImage({ deployer }) {
+  switch (deployer) {
+    case 'google':
+      return (
+        <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" height="36px" />
+      );
+    case 'vercel':
+      return <img src="https://vercel.com/button" alt="Deploy with Vercel" height="36px" />;
+    case 'heroku':
+      return (
+        <img
+          src="https://www.herokucdn.com/deploy/button.svg"
+          alt="Deploy to Heroku"
+          height="36px"
+        />
+      );
+    default:
+      return deployer;
+  }
+}
+
 export default function SampleCard({ closePopup, sample, isOpened, tags }) {
   const classes = useStyles();
 
-  // Deployer selection
+  // Deployers
   const deployers = useMemo(
     () =>
       sample.deploy_buttons.reduce(
@@ -244,10 +173,6 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       ),
     [sample.deploy_buttons]
   );
-  const [selectedDeployer, setSelectedDeployer] = useState(Object.keys(deployers)[0]);
-  const handleRadioChange = useCallback((event) => {
-    setSelectedDeployer(event.target.value);
-  }, []);
 
   // Copy button
   const [copiedAnchorEl, setCopiedAnchorEl] = useState();
@@ -282,7 +207,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
                 {sample.app_name}
               </Typography>
               <IconButton onClick={copyToClipboard}>
-                <AiOutlineLink className={classes.copyLinkIcon} />
+                <AiOutlineShareAlt className={classes.iconButton} />
               </IconButton>
               <Popover
                 elevation={2}
@@ -305,117 +230,98 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
           <Grid item xs={1}>
             <Grid container justify="flex-end">
               <IconButton aria-label="close" onClick={closePopup}>
-                <CloseIcon />
+                <CloseIcon className={classes.iconButton} />
               </IconButton>
             </Grid>
           </Grid>
-          <Grid item xs={12} className={classes.tags}>
-            {tags}
-          </Grid>
         </Grid>
-        <Grid container spacing={1}>
-          {sample.language.map((lang) => (
-            <Grid item key={lang}>
-              <Typography variant="body2" color="textSecondary" className={classes.language}>
-                <LanguageIcon language={lang} className={classes.icon} />
-                {lang}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
+        <Box className={classes.description}>{sample.description}</Box>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <Paper elevation={1} className={classes.details}>
+        <Paper elevation={3} className={classes.details}>
           {isOpened && sample.youtube_url && (
-            <CardMedia
-              component="iframe"
-              title="youtube-video"
-              src={sample.youtube_url.replace('watch?v=', 'embed/')}
-              className={classes.youtube}
-            />
-          )}
-          <Box mt={3} mb={1}>
-            {sample.quick_deploy && Object.keys(deployers).length && (
-              <Button
-                size="medium"
-                className={clsx(classes.action, classes[`${selectedDeployer}Button`])}
-                variant="contained"
-                color="primary"
-                component={Link}
-                naked
-                target="_blank"
-                href={deployers[selectedDeployer]}>
-                <DeployerIcon deployer={selectedDeployer} className={classes.icon} />
-                Quick Deploy
-              </Button>
-            )}
-            {sample.hosted_url && (
-              <Button
-                size="medium"
-                className={classes.action}
-                variant="contained"
-                color="primary"
-                component={Link}
-                naked
-                target="_blank"
-                href={sample.hosted_url}>
-                <HostedIcon className={classes.icon} />
-                Hosted
-              </Button>
-            )}
-            {sample.repo_url && (
-              <Button
-                size="medium"
-                className={clsx(classes.action, classes.github)}
-                variant="contained"
-                color="primary"
-                component={Link}
-                naked
-                target="_blank"
-                href={sample.repo_url}>
-                <GitHubIcon className={classes.icon} />
-                Repository
-              </Button>
-            )}
-            {sample.download_url && (
-              <Button
-                size="medium"
-                className={classes.action}
-                variant="contained"
-                color="primary"
-                component={Link}
-                naked
-                target="_blank"
-                href={sample.download_url}>
-                <GetAppIcon className={classes.icon} />
-                Download
-              </Button>
-            )}
-          </Box>
-          {sample.quick_deploy && Object.keys(deployers).length >= 2 && (
-            <Box className={classes.deploy}>
-              <Typography variant="body1">Deploy with:</Typography>
-              <RadioGroup
-                row
-                aria-label="deployer"
-                name="deployer"
-                value={selectedDeployer}
-                onChange={handleRadioChange}>
-                {Object.keys(deployers).map((deployerName) => (
-                  <DeployerRadioButton
-                    deployerName={deployerName}
-                    classes={classes}
-                    key={deployerName}
-                  />
-                ))}
-              </RadioGroup>
+            <Box className={classes.youtubeBox}>
+              <CardMedia
+                component="iframe"
+                title="youtube-video"
+                src={sample.youtube_url.replace('watch?v=', 'embed/')}
+                className={classes.youtube}
+              />
             </Box>
           )}
-          <DialogContentText id="sample-dialog-description" className={classes.description}>
-            <span className={classes.descriptionHeader}>Description:</span>
-            <br />
-            {sample.description}
-          </DialogContentText>
+          <Grid container justify="center" spacing={2} className={classes.actions}>
+            {sample.quick_deploy &&
+              Object.keys(deployers).map((deployer) => (
+                <Grid item key={deployer}>
+                  <Link href={deployers[deployer]}>
+                    <DeployerImage deployer={deployer} />
+                  </Link>
+                </Grid>
+              ))}
+            {sample.repo_url && (
+              <Grid item>
+                <Button
+                  size="medium"
+                  className={clsx(classes.action, classes.github)}
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  naked
+                  target="_blank"
+                  href={sample.repo_url}>
+                  <GitHubIcon className={classes.icon} />
+                  Repository
+                </Button>
+              </Grid>
+            )}
+            {sample.download_url && (
+              <Grid item>
+                <Button
+                  size="medium"
+                  className={classes.action}
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  naked
+                  target="_blank"
+                  href={sample.download_url}>
+                  <GetAppIcon className={classes.icon} />
+                  Download
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+          {sample.hosted_url && (
+            <Grid container justify="center" className={classes.liveDemoBox}>
+              <Grid item>
+                <Button
+                  size="medium"
+                  className={classes.liveDemoButton}
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  naked
+                  target="_blank"
+                  href={sample.hosted_url}>
+                  Live Demo
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+          <Grid container justify="center" className={classes.tags}>
+            {tags}
+          </Grid>
+          <Grid container spacing={1} alignItems="center" className={classes.languages}>
+            <Grid item>Language(s):</Grid>
+            {sample.language.map((lang) => (
+              <Grid item key={lang}>
+                <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
+                  <LanguageIcon language={lang} className={classes.icon} />
+                  {lang}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
           {isOpened &&
             sample.app_image_urls.map((imageUrl, index) => (
               <img
