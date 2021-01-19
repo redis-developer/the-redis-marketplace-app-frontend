@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'bold',
       width: '100%',
       borderRadius: '0',
-      padding: theme.spacing(2, 2, 2, 3),
+      padding: theme.spacing(1, 2, 1, 3),
       '&::before': {
         content: '""',
         width: '15px',
@@ -97,9 +97,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
   },
-  categoryHeader: {
-    paddingBottom: theme.spacing(1)
-  },
   tagLabel: {
     transition: 'all .2s ease-in-out',
     fontSize: '14px'
@@ -110,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   tagsCategory: {
-    marginBottom: theme.spacing(2.5)
+    marginBottom: theme.spacing(2)
   },
   checkbox: {
     padding: theme.spacing(1)
@@ -185,7 +182,7 @@ export default function TagFilter({ updateTag, tags }) {
       {filters.map(({ category, options }) => (
         <Grid item xs={6} sm={3} md={12} key={category.filter}>
           <FormGroup className={classes.tagsCategory}>
-            <Grid className={classes.categoryHeader} container alignItems="center">
+            <Grid container alignItems="center">
               {category.icon}
               {category.name}
             </Grid>
