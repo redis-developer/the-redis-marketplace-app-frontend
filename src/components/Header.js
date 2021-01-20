@@ -7,6 +7,7 @@ import { Link, ToolbarMenu } from './';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
+    zIndex: 1302,
     background: theme.palette.appBar.main,
     color: theme.palette.appBar.contrastText,
     height: theme.spacing(9),

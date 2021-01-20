@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1)
   },
   description: {
+    marginTop: theme.spacing(1),
     fontSize: '15px',
     display: '-webkit-box',
     overflow: 'hidden',

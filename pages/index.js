@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
-  examples: {
-    margin: theme.spacing(4, 0, 0, 0)
+  executeTime: {
+    fontWeight: 500
   }
 }));
 
@@ -155,18 +155,14 @@ export default function Index({ query }) {
   return (
     <Box mt={9}>
       <Header />
-      <Box
-        className={classes.hero}
-        px={{ xs: 1, md: 6 }}
-        pt={{ xs: 1, md: 6 }}
-        pb={{ xs: 1, md: 2 }}>
+      <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0}>
         <Typography variant="h3">Redis Labs Marketplace</Typography>
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
         <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-        <Typography variant="body1" className={classes.examples}>
-          Examples: Redisearch, RedisJSON, Caching
+        <Typography variant="body1" className={classes.executeTime}>
+          Execution time: {data?.executeTime || 0}s
         </Typography>
       </Box>
       <Container maxWidth="lg">

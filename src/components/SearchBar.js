@@ -18,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.25, 0.5),
     '& .MuiFormControl-root': {
       zIndex: 1301
+    },
+    '& .MuiFormLabel-root': {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: '85%'
     }
   },
   input: {
@@ -51,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
   listBox: {
-    padding: theme.spacing(0, 0, 5, 0),
+    padding: theme.spacing(0, 0, 5.25, 0),
     margin: 0,
     maxHeight: '45vh',
     overflow: 'scroll',
@@ -292,7 +298,6 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     ]
   );
 
-  const executeTime = useMemo(() => data?.executeTime, [data?.executeTime]);
   const AutocompletePaper = useCallback(
     ({ children, ...rest }) => (
       <Paper {...rest} className={classes.dropdown} elevation={0}>
@@ -301,7 +306,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
               <Typography variant="body2" className={classes.executeTime}>
-                Execution time: {executeTime}s
+                Execution time: {data?.executeTime}s
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -322,7 +327,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       classes.footer,
       classes.executeTime,
       classes.redisearch,
-      executeTime
+      data?.executeTime
     ]
   );
 
