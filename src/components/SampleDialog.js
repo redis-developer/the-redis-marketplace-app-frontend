@@ -22,6 +22,9 @@ import { AiOutlineShareAlt } from 'react-icons/ai';
 import { LanguageIcon, Link, Markdown } from './';
 
 const useStyles = makeStyles((theme) => ({
+  dialogRoot: {
+    zIndex: `1301 !important`
+  },
   root: {
     width: '1300px',
     borderRadius: '10px',
@@ -195,6 +198,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
 
   return (
     <Dialog
+      className={classes.dialogRoot}
       open={isOpened}
       keepMounted
       TransitionComponent={Transition}
