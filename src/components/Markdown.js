@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import gfm from 'remark-gfm';
 
 import { useRequest } from '../hooks';
@@ -9,7 +9,7 @@ import { useRequest } from '../hooks';
 const renderers = {
   code: ({ language, value }) => {
     return (
-      <SyntaxHighlighter style={docco} language={language}>
+      <SyntaxHighlighter style={dracula} language={language}>
         {value}
       </SyntaxHighlighter>
     );
