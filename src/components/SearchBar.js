@@ -1,16 +1,10 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  TextField,
-  Typography
-} from '@material-ui/core';
+import { Box, Grid, InputAdornment, Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
+import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { useRequest } from '../hooks';
 
@@ -22,19 +16,39 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: theme.spacing(4, 'auto'),
     padding: theme.spacing(0.25, 0.5),
-    '& .MuiInputBase-root': {
-      paddingRight: `${theme.spacing(1)}px !important`,
-      background: 'white'
+    '& .MuiFormControl-root': {
+      zIndex: 1301
     }
   },
-  iconButton: {
-    padding: theme.spacing(1),
-    marginLeft: theme.spacing(0.5),
-    height: '100%',
-    position: 'absolute',
-    right: 0,
-    boxShadow: 'none',
-    borderRadius: '0 4px 4px 0'
+  input: {
+    boxSizing: 'border-box',
+    paddingRight: `${theme.spacing(1)}px !important`,
+    background: 'white',
+    '& fieldset': {
+      border: 'none !important'
+    }
+  },
+  inputWithSuggestions: {
+    borderRadius: '30px 30px 0 0',
+    boxShadow: `0px -1px 0px ${theme.palette.borderColor} inset`
+  },
+  inputWithoutSuggestions: {
+    borderRadius: '30px',
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
+  },
+  labelOffset: {
+    transform: 'translate(44px, 20px) scale(1)'
+  },
+  icon: {
+    color: theme.palette.icon
+  },
+  dropdown: {
+    overflow: 'hidden',
+    marginTop: '-57px',
+    paddingTop: '57px',
+    zIndex: 1,
+    borderRadius: '30px',
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
   listBox: {
     padding: theme.spacing(0, 0, 5, 0),
@@ -50,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     right: 0,
     zIndex: 1,
-    bottom: '4px',
+    bottom: '0px',
     minHeight: '44px',
     width: '100%',
-    padding: theme.spacing(0.5, 0.5, 0.5, 2),
+    padding: theme.spacing(0.5, 2, 0.5, 2),
     backgroundColor: 'white',
     borderTop: `1px solid ${theme.palette.borderColor}`,
-    borderRadius: theme.spacing(0, 0, 0.5, 0.5),
+    borderRadius: '0 0 30px 30px',
     fontSize: '14px'
   },
   executeTime: {
@@ -98,73 +112,126 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     shouldFetch
   });
 
-  const disabled = useMemo(() => autocompleteText.trim().length <= 2, [autocompleteText]);
-  const options = useMemo(() => (!error && !disabled && !loading && data?.rows) || [], [
-    error,
-    disabled,
-    data?.rows,
-    loading
-  ]);
+  const options = useMemo(
+    () =>
+      (!error &&
+        !loading &&
+        autocompleteText.trim().length > 2 &&
+        data?.rows
+          .map((sample) => {
+            // Get group and label for each option
+            if (sample.app_name.includes('<b>')) {
+              sample.group = 'App Name';
+              sample.label = sample.app_name;
+            } else if (sample.description.includes('<b>')) {
+              sample.group = 'Description';
+              sample.label = sample.description;
+            } else if (
+              sample.redis_commands.some((redis_command) => redis_command.includes('<b>'))
+            ) {
+              sample.group = 'Redis Commands';
+              sample.label = sample.redis_commands.join(', ');
+            } else if (
+              sample.redis_features.some((redis_feature) => redis_feature.includes('<b>'))
+            ) {
+              sample.group = 'Redis Features';
+              sample.label = sample.redis_features.join(', ');
+            } else if (sample.redis_modules.some((redis_module) => redis_module.includes('<b>'))) {
+              sample.group = 'Redis Modules';
+              sample.label = sample.redis_modules.join(', ');
+            } else if (sample.special_tags.some((special_tag) => special_tag.includes('<b>'))) {
+              sample.group = 'Special Tags';
+              sample.label = sample.special_tags.join(', ');
+            } else if (sample.verticals.some((vertical) => vertical.includes('<b>'))) {
+              sample.group = 'Verticals';
+              sample.label = sample.verticals.join(', ');
+            } else if (sample.language.some((language) => language.includes('<b>'))) {
+              sample.group = 'Language';
+              sample.label = sample.language.join(', ');
+            } else if (sample.type.includes('<b>')) {
+              sample.group = 'Type';
+              sample.label = sample.description;
+            } else if (sample.contributed_by.includes('<b>')) {
+              sample.group = 'Contributed By';
+              sample.label = sample.contributed_by;
+            }
+            // Replace bold HTML tags
+            sample.app_name = sample.app_name.replace('<b>', '').replace('</b>', '');
+            sample.description = sample.description.replace('<b>', '').replace('</b>', '');
+            sample.type = sample.type.replace('<b>', '').replace('</b>', '');
+            sample.contributed_by = sample.contributed_by.replace('<b>', '').replace('</b>', '');
+            sample.language = sample.language.map((language) =>
+              language.replace('<b>', '').replace('</b>', '')
+            );
+            sample.redis_commands = sample.redis_commands.map((redis_command) =>
+              redis_command.replace('<b>', '').replace('</b>', '')
+            );
+            sample.redis_features = sample.redis_features.map((redis_feature) =>
+              redis_feature.replace('<b>', '').replace('</b>', '')
+            );
+            sample.redis_modules = sample.redis_modules.map((redis_module) =>
+              redis_module.replace('<b>', '').replace('</b>', '')
+            );
+            sample.special_tags = sample.special_tags.map((special_tag) =>
+              special_tag.replace('<b>', '').replace('</b>', '')
+            );
+            sample.verticals = sample.verticals.map((vertical) =>
+              vertical.replace('<b>', '').replace('</b>', '')
+            );
+            return sample;
+          })
+          .sort((a, b) => a.group.localeCompare(b.group))) ||
+      [],
+    [error, data?.rows, loading, autocompleteText]
+  );
 
   // Listener for typing
-  const onInputChange = useCallback((e) => {
-    setAutocompleteText(e?.target?.value || '');
-  }, []);
+  const { callback: deouncedUpdateTextFilter } = useDebouncedCallback((text) => {
+    updateTextFilter(text);
+  }, 300);
+  const onInputChange = useCallback(
+    (e) => {
+      setAutocompleteText(e?.target?.value || '');
+      if (e?.target?.value?.length > 2 || e?.target?.value === '') {
+        deouncedUpdateTextFilter(e.target.value.trim());
+      }
+    },
+    [deouncedUpdateTextFilter]
+  );
 
   // Action for selecting an option
   const onSelect = useCallback(
     (e, value) => {
       if (value?.app_name) {
-        const sample = { ...value };
-        sample.app_name = value.app_name.replace('<b>', '').replace('</b>', '');
-        sample.description = value.description.replace('<b>', '').replace('</b>', '');
-        openLinkedSample(sample);
+        openLinkedSample(value);
         setAutocompleteText('');
       }
     },
     [openLinkedSample]
   );
 
-  // Action for pressing enter without and option select
+  // Action for pressing enter without and option highlighted
   const onKeyPress = useCallback(
     (e) => {
-      if (e.key === 'Enter' && !disabled) {
+      if (e.key === 'Enter') {
         e.preventDefault();
         setAutocompleteText('');
         updateTextFilter(e.target.value.trim());
       }
     },
-    [updateTextFilter, disabled]
+    [updateTextFilter]
   );
-
-  // Action for pressing the IconButton
-  const onIconButtonClick = useCallback(() => {
-    setAutocompleteText('');
-    updateTextFilter(autocompleteText.trim());
-  }, [autocompleteText, updateTextFilter]);
-
-  const getOptionLabel = useCallback((option) => {
-    if (option?.app_name?.includes('<b>')) {
-      return option.app_name.replace('<b>', '').replace('</b>', '');
-    } else if (option?.description?.includes('<b>')) {
-      return option.description.replace('<b>', '').replace('</b>', '');
-    } else if (option?.app_name) {
-      return option.app_name;
-    } else {
-      return option;
-    }
-  }, []);
 
   const renderOption = useCallback(
     (option) => {
-      if (option.app_name.includes('<b>')) {
-        return <span dangerouslySetInnerHTML={{ __html: option.app_name }} />;
-      } else if (option.description.includes('<b>')) {
+      if (option.group === 'App Name') {
+        return <span dangerouslySetInnerHTML={{ __html: option.label }} />;
+      } else {
         return (
           <Box>
             <Box className={classes.descriptionOptionAppName}>{option.app_name}</Box>
             <Box>
-              <span dangerouslySetInnerHTML={{ __html: option.description }} />
+              <span dangerouslySetInnerHTML={{ __html: option.label }} />
             </Box>
           </Box>
         );
@@ -173,54 +240,62 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     [classes.descriptionOptionAppName]
   );
 
-  const groupBy = useCallback((option) => {
-    if (option.app_name.includes('<b>')) {
-      return 'App Name';
-    } else if (option.description.includes('<b>')) {
-      return 'Description';
-    }
-  }, []);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
+  const [shrink, setShrink] = useState(false);
+  const onFocus = useCallback(() => setShrink(true), []);
+  const onBlur = useCallback((e) => e.target.value.length === 0 && setShrink(false), []);
   const renderInput = useCallback(
     (params) => (
       <TextField
         {...params}
         onKeyPress={onKeyPress}
-        label="Search for a code sample"
+        label="Search app names, descriptions, Redis commands, languages, ect"
         variant="outlined"
         inputProps={{
           ...params.inputProps,
           value: autocompleteText
         }}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        InputLabelProps={{ shrink, classes: { root: classes.labelOffset } }}
         InputProps={{
           ...params.InputProps,
-          endAdornment: (
-            <>
-              {loading ? <CircularProgress color="inherit" size={20} /> : null}
-              <Button
-                variant="contained"
-                type="button"
-                color="primary"
-                className={classes.iconButton}
-                aria-label="search"
-                disabled={disabled}
-                onClick={onIconButtonClick}>
-                <SearchIcon />
-              </Button>
-            </>
+          className: clsx(
+            classes.input,
+            suggestionsOpen && (loading || !!options.length)
+              ? classes.inputWithSuggestions
+              : classes.inputWithoutSuggestions
+          ),
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon className={classes.icon} />
+            </InputAdornment>
           )
         }}
       />
     ),
-    [onKeyPress, autocompleteText, loading, classes.iconButton, disabled, onIconButtonClick]
+    [
+      onKeyPress,
+      suggestionsOpen,
+      loading,
+      options.length,
+      autocompleteText,
+      classes.inputWithSuggestions,
+      classes.inputWithoutSuggestions,
+      classes.input,
+      classes.labelOffset,
+      classes.icon,
+      shrink,
+      onFocus,
+      onBlur
+    ]
   );
-
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
   const executeTime = useMemo(() => data?.executeTime, [data?.executeTime]);
   const AutocompletePaper = useCallback(
     ({ children, ...rest }) => (
-      <Paper {...rest}>
+      <Paper {...rest} className={classes.dropdown} elevation={0}>
         {children}
         {suggestionsOpen && !loading && !!options.length && (
           <Grid container className={classes.footer}>
@@ -243,6 +318,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       suggestionsOpen,
       loading,
       options.length,
+      classes.dropdown,
       classes.footer,
       classes.executeTime,
       classes.redisearch,
@@ -255,7 +331,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       id="asynchronous-demo"
       className={classes.root}
       clearOnBlur={false}
-      open={suggestionsOpen}
+      open={suggestionsOpen && (loading || !!options.length)}
       onOpen={() => {
         setSuggestionsOpen(true);
       }}
@@ -267,9 +343,9 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       disableClearable
       freeSolo
       getOptionSelected={() => false}
-      getOptionLabel={getOptionLabel}
+      getOptionLabel={(option) => option?.label || option}
       renderOption={renderOption}
-      groupBy={groupBy}
+      groupBy={(option) => option.group}
       options={options}
       ListboxProps={{ className: classes.listBox }}
       loading={loading}
