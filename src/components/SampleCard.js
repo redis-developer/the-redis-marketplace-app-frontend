@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, Grid, Grow, Typography } from '@material-ui/core';
+import { Box, Card, CardContent, Grid, Grow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -25,7 +25,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     minHeight: '380px',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    transition: 'box-shadow .15s',
+    '&:hover': {
+      boxShadow: '0 1px 5px 0 rgba(0,0,0,.37), 0 7px 17px 0 rgba(0,0,0,.1)',
+      '& $primaryContent': {
+        backgroundColor: theme.palette.card.dark
+      }
+    }
   },
   appName: {
     lineHeight: 1.5,
@@ -43,23 +50,28 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     borderTop: `1px solid ${theme.palette.borderColor}`
   },
-  dialogLink: {
-    display: 'flex',
+  actionArea: {
+    cursor: 'pointer',
+    width: '100%',
     height: '100%',
-    alignItems: 'flex-start',
-    backgroundColor: theme.palette.card.light,
-    color: theme.palette.card.main,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column'
+  },
+  primaryContent: {
+    flex: 1,
+    height: '100%',
+    backgroundColor: theme.palette.card.main,
+    color: theme.palette.card.contrastText,
+    transition: 'all .15s',
     '& p': {
-      color: theme.palette.card.main
+      color: theme.palette.card.contrastText
     },
     '&:hover, &:active': {
       textDecoration: 'none'
     }
   },
   secondaryContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
     paddingBottom: `${theme.spacing(2)}px !important`
   },
   iconBox: {
@@ -126,52 +138,60 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
   );
 
   return (
-    <Grow in={!loading} timeout={timeout}>
-      <Card key={sample.id} className={classes.root}>
-        <CardActionArea onClick={openSamplePopup} className={classes.dialogLink}>
-          <CardContent>
-            <Grid container wrap="nowrap" alignItems="baseline">
-              <Grid item>
-                <TypeIcon type={sample.type} className={classes.icon} />
+    <Grow in={!loading} timeout={{ appear: timeout, enter: timeout, exit: 150 }}>
+      <Box height={1}>
+        <Card key={sample.id} className={classes.root}>
+          <Box onClick={openSamplePopup} className={classes.actionArea}>
+            <CardContent className={classes.primaryContent}>
+              <Grid container wrap="nowrap" alignItems="baseline">
+                <Grid item>
+                  <TypeIcon type={sample.type} className={classes.icon} />
+                </Grid>
+                <Grid item>
+                  <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
+                    {sample.app_name}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
-                  {sample.app_name}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Typography variant="body2" className={classes.description}>
-              {sample.description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardContent className={classes.secondaryContent}>
-          <Box className={classes.tags}>{tags}</Box>
-          <Grid container className={classes.footer} wrap="nowrap">
-            <Grid item xs={7}>
-              <Grid container spacing={1}>
-                {sample.language.map((lang) => (
-                  <Grid item key={lang}>
+              <Typography variant="body2" className={classes.description}>
+                {sample.description}
+              </Typography>
+            </CardContent>
+            <CardContent className={classes.secondaryContent}>
+              <Box className={classes.tags}>{tags}</Box>
+              <Grid container className={classes.footer} wrap="nowrap">
+                <Grid item xs={7}>
+                  <Grid container spacing={1}>
+                    {sample.language.map((lang) => (
+                      <Grid item key={lang}>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          className={classes.iconBox}>
+                          <LanguageIcon language={lang} className={classes.icon} />
+                          {lang}
+                        </Typography>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                <Grid item xs={5}>
+                  <Grid container justify="flex-end">
                     <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
-                      <LanguageIcon language={lang} className={classes.icon} />
-                      {lang}
+                      <ContributerIcon
+                        contributedBy={sample.contributed_by}
+                        className={classes.icon}
+                      />
+                      {sample.contributed_by}
                     </Typography>
                   </Grid>
-                ))}{' '}
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={5}>
-              <Grid container justify="flex-end">
-                <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
-                  <ContributerIcon contributedBy={sample.contributed_by} className={classes.icon} />
-                  {sample.contributed_by}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </CardContent>
-        <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
-      </Card>
+            </CardContent>
+          </Box>
+          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
+        </Card>
+      </Box>
     </Grow>
   );
 }

@@ -76,7 +76,8 @@ export default function SampleTags({ sample, closePopup, updateTags, disabled })
               key={tag}
               variant="outlined"
               className={clsx(classes.chip, classes[`chip_${filter}`])}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 updateTags({ [filter]: { [tag]: true } });
                 closePopup();
               }}

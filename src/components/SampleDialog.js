@@ -23,7 +23,7 @@ import { LanguageIcon, Link, Markdown } from './';
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot: {
-    zIndex: `1301 !important`
+    zIndex: `1302 !important`
   },
   root: {
     width: '1300px',

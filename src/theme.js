@@ -32,9 +32,9 @@ const theme = createMuiTheme({
       contrastText: '#292929'
     },
     card: {
-      main: '#008cff',
-      light: '#ebf4ff',
-      dark: '#0060cb'
+      contrastText: '#008cff',
+      main: '#ebf4ff',
+      dark: '#d1e9ff'
     },
     error: {
       main: red.A400
