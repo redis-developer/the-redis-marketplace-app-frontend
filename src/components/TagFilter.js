@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     '& .filterIcon': {
       marginRight: theme.spacing(1),
       height: '20px',
-      width: '20px'
+      width: '20px',
+      color: theme.palette.icon
     },
     '& .category': {
       display: 'flex',

@@ -101,6 +101,10 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.brandColors.github.light
     }
   },
+  youtubeBoxOuter: {
+    maxWidth: '900px',
+    margin: 'auto'
+  },
   youtubeBox: {
     position: 'relative',
     width: '100%',
@@ -122,7 +126,8 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     height: '20px',
     width: '20px',
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    color: theme.palette.icon
   },
   languages: {
     marginTop: theme.spacing(2),
@@ -240,20 +245,22 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       <DialogContent className={classes.content}>
         <Paper elevation={3} className={classes.details}>
           {isOpened && sample.youtube_url && (
-            <Box className={classes.youtubeBox}>
-              <CardMedia
-                component="iframe"
-                title="youtube-video"
-                src={sample.youtube_url.replace('watch?v=', 'embed/')}
-                className={classes.youtube}
-              />
+            <Box className={classes.youtubeBoxOuter}>
+              <Box className={classes.youtubeBox}>
+                <CardMedia
+                  component="iframe"
+                  title="youtube-video"
+                  src={sample.youtube_url.replace('watch?v=', 'embed/')}
+                  className={classes.youtube}
+                />
+              </Box>
             </Box>
           )}
           <Grid container justify="center" spacing={2} className={classes.actions}>
             {sample.quick_deploy &&
               Object.keys(deployers).map((deployer) => (
                 <Grid item key={deployer}>
-                  <Link href={deployers[deployer]}>
+                  <Link href={deployers[deployer]} target="_blank">
                     <DeployerImage deployer={deployer} />
                   </Link>
                 </Grid>
@@ -311,7 +318,12 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
           <Grid container justify="center" className={classes.tags}>
             {tags}
           </Grid>
-          <Grid container spacing={1} alignItems="center" className={classes.languages}>
+          <Grid
+            container
+            spacing={1}
+            justify="center"
+            alignItems="center"
+            className={classes.languages}>
             <Grid item>Language(s):</Grid>
             {sample.language.map((lang) => (
               <Grid item key={lang}>

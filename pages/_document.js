@@ -20,11 +20,6 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <style jsx global>{`
-            body {
-              background-color: ${theme.palette.backgroundColor} !important;
-            }
-          `}</style>
         </body>
       </Html>
     );

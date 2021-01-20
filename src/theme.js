@@ -10,17 +10,18 @@ const theme = createMuiTheme({
   palette: {
     borderColor: '#dee2e6',
     backgroundColor: '#fafafa',
+    icon: '#6f747a',
     appBar: {
       main: '#fff',
-      contrastText: '#6f747a'
+      contrastText: '#3f4b5f'
     },
     footer: {
-      main: '#3f4b5f',
+      main: '#292929',
       contrastText: '#fff'
     },
     text: {
-      primary: '#3f4b5f',
-      secondary: '#3f4b5f'
+      primary: '#292929',
+      secondary: '#292929'
     },
     primary: {
       main: '#5961ff',
@@ -28,7 +29,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#e8e8e8',
-      contrastText: '#3f4b5f'
+      contrastText: '#292929'
     },
     card: {
       main: '#008cff',

@@ -211,9 +211,16 @@ export default function Index({ query }) {
                   limit={LIMIT}
                 />
               )}
-              <Grid container justify="center">
-                <Pagination count={maxPage} page={page} onChange={changePage} disabled={loading} />
-              </Grid>
+              {!error && (
+                <Grid container justify="center">
+                  <Pagination
+                    count={maxPage}
+                    page={page}
+                    onChange={changePage}
+                    disabled={loading}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Box>
         </Grid>
