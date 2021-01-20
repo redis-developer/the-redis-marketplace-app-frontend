@@ -42,9 +42,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '30px',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
-  labelOffset: {
-    transform: 'translate(44px, 20px) scale(1)'
-  },
   icon: {
     color: theme.palette.icon
   },
@@ -248,23 +245,17 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
 
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
-  const [shrink, setShrink] = useState(false);
-  const onFocus = useCallback(() => setShrink(true), []);
-  const onBlur = useCallback((e) => e.target.value.length === 0 && setShrink(false), []);
   const renderInput = useCallback(
     (params) => (
       <TextField
         {...params}
         onKeyPress={onKeyPress}
-        label="Search app names, descriptions, Redis commands, languages, ect"
+        placeholder="Search app names, descriptions, Redis commands, languages, ect"
         variant="outlined"
         inputProps={{
           ...params.inputProps,
           value: autocompleteText
         }}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        InputLabelProps={{ shrink, classes: { root: classes.labelOffset } }}
         InputProps={{
           ...params.InputProps,
           className: clsx(
@@ -290,11 +281,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       classes.inputWithSuggestions,
       classes.inputWithoutSuggestions,
       classes.input,
-      classes.labelOffset,
-      classes.icon,
-      shrink,
-      onFocus,
-      onBlur
+      classes.icon
     ]
   );
 
