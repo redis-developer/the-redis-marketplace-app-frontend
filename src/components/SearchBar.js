@@ -4,6 +4,7 @@ import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { useRequest } from '../hooks';
@@ -56,8 +57,6 @@ const useStyles = makeStyles((theme) => ({
   listBox: {
     padding: theme.spacing(0, 0, 5.25, 0),
     margin: 0,
-    maxHeight: '45vh',
-    overflow: 'scroll',
     '& .MuiAutocomplete-groupUl': {
       borderBottom: `1px solid ${theme.palette.borderColor}`
     }
@@ -86,6 +85,19 @@ const useStyles = makeStyles((theme) => ({
   },
   descriptionOptionAppName: {
     fontSize: '12px'
+  },
+  scrollBarThumb: {
+    zIndex: 2,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    cursor: 'pointer',
+    borderRadius: 'inherit'
+  },
+  scrollBarTrack: {
+    right: '2px',
+    bottom: '2px',
+    top: '2px',
+    borderRadius: '3px',
+    zIndex: 2
   }
 }));
 
@@ -285,10 +297,26 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     ]
   );
 
+  const ScrollBarThumb = useCallback(
+    (props) => <div {...props} className={classes.scrollBarThumb} />,
+    [classes.scrollBarThumb]
+  );
+  const ScrollBarTrack = useCallback(
+    (props) => <div {...props} className={classes.scrollBarTrack} />,
+    [classes.scrollBarTrack]
+  );
+
   const AutocompletePaper = useCallback(
     ({ children, ...rest }) => (
       <Paper {...rest} className={classes.dropdown} elevation={0}>
-        {children}
+        <Scrollbars
+          autoHide
+          autoHeight
+          autoHeightMax="45vh"
+          renderThumbVertical={ScrollBarThumb}
+          renderTrackVertical={ScrollBarTrack}>
+          {children}
+        </Scrollbars>
         {suggestionsOpen && !loading && !!options.length && (
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
@@ -307,13 +335,15 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       </Paper>
     ),
     [
-      suggestionsOpen,
-      loading,
-      options.length,
       classes.dropdown,
       classes.footer,
       classes.executeTime,
       classes.redisearch,
+      ScrollBarThumb,
+      ScrollBarTrack,
+      suggestionsOpen,
+      loading,
+      options.length,
       data?.executeTime
     ]
   );

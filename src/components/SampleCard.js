@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Grid, Grow, Typography } from '@material-ui/cor
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 import { SiRedis } from 'react-icons/si';
 
@@ -83,10 +84,6 @@ const useStyles = makeStyles((theme) => ({
     width: '20px',
     marginRight: theme.spacing(1),
     color: theme.palette.icon
-  },
-  tags: {
-    height: '91px',
-    overflow: 'scroll'
   }
 }));
 
@@ -158,7 +155,9 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
               </Typography>
             </CardContent>
             <CardContent className={classes.secondaryContent}>
-              <Box className={classes.tags}>{tags}</Box>
+              <Scrollbars style={{ height: 91 }} autoHide>
+                {tags}
+              </Scrollbars>
               <Grid container className={classes.footer} wrap="nowrap">
                 <Grid item xs={7}>
                   <Grid container spacing={1}>
