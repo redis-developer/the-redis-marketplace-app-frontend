@@ -135,7 +135,7 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
   );
 
   return (
-    <Grow in={!loading} timeout={{ appear: timeout, enter: timeout, exit: 150 }}>
+    <Grow in={!loading} timeout={{ enter: timeout, exit: 150 }}>
       <Box height={1}>
         <Card key={sample.id} className={classes.root}>
           <Box onClick={openSamplePopup} className={classes.actionArea}>

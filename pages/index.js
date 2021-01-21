@@ -222,7 +222,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
 export async function getServerSideProps({ query }) {
   // Get first page of the browser without filters
   const { data: initialProjectsData } = await api.get('/projects', {
-    limit: LIMIT
+    params: { limit: LIMIT }
   });
 
   // Get dynamic filter
