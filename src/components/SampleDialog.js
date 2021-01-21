@@ -223,6 +223,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
                 open={showCopiedMessage}
                 anchorEl={copiedAnchorEl}
                 onClose={closeCopiedMessage}
+                style={{ zIndex: 1303 }}
                 PaperProps={{ className: classes.copiedPaper }}
                 anchorOrigin={{
                   vertical: 'center',
