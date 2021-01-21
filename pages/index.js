@@ -2,9 +2,10 @@ import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
+import api from '../src/api';
 import {
   Footer,
   Header,
@@ -42,24 +43,12 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 9;
 
-export default function Index({ query }) {
+function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   const classes = useStyles();
 
-  // Do we have an initial app to open up in the url query?
-  const [linkedSampleId, setLinkedSampleId] = useState(query?.id);
-  // linkedSample can come from query param or by the search bar
-  const [linkedSample, setLinkedSample] = useState();
-  const [linkedSampleIsOpened, setLinkedSampleIsOpened] = useState(false);
-
-  const shouldFetch = useCallback(() => linkedSampleId, [linkedSampleId]);
-  const { data: linkedSampleData } = useRequest({ url: `/project/${linkedSampleId}`, shouldFetch });
-
-  useEffect(() => {
-    if (linkedSampleData) {
-      setLinkedSample(linkedSampleData);
-      setLinkedSampleIsOpened(true);
-    }
-  }, [linkedSampleData]);
+  // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
+  const [linkedSample, setLinkedSample] = useState(linkedSampleData);
+  const [linkedSampleIsOpened, setLinkedSampleIsOpened] = useState(!!linkedSampleData);
 
   const openLinkedSample = useCallback((sample) => {
     setLinkedSample(sample);
@@ -70,14 +59,13 @@ export default function Index({ query }) {
         query: { id: sample.id }
       },
       null,
-      { scroll: false }
+      { scroll: false, shallow: true }
     );
   }, []);
 
   const closeLinkedSample = useCallback(() => {
-    setLinkedSampleId();
     setLinkedSampleIsOpened(false);
-    Router.push({ pathname: '/' }, null, { scroll: false });
+    Router.push({ pathname: '/' }, null, { scroll: false, shallow: true });
   }, []);
 
   // Query params for the /projects
@@ -105,7 +93,12 @@ export default function Index({ query }) {
   );
 
   // Get Sample Projects
-  const { data, loading, error } = useRequest({ url: '/projects', params: projectsParams });
+  const { data, loading, error } = useRequest({
+    url: '/projects',
+    params: projectsParams,
+    skipFirstFetch: true, // first data (without filters) is loaded server side form initialProjectsData
+    initialData: initialProjectsData
+  });
 
   // Pagination
   const page = useMemo(() => Math.floor(offset / LIMIT) + 1, [offset]);
@@ -191,7 +184,7 @@ export default function Index({ query }) {
           </Box>
           <Box clone order={{ xs: 2, sm: 2, md: 3 }}>
             <Grid item md={2}>
-              <TagFilter updateTag={updateTag} tags={tags} />
+              <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
             </Grid>
           </Box>
           <Box clone order={4}>
@@ -226,6 +219,23 @@ export default function Index({ query }) {
   );
 }
 
-Index.getInitialProps = ({ query }) => {
-  return { query };
-};
+export async function getServerSideProps({ query }) {
+  // Get first page of the browser without filters
+  const { data: initialProjectsData } = await api.get('/projects', {
+    limit: LIMIT
+  });
+
+  // Get dynamic filter
+  const { data: filtersData } = await api.get('/projects/filters');
+
+  // Get linked project from query
+  let linkedSampleData = null;
+  if (query.id) {
+    const linkedProjectResponse = await api.get(`/project/${query.id}`);
+    linkedSampleData = linkedProjectResponse.data;
+  }
+
+  return { props: { initialProjectsData, linkedSampleData, filtersData } };
+}
+
+export default Index;

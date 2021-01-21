@@ -5,7 +5,6 @@ import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 import { IoChevronDownCircle, IoChevronUpCircleSharp } from 'react-icons/io5';
 import { SiRedis } from 'react-icons/si';
 
-import { useRequest } from '../hooks';
 import { LanguageIcon } from './';
 
 const staticFilters = [
@@ -122,65 +121,63 @@ const useStyles = makeStyles((theme) => ({
 
 const REDIS_COMMANDS_LIMIT = 5;
 
-export default function TagFilter({ updateTag, tags }) {
+export default function TagFilter({ updateTag, tags, filtersData }) {
   const classes = useStyles();
-
-  const { data } = useRequest({ url: '/projects/filters' });
 
   const dynamicFilters = useMemo(() => {
     const formattedFilters = [];
-    if (data?.redis_modules?.length) {
+    if (filtersData?.redis_modules?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category redisModulesCategory">Modules</Box>,
           filter: 'redis_modules'
         },
-        options: data?.redis_modules.map((name) => ({ name }))
+        options: filtersData?.redis_modules.map((name) => ({ name }))
       });
     }
-    if (data?.verticals?.length) {
+    if (filtersData?.verticals?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category verticalsCategory">Verticals</Box>,
           filter: 'verticals'
         },
-        options: data?.verticals.map((name) => ({ name }))
+        options: filtersData?.verticals.map((name) => ({ name }))
       });
     }
-    if (data?.redis_features?.length) {
+    if (filtersData?.redis_features?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category redisFeaturesCategory">Features</Box>,
           filter: 'redis_features'
         },
-        options: data?.redis_features.map((name) => ({ name }))
+        options: filtersData?.redis_features.map((name) => ({ name }))
       });
     }
-    if (data?.redis_commands?.length) {
+    if (filtersData?.redis_commands?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category redisCommandsCategory">Commands</Box>,
           filter: 'redis_commands'
         },
-        options: data?.redis_commands.map((name) => ({ name }))
+        options: filtersData?.redis_commands.map((name) => ({ name }))
       });
     }
-    if (data?.special_tags?.length) {
+    if (filtersData?.special_tags?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category specialTagsCategory">Special Tags</Box>,
           filter: 'special_tags'
         },
-        options: data?.special_tags.map((name) => ({ name }))
+        options: filtersData?.special_tags.map((name) => ({ name }))
       });
     }
     return formattedFilters;
   }, [
-    data?.redis_commands,
-    data?.redis_features,
-    data?.redis_modules,
-    data?.special_tags,
-    data?.verticals
+    filtersData?.redis_commands,
+    filtersData?.redis_features,
+    filtersData?.redis_modules,
+    filtersData?.special_tags,
+    filtersData?.verticals
   ]);
 
   const [showAllCommands, setShowAllCommands] = useState(false);

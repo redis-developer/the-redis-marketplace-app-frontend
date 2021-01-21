@@ -121,12 +121,12 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
         query: { id: sample.id }
       },
       null,
-      { scroll: false }
+      { scroll: false, shallow: true }
     );
   }, [sample.id]);
   const closePopup = useCallback(() => {
     setIsOpened(false);
-    Router.push({ pathname: '/' }, null, { scroll: false });
+    Router.push({ pathname: '/' }, null, { scroll: false, shallow: true });
   }, []);
 
   const tags = useMemo(

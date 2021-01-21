@@ -129,14 +129,14 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     [autocompleteText]
   );
   // Only fetch API for suggestions when more than 2 characters pressed
-  const shouldFetch = useCallback(
+  const preCheckParams = useCallback(
     (params) => params.text_filter && params.text_filter.length > 2,
     []
   );
   const { data, loading, error } = useRequest({
     url: '/projects',
     params: suggestionParams,
-    shouldFetch
+    preCheckParams
   });
 
   const options = useMemo(
