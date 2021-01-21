@@ -1,7 +1,8 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid } from '@material-ui/core';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
+import { IoChevronDownCircle, IoChevronUpCircleSharp } from 'react-icons/io5';
 import { SiRedis } from 'react-icons/si';
 
 import { useRequest } from '../hooks';
@@ -112,8 +113,14 @@ const useStyles = makeStyles((theme) => ({
   },
   checkbox: {
     padding: theme.spacing(1)
+  },
+  iconButton: {
+    color: theme.palette.icon,
+    padding: theme.spacing(1)
   }
 }));
+
+const REDIS_COMMANDS_LIMIT = 5;
 
 export default function TagFilter({ updateTag, tags }) {
   const classes = useStyles();
@@ -176,6 +183,9 @@ export default function TagFilter({ updateTag, tags }) {
     data?.verticals
   ]);
 
+  const [showAllCommands, setShowAllCommands] = useState(false);
+  const toggleCommands = useCallback(() => setShowAllCommands((show) => !show), []);
+
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
@@ -187,34 +197,46 @@ export default function TagFilter({ updateTag, tags }) {
               {category.icon}
               {category.name}
             </Grid>
-            {options.map((option) => (
-              <FormControlLabel
-                key={option.name}
-                className={classes.tag}
-                checked={!!tags[category.filter]?.[option.name]}
-                control={
-                  <Checkbox
-                    name={option.name}
-                    color="primary"
-                    size="small"
-                    className={classes.checkbox}
-                    onChange={(e) =>
-                      updateTag({
-                        filter: category.filter,
-                        tag: e.target.name,
-                        value: e.target.checked
-                      })
+            {options.map(
+              (option, i) =>
+                (category.filter !== 'redis_commands' ||
+                  showAllCommands ||
+                  i < REDIS_COMMANDS_LIMIT) && (
+                  <FormControlLabel
+                    key={option.name}
+                    className={classes.tag}
+                    checked={!!tags[category.filter]?.[option.name]}
+                    control={
+                      <Checkbox
+                        name={option.name}
+                        color="primary"
+                        size="small"
+                        className={classes.checkbox}
+                        onChange={(e) =>
+                          updateTag({
+                            filter: category.filter,
+                            tag: e.target.name,
+                            value: e.target.checked
+                          })
+                        }
+                      />
+                    }
+                    label={
+                      <Grid className={classes.tagLabel} container alignItems="center">
+                        {option.icon}
+                        {option.name}
+                      </Grid>
                     }
                   />
-                }
-                label={
-                  <Grid className={classes.tagLabel} container alignItems="center">
-                    {option.icon}
-                    {option.name}
-                  </Grid>
-                }
-              />
-            ))}
+                )
+            )}
+            {category.filter === 'redis_commands' && options.length > REDIS_COMMANDS_LIMIT && (
+              <Box ml={4}>
+                <IconButton onClick={toggleCommands} className={classes.iconButton}>
+                  {showAllCommands ? <IoChevronUpCircleSharp /> : <IoChevronDownCircle />}
+                </IconButton>
+              </Box>
+            )}
           </FormGroup>
         </Grid>
       ))}
