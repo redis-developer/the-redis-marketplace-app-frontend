@@ -207,7 +207,7 @@ export default function Index({ query }) {
                   limit={LIMIT}
                 />
               )}
-              {!error && (
+              {data && !error && (
                 <Grid container justify="center">
                   <Pagination
                     count={maxPage}

@@ -92,7 +92,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0)
   },
   action: {
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    '& $icon': {
+      color: theme.palette.primary.contrastText
+    }
   },
   github: {
     backgroundColor: theme.palette.brandColors.github.main,
