@@ -1,10 +1,19 @@
-import { Box, Grid, InputAdornment, Paper, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Grid,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+  useMediaQuery
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import clsx from 'clsx';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { useRequest } from '../hooks';
@@ -17,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: theme.spacing(4, 'auto'),
     padding: theme.spacing(0.25, 0.5),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(3, 'auto', 4)
+    },
     '& .MuiFormControl-root': {
       zIndex: 1301
     },
@@ -237,6 +249,18 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     [updateTextFilter]
   );
 
+  // Action for clicking on the searchbar
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+  const onOpen = useCallback(() => {
+    if (isSmallScreen) {
+      scrollIntoView(document.getElementById('search-bar'), {
+        block: 'start',
+        behavior: 'smooth'
+      });
+    }
+    setSuggestionsOpen(true);
+  }, [isSmallScreen]);
+
   const renderOption = useCallback(
     (option) => {
       if (option.group === 'App Name') {
@@ -350,13 +374,11 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
 
   return (
     <Autocomplete
-      id="asynchronous-demo"
+      id="search-bar"
       className={classes.root}
       clearOnBlur={false}
       open={suggestionsOpen && (loading || !!options.length)}
-      onOpen={() => {
-        setSuggestionsOpen(true);
-      }}
+      onOpen={onOpen}
       onClose={() => {
         setSuggestionsOpen(false);
       }}
