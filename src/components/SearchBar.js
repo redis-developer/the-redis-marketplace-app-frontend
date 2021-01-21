@@ -336,7 +336,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
         <Scrollbars
           autoHide
           autoHeight
-          autoHeightMax="45vh"
+          autoHeightMax="50vh"
           renderThumbVertical={ScrollBarThumb}
           renderTrackVertical={ScrollBarTrack}>
           {children}
