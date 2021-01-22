@@ -134,12 +134,12 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   ]);
 
   const changePage = useCallback((e, newPage) => {
+    setOffset((newPage - 1) * LIMIT);
     scrollIntoView(document.getElementById('top-of-results'), {
       scrollMode: 'if-needed',
       block: 'start',
       behavior: 'smooth'
     });
-    setOffset((newPage - 1) * LIMIT);
   }, []);
 
   // Filtering
