@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     maxWidth: '680px',
     width: '100%',
-    margin: theme.spacing(4, 'auto'),
+    margin: theme.spacing(4, 'auto', 3),
     padding: theme.spacing(0.25, 0.5),
     [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(3, 'auto', 4)
@@ -286,7 +286,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       <TextField
         {...params}
         onKeyPress={onKeyPress}
-        placeholder="Search app names, descriptions, Redis commands, languages, ect"
+        placeholder="Search app names, descriptions, Redis commands, languages, etc"
         variant="outlined"
         inputProps={{
           ...params.inputProps,
@@ -334,6 +334,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     ({ children, ...rest }) => (
       <Paper {...rest} className={classes.dropdown} elevation={0}>
         <Scrollbars
+          universal={true}
           autoHide
           autoHeight
           autoHeightMax="50vh"
@@ -345,7 +346,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
               <Typography variant="body2" className={classes.executeTime}>
-                Execution time: {data?.executeTime}s
+                Search time: {data?.executeTime} secs
               </Typography>
             </Grid>
             <Grid item xs={6}>

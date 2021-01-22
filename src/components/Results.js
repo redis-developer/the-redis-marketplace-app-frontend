@@ -24,7 +24,7 @@ export default function Results({ samples, updateTags, loading }) {
           <SampleCard
             sample={sample}
             updateTags={updateTags}
-            timeout={(i + 1) * 100}
+            timeout={(i + 1) * 50}
             loading={loading}
           />
         </Grid>

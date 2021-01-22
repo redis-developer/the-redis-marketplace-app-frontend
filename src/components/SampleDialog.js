@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
-    backgroundColor: theme.palette.backgroundColor,
+    backgroundColor: theme.palette.popupBackgroundColor,
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(1, 1, 1, 2)
     }
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   copiedPaper: {
     borderRadius: '5px',
-    background: theme.palette.backgroundColor
+    background: theme.palette.popupBackgroundColor
   },
   description: {
     whiteSpace: 'pre-wrap',
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: theme.spacing(1, 0, 0),
-    backgroundColor: theme.palette.backgroundColor
+    backgroundColor: theme.palette.popupBackgroundColor
   },
   details: {
     padding: theme.spacing(6),

@@ -37,14 +37,14 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     lineHeight: 1.5,
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(0.5)
   },
   description: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(0.5),
     fontSize: '15px',
     display: '-webkit-box',
     overflow: 'hidden',
-    '-webkit-line-clamp': 6,
+    '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical'
   },
   footer: {
@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   primaryContent: {
-    flex: 1,
-    height: '100%',
+    paddingTop: theme.spacing(2.5),
+    minHeight: '50%',
     backgroundColor: theme.palette.card.main,
     color: theme.palette.card.contrastText,
     transition: 'all .15s',
@@ -73,7 +73,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   secondaryContent: {
-    paddingBottom: `${theme.spacing(2)}px !important`
+    paddingBottom: `${theme.spacing(2)}px !important`,
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   iconBox: {
     display: 'flex',
@@ -135,7 +139,7 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
   );
 
   return (
-    <Grow appear={false} in={!loading} timeout={{ enter: timeout, exit: 150 }}>
+    <Grow appear={false} in={!loading} timeout={{ enter: timeout, exit: 100 }}>
       <Box height={1}>
         <Card key={sample.id} className={classes.root}>
           <Box onClick={openSamplePopup} className={classes.actionArea}>
@@ -155,7 +159,7 @@ export default function SampleCard({ sample, updateTags, timeout, loading }) {
               </Typography>
             </CardContent>
             <CardContent className={classes.secondaryContent}>
-              <Scrollbars style={{ height: 91 }} autoHide>
+              <Scrollbars style={{ height: '100%' }} autoHide universal={true}>
                 {tags}
               </Scrollbars>
               <Grid container className={classes.footer} wrap="nowrap">

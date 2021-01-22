@@ -9,7 +9,8 @@ const theme = createMuiTheme({
   },
   palette: {
     borderColor: '#dee2e6',
-    backgroundColor: '#fafafa',
+    popupBackgroundColor: '#fafafa',
+    executionTimeBackground: '#fef9c4',
     icon: '#6f747a',
     appBar: {
       main: '#fff',

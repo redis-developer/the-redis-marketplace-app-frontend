@@ -1,14 +1,16 @@
-import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Grow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
+import { FaPlusSquare } from 'react-icons/fa';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import api from '../src/api';
 import {
   Footer,
   Header,
+  Link,
   LinkedSample,
   Results,
   SearchBar,
@@ -37,7 +39,32 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   executeTime: {
-    fontWeight: 500
+    fontWeight: 400
+  },
+  executeTimeBox: {
+    backgroundColor: theme.palette.executionTimeBackground,
+    display: 'inline-block',
+    padding: theme.spacing(0.5, 1),
+    borderRadius: theme.spacing(0.5),
+    marginBottom: theme.spacing(3),
+    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07)'
+  },
+  addYourAppBox: {
+    margin: theme.spacing(0, 'auto')
+  },
+  addYourAppLink: {
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.text.primary,
+    marginBottom: theme.spacing(1),
+    fontWeight: 500,
+    textDecoration: 'underline'
+  },
+  icon: {
+    height: '20px',
+    width: '20px',
+    marginRight: theme.spacing(1),
+    color: theme.palette.icon
   }
 }));
 
@@ -145,18 +172,31 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     setTextFilter();
   }, []);
 
+  const showExecutionTime = useMemo(
+    () =>
+      textFilter ||
+      Object.keys(tags).some((filter) =>
+        Object.keys(tags[filter]).some((tag) => tags[filter][tag])
+      ),
+    [tags, textFilter]
+  );
+
   return (
     <Box mt={9}>
       <Header />
       <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0}>
-        <Typography variant="h3">Redis Labs Marketplace</Typography>
+        <Typography variant="h3">Redis Marketplace</Typography>
         <Typography variant="body1">
           See what you can build with Redis. Get started with code samples.
         </Typography>
         <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-        <Typography variant="body1" className={classes.executeTime}>
-          Execution time: {data?.executeTime || 0}s
-        </Typography>
+        <Grow in={showExecutionTime} appear={false}>
+          <Box className={classes.executeTimeBox}>
+            <Typography variant="body2" className={classes.executeTime}>
+              Search time: {data?.executeTime || 0} secs
+            </Typography>
+          </Box>
+        </Grow>
       </Box>
       <Container maxWidth="lg">
         {linkedSample && (
@@ -169,7 +209,14 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
         )}
         <Grid container spacing={1}>
           <Box clone order={1}>
-            <Grid item md={2} />
+            <Grid item md={2} className={classes.addYourAppBox}>
+              <Link
+                href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
+                target="_blank"
+                className={classes.addYourAppLink}>
+                <FaPlusSquare className={classes.icon} /> Add your App
+              </Link>
+            </Grid>
           </Box>
           <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
             <Grid item md={10}>
