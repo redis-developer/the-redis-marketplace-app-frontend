@@ -240,12 +240,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
               {error ? (
                 <Alert severity="error">Server Error. Please try again later!</Alert>
               ) : (
-                <Results
-                  samples={data?.rows}
-                  updateTags={updateTags}
-                  loading={loading}
-                  limit={LIMIT}
-                />
+                <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
               )}
               {data && !error && (
                 <Grid container justify="center">

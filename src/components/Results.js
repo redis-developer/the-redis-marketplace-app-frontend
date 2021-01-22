@@ -14,19 +14,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Results({ samples, updateTags, loading }) {
+export default function Results({ samples, updateTags }) {
   const classes = useStyles();
 
   return (
     <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={2}>
-      {samples?.map((sample, i) => (
+      {samples?.map((sample) => (
         <Grid item sm={6} md={4} key={sample.id}>
-          <SampleCard
-            sample={sample}
-            updateTags={updateTags}
-            timeout={(i + 1) * 50}
-            loading={loading}
-          />
+          <SampleCard sample={sample} updateTags={updateTags} />
         </Grid>
       ))}
     </Grid>
