@@ -3,6 +3,7 @@ import {
   Grid,
   InputAdornment,
   Paper,
+  Popper,
   TextField,
   Typography,
   useMediaQuery
@@ -373,6 +374,21 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     ]
   );
 
+  const AutocompletePopper = useCallback(
+    ({ children, ...rest }) => (
+      <Popper
+        {...rest}
+        modifiers={{
+          flip: {
+            enabled: false
+          }
+        }}>
+        {children}
+      </Popper>
+    ),
+    []
+  );
+
   return (
     <Autocomplete
       id="search-bar"
@@ -397,6 +413,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       filterOptions={(options) => options}
       renderInput={renderInput}
       PaperComponent={AutocompletePaper}
+      PopperComponent={AutocompletePopper}
     />
   );
 }
