@@ -65,7 +65,9 @@ Axios setup to communicate with the API.
 
 ## Deploying
 
-This repo has automatic staging deployment turned on via Heroku. Every commit to the main branch also deploys the application to https://redislabs-marketplace.herokuapp.com/. You test out the built code locally with the following commands.
+This repo has automatic staging and production deployment turned on via Heroku. Every commit to the `main` branch also deploys the application to [staging](https://redislabs-marketplace.herokuapp.com/), every commit to the `production` branch also deploys the application to [production](https://redislabs-marketplace-prod.herokuapp.com/).
+
+You can test out the built code locally with the following commands.
 
 Build the code
 ```bash
