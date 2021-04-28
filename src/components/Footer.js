@@ -2,15 +2,12 @@ import { Box, Grid, Link as MuiLink, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
+import { footer } from '../constants';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.footer.main,
     color: theme.palette.footer.contrastText
-  },
-  mainText: {
-    fontStyle: 'italic',
-    fontWeight: 300,
-    padding: theme.spacing(1)
   },
   copyright: {
     marginTop: theme.spacing(3),
@@ -19,16 +16,8 @@ const useStyles = makeStyles((theme) => ({
   category: {
     marginTop: theme.spacing(3)
   },
-  gridContainer: {
-    // background: 'teal'
-  },
   gridItem: {
-    // background: 'salmon',
-    // border: '1px white solid',
     padding: '10px'
-  },
-  gridColumn: {
-    // background: 'DarkSeaGreen'
   },
   redisLogo: {
     height: '40px',
@@ -40,42 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const year = new Date().getFullYear();
-/* 
-
-const getStartedColumn = {
-  header: 'Get Started',
-  rows: [
-    'Create Database',
-    'Develop',
-    'Explore your data',
-    'Best Practices',
-    'Build with Redis Modules'
-  ]
-};
-
-const communityColumn = {
-  header: 'Community',
-  rows: ['Redis University', 'Command', 'Reference', 'How-tos & tutorials']
-};
-
-const ColumnHeader = (line) => (
-  <Grid item sm={8}>
-    {line}
-  </Grid>
-);
-const GridItem = (line) => (
-  <Grid item sm={8}>
-    {line}
-  </Grid>
-);
-
-const GridList = ({ header, rows }) => [ColumnHeader(header), ...rows.map(GridItem)];
-
-const GridColumn = (list) => (
-  <Grid container md={2} direction="column" alignItems="baseline">
-    {list}
-  </Grid>
-); */
 
 export default function Footer() {
   const classes = useStyles();
@@ -85,94 +38,27 @@ export default function Footer() {
       <Grid justify="space-evenly" className={classes.gridContainer} container>
         <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
 
-        <Grid md={2} direction="column" className={classes.gridColumn} container>
-          <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.category}>
-              Made with {`</>`} by
-            </Typography>
+        {footer.map(({ category, items }) => (
+          <Grid key={category} md={2} direction="column" className={classes.gridColumn} container>
+            <Grid className={classes.gridItem} item>
+              <Typography variant="h6" align="left" className={classes.category}>
+                {category}
+              </Typography>
+            </Grid>
+            {items.map(({ label, link }) => (
+              <Grid key={label} className={classes.gridItem} item>
+                <MuiLink color="inherit" target="_blank" href={link}>
+                  {category === 'Made with </> by' ? (
+                    <img src={label} alt="logo-redis" className={classes.redisLogo} />
+                  ) : (
+                    label
+                  )}
+                </MuiLink>
+              </Grid>
+            ))}
           </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
-              <img src="/logo-redis-reversed.svg" alt="logo-redis" className={classes.redisLogo} />
-            </MuiLink>
-          </Grid>
-        </Grid>
+        ))}
 
-        <Grid md={2} direction="column" className={classes.gridColumn} container>
-          <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.category}>
-              Get Started
-            </Typography>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink
-              color="inherit"
-              target="_blank"
-              href="https://developer.redislabs.com/create/rediscloud">
-              Create Database
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink color="inherit" target="_blank" href="https://developer.redislabs.com/develop">
-              Develop
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink
-              color="inherit"
-              target="_blank"
-              href="https://developer.redislabs.com/explore/redisinsight">
-              Explore your data
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink
-              color="inherit"
-              target="_blank"
-              href="https://redislabs.com/redis-best-practices/introduction/">
-              Best Practices
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink
-              color="inherit"
-              target="_blank"
-              href="https://developer.redislabs.com/howtos/redisearch">
-              Build with Redis Modules
-            </MuiLink>
-          </Grid>
-        </Grid>
-
-        <Grid md={2} direction="column" className={classes.gridColumn} container>
-          <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.category}>
-              Resources
-            </Typography>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink color="inherit" target="_blank" href="https://redislabs.com/community/">
-              Community
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink color="inherit" target="_blank" href="https://university.redislabs.com/">
-              Redis University
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink color="inherit" target="_blank" href="https://redis.io/commands">
-              Command Reference
-            </MuiLink>
-          </Grid>
-          <Grid className={classes.gridItem} item>
-            <MuiLink
-              color="inherit"
-              target="_blank"
-              href="https://developer.redislabs.com/howtos/moviesdatabase/getting-started">
-              How-tos & tutorials
-            </MuiLink>
-          </Grid>
-        </Grid>
         <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
       </Grid>
 
@@ -183,19 +69,3 @@ export default function Footer() {
     </Box>
   );
 }
-
-/*  <Box className={classes.root} mt={6} pt={6} pb={4}>
-      <Typography variant="h3" align="center" className={classes.mainText}>
-        We can’t wait to see what you build.
-      </Typography>
-      <Typography variant="body2" align="center" className={classes.copyright}>
-        {`Copyright © ${year} `}
-        <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
-          Redis Marketplace
-        </MuiLink>
-      </Typography>
-      <Typography variant="body2" align="center">
-        ALL RIGHTS RESERVED.
-      </Typography>
-    </Box> 
-*/
