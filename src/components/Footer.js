@@ -1,5 +1,4 @@
-import { Box, Grid, Link as MuiLink, Paper, Typography } from '@material-ui/core';
-import { cyan } from '@material-ui/core/colors';
+import { Box, Grid, Link as MuiLink, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
@@ -14,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1)
   },
   copyright: {
+    marginTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3)
+  },
+  category: {
     marginTop: theme.spacing(3)
   },
   gridContainer: {
@@ -29,15 +32,15 @@ const useStyles = makeStyles((theme) => ({
   },
   redisLogo: {
     height: '40px',
-    opacity: '0,5',
+    opacity: '0.5',
     '&:hover': {
       opacity: '1'
     }
-    // marginRight: theme.spacing(3)
   }
 }));
 
 const year = new Date().getFullYear();
+/* 
 
 const getStartedColumn = {
   header: 'Get Started',
@@ -69,37 +72,35 @@ const GridItem = (line) => (
 const GridList = ({ header, rows }) => [ColumnHeader(header), ...rows.map(GridItem)];
 
 const GridColumn = (list) => (
-  <Grid container sm={4} direction="column" alignItems="baseline">
+  <Grid container md={2} direction="column" alignItems="baseline">
     {list}
   </Grid>
-);
+); */
 
 export default function Footer() {
   const classes = useStyles();
 
   return (
-    <Box padding={3} className={classes.root}>
+    <Box className={classes.root}>
       <Grid justify="space-evenly" className={classes.gridContainer} container>
-        <Grid xs={3} direction="column" className={classes.gridColumn} container>
+        <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
+
+        <Grid md={2} direction="column" className={classes.gridColumn} container>
           <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.copyright}>
+            <Typography variant="h6" align="left" className={classes.category}>
               Made with {`</>`} by
             </Typography>
           </Grid>
           <Grid className={classes.gridItem} item>
             <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
-              <img
-                src="https://developer.redislabs.com/img/redis-labs-logo-reversed.svg"
-                alt="logo-redis"
-                className={classes.redisLogo}
-              />
+              <img src="/logo-redis-reversed.svg" alt="logo-redis" className={classes.redisLogo} />
             </MuiLink>
           </Grid>
         </Grid>
 
-        <Grid xs={3} direction="column" className={classes.gridColumn} container>
+        <Grid md={2} direction="column" className={classes.gridColumn} container>
           <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.copyright}>
+            <Typography variant="h6" align="left" className={classes.category}>
               Get Started
             </Typography>
           </Grid>
@@ -142,9 +143,9 @@ export default function Footer() {
           </Grid>
         </Grid>
 
-        <Grid xs={3} direction="column" className={classes.gridColumn} container>
+        <Grid md={2} direction="column" className={classes.gridColumn} container>
           <Grid className={classes.gridItem} item>
-            <Typography variant="h6" align="left" className={classes.copyright}>
+            <Typography variant="h6" align="left" className={classes.category}>
               Resources
             </Typography>
           </Grid>
@@ -172,6 +173,7 @@ export default function Footer() {
             </MuiLink>
           </Grid>
         </Grid>
+        <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
       </Grid>
 
       <Typography variant="body2" align="center" className={classes.copyright}>
