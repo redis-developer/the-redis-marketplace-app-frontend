@@ -1,9 +1,8 @@
-import { AppBar, Box, Button, Grid, Link as MuiLink, Toolbar } from '@material-ui/core';
+import { AppBar, Box, Grid, Link as MuiLink, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import { toolbarMenus } from '../constants';
-import { Link, ToolbarMenu } from './';
+import { simpleToolbar } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -22,23 +21,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0),
     margin: theme.spacing(0, 'auto')
   },
-  tryButton: {
-    border: '2px solid #5961ff',
-    whiteSpace: 'nowrap',
-    textTransform: 'capitalize',
-    fontWeight: '700',
-    padding: theme.spacing(1, 3.5),
-    borderRadius: '6px',
-    '&:hover, &:active': {
-      border: '2px solid #5961ff'
-    }
-  },
   redisLogo: {
     height: '40px',
     marginRight: theme.spacing(3)
   },
   menuCategories: {
     height: '100%'
+  },
+
+  menuItem: {
+    padding: theme.spacing(1)
   }
 }));
 
@@ -51,24 +43,20 @@ export default function Header() {
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
           <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
         </MuiLink>
-        <Box display={{ xs: 'none', sm: 'none', md: 'block' }} width={1}>
-          <Grid container className={classes.menuCategories}>
-            {toolbarMenus.map(({ menuTitle, menuCategories }) => (
-              <ToolbarMenu key={menuTitle} menuTitle={menuTitle} menuCategories={menuCategories} />
+
+        <Box display={{ xs: 'none', sm: 'block', md: 'block' }} className="containerBox" width={1}>
+          <Grid justify="flex-end" container className={classes.menuContainer}>
+            {simpleToolbar.map(({ label, link }) => (
+              <Grid key={label} className={classes.gridItem} item>
+                <MuiLink color="inherit" target="_blank" href={link}>
+                  <Typography variant="subtitle1" align="right" className={classes.menuItem}>
+                    {label}
+                  </Typography>
+                </MuiLink>
+              </Grid>
             ))}
           </Grid>
         </Box>
-        <Button
-          variant="outlined"
-          color="primary"
-          size="large"
-          className={classes.tryButton}
-          component={Link}
-          naked
-          target="_blank"
-          href="https://redislabs.com/try-free/">
-          Try Free
-        </Button>
       </Toolbar>
     </AppBar>
   );
