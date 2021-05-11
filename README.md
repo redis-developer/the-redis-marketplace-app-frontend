@@ -1,5 +1,9 @@
 # Redis Marketplace
 
+- staging: https://marketplace-client-staging.herokuapp.com
+- production: https://marketplace.redislabs.com/
+
+
 ## Setup
 
 Create a `.env.local` file with an `API_URL`:
