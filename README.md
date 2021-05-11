@@ -1,14 +1,5 @@
 # Redis Marketplace
 
-## Application purpose:
-
-To create a marketplace site so developers can search and browse through various Redis sample projects and find specific examples for their needs with the help of Redisearch.
-
-## Core dependencies used for building the UI:
-- [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
-- [react](https://reactjs.org/)
-- [material-ui](https://material-ui.com/)
-- [axios](https://github.com/axios/axios)
 ## Setup
 
 Create a `.env.local` file with an `API_URL`:
@@ -31,6 +22,32 @@ npm run dev
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+
+## Deloy to staging
+
+1. `git add -A`
+2. `git commit - 'message'`
+3. `git push origin main`
+
+Pushing to main will deploy to staging automatically.
+
+https://dashboard.heroku.com/apps/marketplace-client-staging
+
+![image](https://user-images.githubusercontent.com/6561205/117838982-16501280-b27b-11eb-973f-b8c136274f17.png)
+
+## Deploy to production
+
+1. `git checkout main`
+2. `git pull origin main`
+3. `git checkout production`
+4. `git merge main`
+5. `git push origin production`
+
+Pushing to production will trigger a build and deploy automatically to the production app.
+
+https://dashboard.heroku.com/apps/marketplace-client-production
+
+![image](https://user-images.githubusercontent.com/6561205/117839617-adb56580-b27b-11eb-9642-96ace7c2d269.png)
 
 ## Project structure
 
@@ -94,3 +111,14 @@ npm run format
 ```
 
 Husky should also automatically format and lint everything before a commit.
+
+
+## Application purpose:
+
+To create a marketplace site so developers can search and browse through various Redis sample projects and find specific examples for their needs with the help of Redisearch.
+
+## Core dependencies used for building the UI:
+- [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+- [react](https://reactjs.org/)
+- [material-ui](https://material-ui.com/)
+- [axios](https://github.com/axios/axios)
