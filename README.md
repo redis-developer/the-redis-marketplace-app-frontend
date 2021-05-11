@@ -49,6 +49,14 @@ https://dashboard.heroku.com/apps/marketplace-client-production
 
 ![image](https://user-images.githubusercontent.com/6561205/117839617-adb56580-b27b-11eb-9642-96ace7c2d269.png)
 
+## Environment Variables
+
+- `API_URL`: The URI for the backend application. (E.g. the staging URI: `https://marketplace-backend-staging-a.herokuapp.com/`)
+
+In heroku this is configured at: https://dashboard.heroku.com/apps/marketplace-client-staging/settings 
+
+![image](https://user-images.githubusercontent.com/6561205/117840572-9460e900-b27c-11eb-800e-2a7254984024.png)
+
 ## Project structure
 
 ### `/pages/index.js`
