@@ -10,7 +10,7 @@ import { LanguageIcon } from './';
 const staticFilters = [
   {
     category: {
-      name: <Box className="category typeCategory">Type of App</Box>,
+      name: <Box className="category typeCategory">App Types</Box>,
       filter: 'type'
     },
     options: [
