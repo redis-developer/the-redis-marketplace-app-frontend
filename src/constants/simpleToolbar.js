@@ -1,6 +1,6 @@
 export default [
   {
-    label: 'Developer hub',
+    label: 'Developer Hub',
     link: 'https://developer.redislabs.com/create/rediscloud'
   },
   {
