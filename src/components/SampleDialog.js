@@ -252,7 +252,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       </DialogTitle>
       <DialogContent className={classes.content}>
         <Paper elevation={3} className={classes.details}>
-          {isOpened && sample.youtube_url && (
+          {sample.youtube_url && (
             <Box className={classes.youtubeBoxOuter}>
               <Box className={classes.youtubeBox}>
                 <CardMedia
@@ -342,16 +342,15 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
               </Grid>
             ))}
           </Grid>
-          {isOpened &&
-            sample.app_image_urls.map((imageUrl, index) => (
-              <img
-                src={imageUrl}
-                key={imageUrl}
-                alt={`app_image_${index}`}
-                className={classes.image}
-              />
-            ))}
-          {isOpened && sample.markdown && <Markdown url={sample.markdown} />}
+          {sample.app_image_urls.map((imageUrl, index) => (
+            <img
+              src={imageUrl}
+              key={imageUrl}
+              alt={`app_image_${index}`}
+              className={classes.image}
+            />
+          ))}
+          {sample.markdown && <Markdown url={sample.markdown} />}
         </Paper>
       </DialogContent>
     </Dialog>
