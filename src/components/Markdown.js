@@ -13,7 +13,10 @@ const renderers = {
         {value}
       </SyntaxHighlighter>
     );
-  }
+  },
+  image: ({ alt, src, title }) => (
+    <img alt={alt} src={src} title={title} style={{ maxWidth: '100%' }} />
+  )
 };
 
 export default function Markdown({ url, ...rest }) {
