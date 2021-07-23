@@ -5,7 +5,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   spacing: 8,
   typography: {
-    fontFamily: "'Montserrat', sans-serif"
+    fontFamily: "'Mulish', sans-serif"
   },
   palette: {
     borderColor: '#dee2e6',

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: `1302 !important`
   },
   root: {
-    width: '1300px',
+    width: '90vw',
     borderRadius: '10px',
     marginTop: theme.spacing(10),
     [theme.breakpoints.down('sm')]: {
@@ -67,10 +67,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.popupBackgroundColor
   },
   details: {
-    padding: theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(2)
-    }
+    },
+    // padding: theme.spacing(6),
+    padding: '0 15%'
   },
   image: {
     display: 'block',
@@ -205,8 +206,8 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       open={isOpened}
       keepMounted
       TransitionComponent={Transition}
-      scroll="body"
-      maxWidth="lg"
+      scroll="paper"
+      maxWidth={false}
       onClose={closePopup}
       aria-labelledby="sample-dialog-title"
       PaperProps={{ className: classes.root }}

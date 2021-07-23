@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LIMIT = 9;
+const LIMIT = 16;
 
 function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   const classes = useStyles();
@@ -114,7 +114,8 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
         ? {
             text_filter: textFilter
           }
-        : {})
+        : {}),
+      sortBy: 'rank'
     }),
     [offset, tags, textFilter]
   );
