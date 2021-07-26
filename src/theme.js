@@ -13,8 +13,8 @@ const theme = createMuiTheme({
     executionTimeBackground: '#fef9c4',
     icon: '#6f747a',
     appBar: {
-      main: '#fff',
-      contrastText: '#3f4b5f'
+      main: '#191E31',
+      contrastText: '#fff'
     },
     footer: {
       main: '#292929',
@@ -22,7 +22,8 @@ const theme = createMuiTheme({
     },
     text: {
       primary: '#292929',
-      secondary: '#292929'
+      secondary: '#fff',
+      third: '#292929'
     },
     primary: {
       main: '#5961ff',
@@ -33,7 +34,7 @@ const theme = createMuiTheme({
       contrastText: '#292929'
     },
     card: {
-      contrastText: '#008cff',
+      contrastText: '#fff',
       main: '#ebf4ff',
       dark: '#d1e9ff'
     },
@@ -41,7 +42,7 @@ const theme = createMuiTheme({
       main: red.A400
     },
     background: {
-      default: '#fff'
+      default: '#191E31'
     },
     filterCategoryColors: {
       type: {
