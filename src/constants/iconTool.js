@@ -40,8 +40,8 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/08.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
-    ],
+      }
+    ]
   },
   {
     row: [
@@ -84,8 +84,8 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/16.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
-    ],
+      }
+    ]
   },
   {
     row: [
@@ -128,8 +128,7 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/24.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
+      }
     ]
   }
 ];
-  

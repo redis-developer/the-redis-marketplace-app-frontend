@@ -9,21 +9,15 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `;
-const FadeIn = ({
-  duration = 300,
-  delay = 0,
-  children,
-  ...delegated
-}) => {
+const FadeIn = ({ duration = 300, delay = 0, children, ...delegated }) => {
   return (
     <Wrapper
       {...delegated}
       style={{
         ...(delegated.style || {}),
         animationDuration: duration + 'ms',
-        animationDelay: delay + 'ms',
-      }}
-    >
+        animationDelay: delay + 'ms'
+      }}>
       {children}
     </Wrapper>
   );
@@ -34,4 +28,4 @@ const Wrapper = styled.div`
     animation-fill-mode: backwards;
   }
 `;
-export default FadeIn
+export default FadeIn;

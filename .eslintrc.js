@@ -41,7 +41,8 @@ module.exports = {
         specialLink: ['hrefLeft', 'hrefRight'],
         aspects: ['invalidHref', 'preferButton']
       }
-    ]
+    ],
+    'no-unused-vars': 'off'
   },
   overrides: [
     {

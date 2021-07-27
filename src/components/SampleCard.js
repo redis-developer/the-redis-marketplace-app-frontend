@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '50%',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
-    wordBreak:'break-all',
+    wordBreak: 'break-all',
     transition: 'all .15s',
     '& p': {
       color: theme.palette.card.contrastText
@@ -149,19 +149,14 @@ export default function SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography gutterBottom variant="h6" component="h4" className={classes.appName}>
-                  {
-                    sample.app_name
-                  }
+                  {sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
             <Typography variant="body2" className={classes.description}>
-              {
-                sample.description.length > 50 ?
-                  sample.description.slice(0, 50) + '...'
-                  :
-                  sample.description
-              }
+              {sample.description.length > 50
+                ? sample.description.slice(0, 50) + '...'
+                : sample.description}
             </Typography>
           </CardContent>
         </Box>

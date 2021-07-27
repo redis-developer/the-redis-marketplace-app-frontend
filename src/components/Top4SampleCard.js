@@ -148,16 +148,12 @@ export default function Top4SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
-                  {
-                    sample.app_name
-                  }
+                  {sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
             <Typography variant="body2" className={classes.description}>
-              {
-                sample.description
-              }
+              {sample.description}
             </Typography>
           </CardContent>
         </Box>

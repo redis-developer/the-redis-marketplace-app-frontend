@@ -19,14 +19,13 @@ export default function Top4Results({ samples, updateTags }) {
 
   return (
     <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={1}>
-      {samples?.map((sample, i) => (
-        i < 4 ?
-        <Grid item sm={6} md={3} key={sample.id}>
-          <Top4SampleCard sample={sample} updateTags={updateTags} />
-        </Grid>
-        :
-        null
-      ))}
+      {samples?.map((sample, i) =>
+        i < 4 ? (
+          <Grid item sm={6} md={3} key={sample.id}>
+            <Top4SampleCard sample={sample} updateTags={updateTags} />
+          </Grid>
+        ) : null
+      )}
     </Grid>
   );
 }

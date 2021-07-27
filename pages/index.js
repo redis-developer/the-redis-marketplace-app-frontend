@@ -5,20 +5,21 @@ import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { iconTool } from '../src/constants';
-import { FadeIn } from '../src/components';
+
 import api from '../src/api';
+import { FadeIn } from '../src/components';
 import {
   Footer,
   Header,
   Link,
   LinkedSample,
   Results,
-  Top4Results,
   SearchBar,
   TagChipBar,
-  TagFilter
+  TagFilter,
+  Top4Results
 } from '../src/components';
+import { iconTool } from '../src/constants';
 import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,19 +57,18 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     '& :hover': {
       transition: 'all 0.5s ease-in-out'
-
-    },
-  //   '@keyframes fadein': {
-  //     from: { opacity: 0 },
-  //     to:   { opacity: 1 }
-  // }
+    }
+    //   '@keyframes fadein': {
+    //     from: { opacity: 0 },
+    //     to:   { opacity: 1 }
+    // }
   },
   addApp: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: theme.spacing(8),
-    paddingRight: theme.spacing(9),
+    paddingRight: theme.spacing(9)
   },
   executeTime: {
     fontWeight: 400
@@ -92,17 +92,17 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     paddingTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    fontWeight: 500,
+    fontWeight: 500
   },
   icon: {
     height: '40px',
     width: '40px',
     marginRight: theme.spacing(1),
-    color: '#d81b2d',
+    color: '#d81b2d'
   },
   cardArea: {
     paddingLeft: theme.spacing(10),
-    paddingRight: theme.spacing(10),
+    paddingRight: theme.spacing(10)
   },
   featuredApps: {
     color: theme.palette.text.secondary,
@@ -115,11 +115,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
     '& .Mui-selected': {
       backgroundColor: '#d81b2d',
-      color:'#fff',
-     },
-     '& .MuiPaginationItem-page': {
-      color:'#fff',
-     },
+      color: '#fff'
+    },
+    '& .MuiPaginationItem-page': {
+      color: '#fff'
+    }
   }
 }));
 
@@ -198,17 +198,16 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     });
   }, []);
 
-  const [searchFlag, setSearchFlag] = useState(false)
+  const [searchFlag, setSearchFlag] = useState(false);
 
   // Filtering
   const updateTextFilter = useCallback((text) => {
     setOffset(0);
     setTextFilter(text);
-    if(text.length > 0){
-      setSearchFlag(true)
-    }
-    else if(!text || text.length === 0){
-      setSearchFlag(false)
+    if (text.length > 0) {
+      setSearchFlag(true);
+    } else if (!text || text.length === 0) {
+      setSearchFlag(false);
     }
   }, []);
 
@@ -251,38 +250,41 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
       <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0} mt={2}>
         <Grid direction="row" className={classes.iconArea} container>
           <Grid item md={3.5} className={classes.title}>
-            <Typography variant="h3">Redis <br/> Marketplace</Typography>
+            <Typography variant="h3">
+              Redis <br /> Marketplace
+            </Typography>
             <Typography variant="body1">
-              See what you can build with Redis.<br/> Get started with code samples.
+              See what you can build with Redis.
+              <br /> Get started with code samples.
             </Typography>
           </Grid>
           <Grid item md={8.5}>
-            <Grid direction="row" container>  
-            {iconTool[0].row.map(({ label, imgSrc, link }) => (          
-              <Grid item md={1.5}>
-                <FadeIn>
-                  <img className={classes.iconTool} src={imgSrc} alt=""/>
-                </FadeIn>
-              </Grid>
-            ))}
+            <Grid direction="row" container>
+              {iconTool[0].row.map(({ label, imgSrc, link }, index) => (
+                <Grid item md={1.5} key={index}>
+                  <FadeIn>
+                    <img className={classes.iconTool} src={imgSrc} alt="" />
+                  </FadeIn>
+                </Grid>
+              ))}
             </Grid>
-            <Grid direction="row" container>  
-            {iconTool[1].row.map(({ label, imgSrc, link }) => (          
-              <Grid item md={1.5}>
-                <FadeIn>
-                  <img className={classes.iconTool} src={imgSrc} alt=""/>
-                </FadeIn>
-              </Grid>
-            ))}
+            <Grid direction="row" container>
+              {iconTool[1].row.map(({ label, imgSrc, link }, index) => (
+                <Grid item md={1.5} key={index}>
+                  <FadeIn>
+                    <img className={classes.iconTool} src={imgSrc} alt="" />
+                  </FadeIn>
+                </Grid>
+              ))}
             </Grid>
-            <Grid direction="row" container>  
-            {iconTool[2].row.map(({ label, imgSrc, link }) => (          
-              <Grid item md={1.5}>
-                <FadeIn>
-                  <img className={classes.iconTool} src={imgSrc} alt=""/>
-                </FadeIn>
-              </Grid>
-            ))}
+            <Grid direction="row" container>
+              {iconTool[2].row.map(({ label, imgSrc, link }, index) => (
+                <Grid item md={1.5} key={index}>
+                  <FadeIn>
+                    <img className={classes.iconTool} src={imgSrc} alt="" />
+                  </FadeIn>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>
@@ -294,7 +296,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
               href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
               target="_blank"
               className={classes.addYourAppLink}>
-              <FaPlusCircle className={classes.icon} mt={4}/> Add your App
+              <FaPlusCircle className={classes.icon} mt={4} /> Add your App
             </Link>
           </Grid>
           <Grid item md={10}>
@@ -325,22 +327,19 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             </Grid>
           </Box>
           <Box clone order={4}>
-            <Grid item md={10} style={{ position: 'relative' }}> 
-              {
-                searchFlag === false ?
-                  <>
+            <Grid item md={10} style={{ position: 'relative' }}>
+              {searchFlag === false ? (
+                <>
                   <Grid direction="row" className={classes.featuredApps}>
-                    Lorem Ipsum Dolor Sit Amet Consectetur
+                    Featured
                   </Grid>
                   <Grid direction="row">
                     <Top4Results samples={data?.rows} updateTags={updateTags} limit={4} />
                   </Grid>
-                  </>
-                  :
-                  null
-              }
+                </>
+              ) : null}
               <Grid direction="row" className={classes.featuredApps}>
-                Adipiscing Elit Mauris Sed Metus Est
+                All
               </Grid>
               <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
               {error ? (
