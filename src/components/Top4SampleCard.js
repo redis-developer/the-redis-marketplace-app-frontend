@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    minHeight: '300px',
-    background: `url(${'./cardImages/03.png'}) no-repeat center fixed`,
+    minHeight: '600px',
+    background: `url(${'./cardImages/02.png'}) no-repeat center fixed`,
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -62,10 +62,9 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '50%',
+    minHeight: '40%',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
-    wordBreak:'break-all',
     transition: 'all .15s',
     '& p': {
       color: theme.palette.card.contrastText
@@ -115,7 +114,7 @@ function ContributerIcon({ contributedBy, ...rest }) {
   }
 }
 
-export default function SampleCard({ sample, updateTags }) {
+export default function Top4SampleCard({ sample, updateTags }) {
   const classes = useStyles();
 
   const [isOpened, setIsOpened] = useState(false);
@@ -148,7 +147,7 @@ export default function SampleCard({ sample, updateTags }) {
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
-                <Typography gutterBottom variant="h6" component="h4" className={classes.appName}>
+                <Typography gutterBottom variant="h6" component="h2" className={classes.appName}>
                   {
                     sample.app_name
                   }
@@ -157,10 +156,7 @@ export default function SampleCard({ sample, updateTags }) {
             </Grid>
             <Typography variant="body2" className={classes.description}>
               {
-                sample.description.length > 50 ?
-                  sample.description.slice(0, 50) + '...'
-                  :
-                  sample.description
+                sample.description
               }
             </Typography>
           </CardContent>

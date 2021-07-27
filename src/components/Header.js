@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.appBar.contrastText,
     height: theme.spacing(9),
     paddingTop: theme.spacing(0.5),
-    boxShadow: '0 0 6px 0 rgba(140,140,141,.5)'
+    boxShadow: '0 0 0'
   },
   toolbar: {
     display: 'flex',
@@ -41,7 +41,7 @@ export default function Header() {
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
-          <img src="/logo-redis.svg" alt="logo-redis" className={classes.redisLogo} />
+          <img src="/logo-redis-reversed.svg" alt="logo-redis" className={classes.redisLogo} />
         </MuiLink>
 
         <Box display={{ xs: 'none', sm: 'block', md: 'block' }} className="containerBox" width={1}>

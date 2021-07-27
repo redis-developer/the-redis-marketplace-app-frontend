@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
       position: 'relative',
       fontSize: '15px',
       fontWeight: 'bold',
+      color: theme.palette.text.secondary,
       width: '100%',
       borderRadius: '0',
       padding: theme.spacing(1, 2, 1, 3),
@@ -108,7 +109,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   tagsCategory: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
+    color: theme.palette.text.secondary
   },
   checkbox: {
     padding: theme.spacing(1)
@@ -186,7 +188,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
   const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container className={classes.root} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }}>
       {filters.map(({ category, options }) => (
         <Grid item xs={6} sm={3} md={12} key={category.filter}>
           <FormGroup className={classes.tagsCategory}>
