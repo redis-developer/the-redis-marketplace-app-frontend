@@ -62,32 +62,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SampleTags({ sample, closePopup, updateTags, disabled }) {
+export default function Top4SampleTags({ sample, closePopup, updateTags, disabled }) {
   const classes = useStyles();
-  let keynum = 0;
+
   const tags = useMemo(
     () =>
       ['redis_commands', 'redis_features', 'redis_modules', 'special_tags', 'verticals'].map(
         (filter) =>
-          sample[filter].map((tag) => {
-            keynum++;
-            return (
-              <Chip
-                size="small"
-                label={tag}
-                key={tag + keynum}
-                variant="outlined"
-                className={clsx(classes.chip, classes[`chip_${filter}`])}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  updateTags({ [filter]: { [tag]: true } });
-                  closePopup();
-                }}
-                disabled={disabled}
-                color="secondary"
-              />
-            );
-          })
+          sample[filter].map((tag) => (
+            <Chip
+              size="small"
+              label={tag}
+              key={tag + 'Top4'}
+              variant="outlined"
+              className={clsx(classes.chip, classes[`chip_${filter}`])}
+              onClick={(e) => {
+                e.stopPropagation();
+                updateTags({ [filter]: { [tag]: true } });
+                closePopup();
+              }}
+              disabled={disabled}
+              color="secondary"
+            />
+          ))
       ),
     [sample, classes, updateTags, closePopup, disabled]
   );

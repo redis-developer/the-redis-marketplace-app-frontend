@@ -349,7 +349,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
         {suggestionsOpen && !loading && !!options.length && (
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
-              <Typography variant="body2" className={classes.executeTime}>
+              <Typography component={'div'} variant="body2" className={classes.executeTime}>
                 Search time: {data?.executeTime} secs
               </Typography>
             </Grid>

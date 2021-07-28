@@ -2,11 +2,10 @@ import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
-import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
-import { SiRedis } from 'react-icons/si';
 
-import { LanguageIcon, SampleDialog, SampleTags } from './';
+// import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
+// import { SiRedis } from 'react-icons/si';
+import { SampleDialog, SampleTags } from './';
 
 const useStyles = makeStyles((theme) => ({
   '@keyframes gradient': {
@@ -93,27 +92,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function TypeIcon({ type, ...rest }) {
-  switch (type) {
-    case 'Building Block':
-      return <FaCube {...rest} />;
-    case 'Full App':
-      return <FaRegWindowRestore {...rest} />;
-    default:
-      return null;
-  }
-}
+// function TypeIcon({ type, ...rest }) {
+//   switch (type) {
+//     case 'Building Block':
+//       return <FaCube {...rest} />;
+//     case 'Full App':
+//       return <FaRegWindowRestore {...rest} />;
+//     default:
+//       return null;
+//   }
+// }
 
-function ContributerIcon({ contributedBy, ...rest }) {
-  switch (contributedBy) {
-    case 'Community':
-      return <FaUsers {...rest} />;
-    case 'Partner':
-      return <FaUserCog {...rest} style={{ marginLeft: '4px' }} />;
-    default:
-      return <SiRedis {...rest} />;
-  }
-}
+// function ContributerIcon({ contributedBy, ...rest }) {
+//   switch (contributedBy) {
+//     case 'Community':
+//       return <FaUsers {...rest} />;
+//     case 'Partner':
+//       return <FaUserCog {...rest} style={{ marginLeft: '4px' }} />;
+//     default:
+//       return <SiRedis {...rest} />;
+//   }
+// }
 
 export default function SampleCard({ sample, updateTags }) {
   const classes = useStyles();
@@ -148,12 +147,12 @@ export default function SampleCard({ sample, updateTags }) {
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
-                <Typography gutterBottom variant="h6" component="h4" className={classes.appName}>
+                <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
                   {sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
-            <Typography variant="body2" className={classes.description}>
+            <Typography component={'div'} variant="body2" className={classes.description}>
               {sample.description.length > 50
                 ? sample.description.slice(0, 50) + '...'
                 : sample.description}

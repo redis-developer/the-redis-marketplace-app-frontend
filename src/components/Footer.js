@@ -36,12 +36,18 @@ export default function Footer() {
   return (
     <Box className={classes.root}>
       <Grid justify="space-evenly" className={classes.gridContainer} container>
-        <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
+        <Grid item md={2} direction="column" className={classes.gridColumn} container></Grid>
 
         {footer.map(({ category, items }) => (
-          <Grid key={category} md={2} direction="column" className={classes.gridColumn} container>
+          <Grid
+            item
+            key={category}
+            md={2}
+            direction="column"
+            className={classes.gridColumn}
+            container>
             <Grid className={classes.gridItem} item>
-              <Typography variant="h6" align="left" className={classes.category}>
+              <Typography component={'div'} variant="h6" align="left" className={classes.category}>
                 {category}
               </Typography>
             </Grid>
@@ -59,10 +65,10 @@ export default function Footer() {
           </Grid>
         ))}
 
-        <Grid md={2} direction="column" className={classes.gridColumn} container></Grid>
+        <Grid item md={2} direction="column" className={classes.gridColumn} container></Grid>
       </Grid>
 
-      <Typography variant="body2" align="center" className={classes.copyright}>
+      <Typography component={'div'} variant="body2" align="center" className={classes.copyright}>
         {`Copyright © ${year} `}
         Redis Labs. Redis and the cube logo are registered trademarks of Redis Labs Ltd.
       </Typography>
