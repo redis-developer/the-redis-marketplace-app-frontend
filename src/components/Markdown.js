@@ -15,9 +15,9 @@ const renderers = {
     );
   },
   image: ({ alt, src, title }) => (
-    <div style={{ textAlign: 'center' }}>
-      <img alt={alt} src={src} title={title} style={{ maxWidth: '100%' }} />
-    </div>
+    // <div style={{ textAlign: 'center' }}>
+    <img alt={alt} src={src} title={title} style={{ maxWidth: '100%' }} />
+    // </div>
   )
 };
 

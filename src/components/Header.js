@@ -49,7 +49,11 @@ export default function Header() {
             {simpleToolbar.map(({ label, link }) => (
               <Grid key={label} className={classes.gridItem} item>
                 <MuiLink color="inherit" target="_blank" href={link}>
-                  <Typography variant="subtitle1" align="right" className={classes.menuItem}>
+                  <Typography
+                    component={'div'}
+                    variant="subtitle1"
+                    align="right"
+                    className={classes.menuItem}>
                     {label}
                   </Typography>
                 </MuiLink>

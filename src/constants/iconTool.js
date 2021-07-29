@@ -30,7 +30,11 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/06.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
+      }
+    ]
+  },
+  {
+    row: [
       {
         label: 'Developer Hub',
         imgSrc: 'icons/07.png',
@@ -41,10 +45,6 @@ export default [
         imgSrc: 'icons/08.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
       },
-    ],
-  },
-  {
-    row: [
       {
         label: 'Developer Hub',
         imgSrc: 'icons/09.png',
@@ -64,7 +64,11 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/12.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
+      }
+    ]
+  },
+  {
+    row: [
       {
         label: 'Developer Hub',
         imgSrc: 'icons/13.png',
@@ -85,10 +89,6 @@ export default [
         imgSrc: 'icons/16.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
       },
-    ],
-  },
-  {
-    row: [
       {
         label: 'Developer Hub',
         imgSrc: 'icons/17.png',
@@ -98,7 +98,11 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/18.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
+      }
+    ]
+  },
+  {
+    row: [
       {
         label: 'Developer Hub',
         imgSrc: 'icons/19.png',
@@ -128,8 +132,7 @@ export default [
         label: 'Developer Hub',
         imgSrc: 'icons/24.png',
         link: 'https://developer.redislabs.com/create/rediscloud'
-      },
+      }
     ]
   }
 ];
-  

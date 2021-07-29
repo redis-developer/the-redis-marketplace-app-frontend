@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 
-import { SampleDialog, SampleTags } from './';
+import { LinkedSampleTags, SampleDialog } from './';
 
 export default function LinkedSample({ sample, closeLinkedSample, updateTags, isOpened }) {
   const tags = useMemo(
-    () => <SampleTags sample={sample} closePopup={closeLinkedSample} updateTags={updateTags} />,
+    () => (
+      <LinkedSampleTags sample={sample} closePopup={closeLinkedSample} updateTags={updateTags} />
+    ),
     [closeLinkedSample, sample, updateTags]
   );
 

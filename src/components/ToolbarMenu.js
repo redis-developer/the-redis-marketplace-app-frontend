@@ -66,6 +66,7 @@ export default function ToolbarMenu({ menuTitle, menuCategories }) {
   return (
     <Box onMouseLeave={handleClose} className={classes.root}>
       <Typography
+        component={'div'}
         variant="body2"
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -91,7 +92,9 @@ export default function ToolbarMenu({ menuTitle, menuCategories }) {
                 className={classes.menuList}>
                 {menuCategories.map(({ categoryTitle, links }) => (
                   <Box key={categoryTitle} className={classes.category}>
-                    <Typography className={classes.categoryTitle}>{categoryTitle}</Typography>
+                    <Typography component={'div'} className={classes.categoryTitle}>
+                      {categoryTitle}
+                    </Typography>
                     {links.map(({ linkTitle, link }) => (
                       <MenuItem
                         className={classes.menuItem}
@@ -101,7 +104,7 @@ export default function ToolbarMenu({ menuTitle, menuCategories }) {
                         naked
                         target="_blank"
                         href={link}>
-                        <Typography variant="body2" className={classes.linkTitle}>
+                        <Typography component={'div'} variant="body2" className={classes.linkTitle}>
                           {linkTitle}
                         </Typography>
                       </MenuItem>

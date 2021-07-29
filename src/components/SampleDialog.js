@@ -216,7 +216,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
         <Grid container alignItems="flex-start" justify="space-between">
           <Grid item xs={11}>
             <Grid container alignItems="center">
-              <Typography variant="h5" className={classes.appName}>
+              <Typography component={'div'} variant="h5" className={classes.appName}>
                 {sample.app_name}
               </Typography>
               <IconButton onClick={copyToClipboard}>
@@ -237,7 +237,9 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
                   vertical: 'center',
                   horizontal: 'left'
                 }}>
-                <Typography className={classes.copiedMessage}>Link copied!</Typography>
+                <Typography component={'div'} className={classes.copiedMessage}>
+                  Link copied!
+                </Typography>
               </Popover>
             </Grid>
           </Grid>
@@ -336,7 +338,11 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
             <Grid item>Language(s):</Grid>
             {sample.language.map((lang) => (
               <Grid item key={lang}>
-                <Typography variant="body2" color="textSecondary" className={classes.iconBox}>
+                <Typography
+                  component={'div'}
+                  variant="body2"
+                  color="textSecondary"
+                  className={classes.iconBox}>
                   <LanguageIcon language={lang} className={classes.icon} />
                   {lang}
                 </Typography>

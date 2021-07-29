@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   inputWithSuggestions: {
-    borderRadius: '5px 5px 0 0',
+    borderRadius: '5px 5px 0 0'
   },
   inputWithoutSuggestions: {
-    borderRadius: '5px',
+    borderRadius: '5px'
   },
   icon: {
     color: theme.palette.icon,
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600
   },
   redisearch: {
-    width: '28px',
+    width: '28px'
     // marginLeft: theme.spacing(0.5)
   },
   descriptionOptionAppName: {
@@ -349,7 +349,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
         {suggestionsOpen && !loading && !!options.length && (
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
-              <Typography variant="body2" className={classes.executeTime}>
+              <Typography component={'div'} variant="body2" className={classes.executeTime}>
                 Search time: {data?.executeTime} secs
               </Typography>
             </Grid>
