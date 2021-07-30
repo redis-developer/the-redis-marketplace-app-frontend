@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    maxWidth: '680px',
+    // maxWidth: '680px',
     width: '100%',
-    margin: theme.spacing(4, 'auto', 3),
+    // margin: theme.spacing(4, 'auto', 3),
     padding: theme.spacing(0.25, 0.5),
     [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(3, 'auto', 4)
@@ -49,22 +49,25 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   inputWithSuggestions: {
-    borderRadius: '30px 30px 0 0',
-    boxShadow: `0px -1px 0px ${theme.palette.borderColor} inset`
+    borderRadius: '5px 5px 0 0'
   },
   inputWithoutSuggestions: {
-    borderRadius: '30px',
-    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
+    borderRadius: '5px'
   },
   icon: {
-    color: theme.palette.icon
+    color: theme.palette.icon,
+    width: '40px',
+    height: '40px',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   dropdown: {
     overflow: 'hidden',
     marginTop: '-57px',
     paddingTop: '57px',
+    paddingLeft: '0',
     zIndex: 1,
-    borderRadius: '30px',
+    borderRadius: '5px',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
   },
   listBox: {
@@ -93,8 +96,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600
   },
   redisearch: {
-    width: '28px',
-    marginLeft: theme.spacing(0.5)
+    width: '28px'
+    // marginLeft: theme.spacing(0.5)
   },
   descriptionOptionAppName: {
     fontSize: '12px'
@@ -346,7 +349,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
         {suggestionsOpen && !loading && !!options.length && (
           <Grid container className={classes.footer}>
             <Grid item xs={6}>
-              <Typography variant="body2" className={classes.executeTime}>
+              <Typography component={'div'} variant="body2" className={classes.executeTime}>
                 Search time: {data?.executeTime} secs
               </Typography>
             </Grid>

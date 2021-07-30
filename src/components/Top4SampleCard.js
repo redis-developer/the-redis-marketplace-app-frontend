@@ -5,7 +5,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 // import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 // import { SiRedis } from 'react-icons/si';
-import { SampleDialog, SampleTags } from './';
+import { SampleDialog, Top4SampleTags } from './';
 
 const useStyles = makeStyles((theme) => ({
   '@keyframes gradient': {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    minHeight: '300px',
+    minHeight: '600px',
     background: `url(${'./cardImages/generic.png'}) no-repeat center`,
     backgroundSize: 'contain',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
@@ -62,10 +62,9 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '50%',
+    minHeight: '40%',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
-    wordBreak: 'break-all',
     transition: 'all .15s',
     '& p': {
       color: theme.palette.card.contrastText
@@ -115,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 //   }
 // }
 
-export default function SampleCard({ sample, updateTags }) {
+export default function Top4SampleCard({ sample, updateTags }) {
   const classes = useStyles();
 
   const [isOpened, setIsOpened] = useState(false);
@@ -136,13 +135,13 @@ export default function SampleCard({ sample, updateTags }) {
   }, []);
 
   const tags = useMemo(
-    () => <SampleTags sample={sample} closePopup={closePopup} updateTags={updateTags} />,
+    () => <Top4SampleTags sample={sample} closePopup={closePopup} updateTags={updateTags} />,
     [sample, updateTags, closePopup]
   );
 
   return (
     <Box height={1}>
-      <Card key={sample.id} className={classes.root}>
+      <Card key={sample.id + 'Top4'} className={classes.root}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
           <CardContent></CardContent>
           <CardContent className={classes.primaryContent}>
@@ -154,9 +153,7 @@ export default function SampleCard({ sample, updateTags }) {
               </Grid>
             </Grid>
             <Typography component={'div'} variant="body2" className={classes.description}>
-              {sample.description.length > 50
-                ? sample.description.slice(0, 50) + '...'
-                : sample.description}
+              {sample.description}
             </Typography>
           </CardContent>
         </Box>

@@ -1,12 +1,14 @@
-import { Box, Container, Grid, Grow, Typography } from '@material-ui/core';
+import { Box, Grid, Grow, Typography } from '@material-ui/core';
+import { Zoom } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
 import Router from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
-import { FaPlusSquare } from 'react-icons/fa';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import api from '../src/api';
+import { FadeIn } from '../src/components';
 import {
   Footer,
   Header,
@@ -14,9 +16,10 @@ import {
   LinkedSample,
   Results,
   SearchBar,
-  TagChipBar,
-  TagFilter
+  TagFilter,
+  Top4Results
 } from '../src/components';
+import { iconTool } from '../src/constants';
 import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,16 +30,47 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       backgroundSize: '28%'
     },
-    textAlign: 'center',
-    background: `url(${'hero.svg'}) no-repeat local`,
-    backgroundPosition: '104% -70px',
+    backgroundColor: theme.palette.background.default,
+    color: '#fff',
+    textAlign: 'left',
+    paddingLeft: theme.spacing(8),
     '& h3': {
-      margin: theme.spacing(4, 0),
+      margin: theme.spacing(3, 0),
       fontWeight: 800,
       [theme.breakpoints.down('sm')]: {
         fontSize: '2.6rem'
       }
     }
+  },
+  iconArea: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingRight: theme.spacing(2)
+  },
+  title: {
+    marginTop: theme.spacing(4)
+  },
+  iconTool: {
+    width: '120px',
+    height: '120px',
+    padding: '5px 5px',
+    cursor: 'pointer',
+    opacity: 0
+  },
+
+  iconToolOpen: {
+    width: '120px',
+    height: '120px',
+    padding: '5px 5px',
+    cursor: 'pointer',
+    opacity: 1
+  },
+  addApp: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(8),
+    paddingRight: theme.spacing(9)
   },
   executeTime: {
     fontWeight: 400
@@ -47,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5, 1),
     borderRadius: theme.spacing(0.5),
     marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(0.5),
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07)'
   },
   addYourAppBox: {
@@ -55,20 +91,41 @@ const useStyles = makeStyles((theme) => ({
   addYourAppLink: {
     display: 'flex',
     alignItems: 'center',
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
+    paddingTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    fontWeight: 500,
-    textDecoration: 'underline'
+    fontWeight: 500
   },
   icon: {
-    height: '20px',
-    width: '20px',
+    height: '40px',
+    width: '40px',
     marginRight: theme.spacing(1),
-    color: theme.palette.icon
+    color: '#d81b2d'
+  },
+  cardArea: {
+    paddingLeft: theme.spacing(10),
+    paddingRight: theme.spacing(10)
+  },
+  featuredApps: {
+    color: theme.palette.text.secondary,
+    fontSize: '24px',
+    fontWeight: '700',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  },
+  pagination: {
+    marginBottom: theme.spacing(4),
+    '& .Mui-selected': {
+      backgroundColor: '#d81b2d',
+      color: '#fff'
+    },
+    '& .MuiPaginationItem-page': {
+      color: '#fff'
+    }
   }
 }));
 
-const LIMIT = 16;
+const LIMIT = 9;
 
 function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   const classes = useStyles();
@@ -99,6 +156,24 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   const [textFilter, setTextFilter] = useState();
   const [offset, setOffset] = useState(0);
   const [tags, setTags] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    let flag = false;
+    let interval;
+    setTimeout(() => {
+      interval = setInterval(() => {
+        if (flag === false) {
+          flag = true;
+          setIsOpen(flag);
+        } else {
+          clearInterval(interval);
+        }
+      }, 300);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
   const projectsParams = useMemo(
     () => ({
       offset,
@@ -143,10 +218,17 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     });
   }, []);
 
+  const [searchFlag, setSearchFlag] = useState(false);
+
   // Filtering
   const updateTextFilter = useCallback((text) => {
     setOffset(0);
     setTextFilter(text);
+    if (text.length > 0) {
+      setSearchFlag(true);
+    } else if (!text || text.length === 0) {
+      setSearchFlag(false);
+    }
   }, []);
 
   const updateTags = useCallback((tags) => {
@@ -167,12 +249,6 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     [updateTags]
   );
 
-  const clearFilters = useCallback(() => {
-    setOffset(0);
-    setTags({});
-    setTextFilter();
-  }, []);
-
   const showExecutionTime = useMemo(
     () =>
       textFilter ||
@@ -181,25 +257,115 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
       ),
     [tags, textFilter]
   );
-
   return (
     <Box mt={9}>
       <Header />
-      <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0}>
-        <Typography variant="h3">Redis Marketplace</Typography>
-        <Typography variant="body1">
-          See what you can build with Redis. Get started with code samples.
-        </Typography>
-        <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-        <Grow in={showExecutionTime} appear={false}>
-          <Box className={classes.executeTimeBox}>
-            <Typography variant="body2" className={classes.executeTime}>
-              Search time: {data?.executeTime || 0} secs
+      <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0} mt={2}>
+        <Grid className={classes.iconArea} container>
+          <Grid item md={4} className={classes.title}>
+            <Typography component={'div'} variant="h3">
+              Redis <br /> Marketplace
             </Typography>
-          </Box>
-        </Grow>
+            <Typography component={'div'} variant="body1">
+              See what you can build with Redis.
+              <br /> Get started with code samples.
+            </Typography>
+          </Grid>
+          <Grid item md={8}>
+            <Grid container>
+              {iconTool[0].row.map(({ imgSrc }) => {
+                let animationTime = Math.random() * 2;
+                let animationTimeStr = animationTime.toString() + 's';
+                return (
+                  <Grid item md={2} key={imgSrc}>
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
+                      <img
+                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
+                        src={imgSrc}
+                        alt=""
+                      />
+                    </Zoom>
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid container>
+              {iconTool[1].row.map(({ imgSrc }) => {
+                let animationTime = Math.random() * 2;
+                let animationTimeStr = animationTime.toString() + 's';
+                return (
+                  <Grid item md={2} key={imgSrc}>
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
+                      <img
+                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
+                        src={imgSrc}
+                        alt=""
+                      />
+                    </Zoom>
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid container>
+              {iconTool[2].row.map(({ imgSrc }) => {
+                let animationTime = Math.random() * 2;
+                let animationTimeStr = animationTime.toString() + 's';
+                return (
+                  <Grid item md={2} key={imgSrc}>
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
+                      <img
+                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
+                        src={imgSrc}
+                        alt=""
+                      />
+                    </Zoom>
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid container>
+              {iconTool[3].row.map(({ imgSrc }) => {
+                let animationTime = Math.random() * 2;
+                let animationTimeStr = animationTime.toString() + 's';
+                return (
+                  <Grid item md={2} key={imgSrc}>
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
+                      <img
+                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
+                        src={imgSrc}
+                        alt=""
+                      />
+                    </Zoom>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Grid>
+        </Grid>
       </Box>
-      <Container maxWidth="lg">
+      <Box className={classes.addApp} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }}>
+        <Grid container>
+          <Grid item md={2}>
+            <Link
+              href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
+              target="_blank"
+              className={classes.addYourAppLink}>
+              <FaPlusCircle className={classes.icon} mt={4} /> Add your App
+            </Link>
+          </Grid>
+          <Grid item md={10}>
+            <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
+            <Grow in={showExecutionTime} appear={false}>
+              <Box className={classes.executeTimeBox}>
+                <Typography component={'div'} variant="body2" className={classes.executeTime}>
+                  Search time: {data?.executeTime || 0} secs
+                </Typography>
+              </Box>
+            </Grow>
+          </Grid>
+        </Grid>
+      </Box>
+      <div className={classes.cardArea}>
         {linkedSample && (
           <LinkedSample
             sample={linkedSample}
@@ -209,27 +375,6 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           />
         )}
         <Grid container spacing={1}>
-          <Box clone order={1}>
-            <Grid item md={2} className={classes.addYourAppBox}>
-              <Link
-                href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
-                target="_blank"
-                className={classes.addYourAppLink}>
-                <FaPlusSquare className={classes.icon} /> Add your App
-              </Link>
-            </Grid>
-          </Box>
-          <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
-            <Grid item md={10}>
-              <TagChipBar
-                tags={tags}
-                textFilter={textFilter}
-                updateTextFilter={updateTextFilter}
-                updateTag={updateTag}
-                clearFilters={clearFilters}
-              />
-            </Grid>
-          </Box>
           <Box clone order={{ xs: 2, sm: 2, md: 3 }}>
             <Grid item md={2}>
               <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
@@ -237,6 +382,19 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           </Box>
           <Box clone order={4}>
             <Grid item md={10} style={{ position: 'relative' }}>
+              {searchFlag === false ? (
+                <>
+                  <Grid className={classes.featuredApps} container>
+                    Featured
+                  </Grid>
+                  <Grid container>
+                    <Top4Results samples={data?.rows} updateTags={updateTags} limit={4} />
+                  </Grid>
+                </>
+              ) : null}
+              <Grid className={classes.featuredApps} container>
+                All
+              </Grid>
               <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
               {error ? (
                 <Alert severity="error">Server Error. Please try again later!</Alert>
@@ -244,7 +402,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
                 <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
               )}
               {data && !error && (
-                <Grid container justify="center">
+                <Grid className={classes.pagination} container justify="center">
                   <Pagination
                     count={maxPage}
                     page={page}
@@ -256,7 +414,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             </Grid>
           </Box>
         </Grid>
-      </Container>
+      </div>
       <Footer />
     </Box>
   );
