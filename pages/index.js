@@ -376,13 +376,14 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           </Grid>
           <Grid item md={10}>
             <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-            <Grow in={showExecutionTime} appear={false}>
+            {data?.executeTime && (
+              // <Grow in={showExecutionTime} appear={false}>
               <Box className={classes.executeTimeBox}>
                 <Typography component={'div'} variant="body2" className={classes.executeTime}>
                   Search time: {data?.executeTime || 0} secs
                 </Typography>
               </Box>
-            </Grow>
+            )}
           </Grid>
         </Grid>
       </Box>
@@ -401,13 +402,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           </Box>
           <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
             <Grid item md={10}>
-              <TagChipBar
-                tags={tags}
-                textFilter={textFilter}
-                updateTextFilter={updateTextFilter}
-                updateTag={updateTag}
-                clearFilters={clearFilters}
-              />
+              {Object.keys(tags).length > 0 && (
+                <TagChipBar
+                  tags={tags}
+                  textFilter={textFilter}
+                  updateTextFilter={updateTextFilter}
+                  updateTag={updateTag}
+                  clearFilters={clearFilters}
+                />
+              )}
             </Grid>
           </Box>
           <Box clone order={{ xs: 2, sm: 2, md: 3 }}>

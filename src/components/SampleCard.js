@@ -73,11 +73,11 @@ const useStyles = makeStyles((theme) => ({
     background: `no-repeat center`,
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
-    height: '67%'
+    height: 'calc(100% - 130px)'
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '33%',
+    minHeight: '130px',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
     wordBreak: 'break-all',
@@ -157,17 +157,13 @@ export default function SampleCard({ sample, updateTags }) {
 
   return (
     <Box height={1}>
-      <Card
-        key={sample.id}
-        className={classes.root}
-      >
+      <Card key={sample.id} className={classes.root}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
           <CardContent
             style={{
               backgroundImage: `url(${sample.preview_image_url})`
             }}
-            className={classes.primaryImage}
-          ></CardContent>
+            className={classes.primaryImage}></CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
