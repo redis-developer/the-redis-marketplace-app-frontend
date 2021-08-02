@@ -44,7 +44,9 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginTop: theme.spacing(0.5),
     fontSize: '15px',
+    width: '100%',
     display: '-webkit-box',
+    textOverflow: 'ellipsis',
     overflow: 'hidden',
     '-webkit-line-clamp': 4,
     '-webkit-box-orient': 'vertical'
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '40%',
+    minHeight: '35%',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
     transition: 'all .15s',
@@ -154,8 +156,8 @@ export default function Top4SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
-                  {sample.app_name.length > 30
-                    ? sample.app_name.slice(0, 30) + '...'
+                  {sample.app_name.length > 18
+                    ? sample.app_name.slice(0, 18) + '...'
                     : sample.app_name}
                 </Typography>
               </Grid>
