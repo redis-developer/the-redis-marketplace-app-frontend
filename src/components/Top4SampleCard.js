@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
     minHeight: '600px',
-    background: `url(${'./cardImages/generic.png'}) no-repeat center`,
-    backgroundPosition: 'center center',
     backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -142,7 +142,12 @@ export default function Top4SampleCard({ sample, updateTags }) {
 
   return (
     <Box height={1}>
-      <Card key={sample.id + 'Top4'} className={classes.root}>
+      <Card
+        key={sample.id + 'Top4'}
+        className={classes.root}
+        style={{
+          backgroundImage: `url(${sample.preview_image_url})`
+        }}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
           <CardContent></CardContent>
           <CardContent className={classes.primaryContent}>
