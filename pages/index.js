@@ -71,7 +71,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingLeft: theme.spacing(8),
     paddingRight: theme.spacing(9),
-    marginTop: theme.spacing(5)
+    paddingTop: theme.spacing(5),
+    backgroundColor: theme.palette.cardSectionBackground
   },
   executeTime: {
     fontWeight: 400
@@ -108,7 +109,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardArea: {
     paddingLeft: theme.spacing(10),
-    paddingRight: theme.spacing(10)
+    paddingRight: theme.spacing(10),
+    backgroundColor: theme.palette.cardSectionBackground
   },
   featuredApps: {
     color: theme.palette.text.secondary,

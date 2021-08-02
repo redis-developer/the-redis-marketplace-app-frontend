@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    maxHeight: '33%',
+    minHeight: '33%',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
     wordBreak: 'break-all',
