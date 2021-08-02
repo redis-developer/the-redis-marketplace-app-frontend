@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       boxShadow: '0 1px 5px 0 rgba(0,0,0,.37), 0 7px 17px 0 rgba(0,0,0,.1)',
       '& $primaryContent': {
-        backgroundColor: 'rgb(0,0,0,1)'
+        backgroundColor: 'rgb(0,0,0,0.7)'
       }
     }
   },
@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '33%',
-    backgroundColor: 'rgb(0,0,0,1)',
+    maxHeight: '33%',
+    backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
     wordBreak: 'break-all',
     transition: 'all .15s',
