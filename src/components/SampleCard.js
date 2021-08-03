@@ -23,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    minHeight: '300px',
-    background: `url(${'./cardImages/generic.png'}) no-repeat center`,
-    backgroundSize: 'contain',
+    minHeight: '450px',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'rgb(0,0,0,0)',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -38,14 +39,22 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     lineHeight: 1.5,
-    marginBottom: theme.spacing(0.5)
+    marginBottom: theme.spacing(0.5),
+    width: '100%',
+    display: '-webkit-box',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical'
   },
   description: {
     marginTop: theme.spacing(0.5),
     fontSize: '15px',
+    width: '100%',
     display: '-webkit-box',
+    textOverflow: 'ellipsis',
     overflow: 'hidden',
-    '-webkit-line-clamp': 4,
+    '-webkit-line-clamp': 2,
     '-webkit-box-orient': 'vertical'
   },
   footer: {
@@ -60,9 +69,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     flexDirection: 'column'
   },
+  primaryImage: {
+    background: `no-repeat center`,
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
+    height: 'calc(100% - 130px)'
+  },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '50%',
+    minHeight: '130px',
     backgroundColor: 'rgb(0,0,0,0.5)',
     color: theme.palette.card.contrastText,
     wordBreak: 'break-all',
@@ -144,7 +159,11 @@ export default function SampleCard({ sample, updateTags }) {
     <Box height={1}>
       <Card key={sample.id} className={classes.root}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
-          <CardContent></CardContent>
+          <CardContent
+            style={{
+              backgroundImage: `url(${sample.preview_image_url})`
+            }}
+            className={classes.primaryImage}></CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
@@ -154,9 +173,7 @@ export default function SampleCard({ sample, updateTags }) {
               </Grid>
             </Grid>
             <Typography component={'div'} variant="body2" className={classes.description}>
-              {sample.description.length > 50
-                ? sample.description.slice(0, 50) + '...'
-                : sample.description}
+              {sample.description}
             </Typography>
           </CardContent>
         </Box>

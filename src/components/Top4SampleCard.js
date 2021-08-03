@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
     minHeight: '600px',
-    background: `url(${'./cardImages/generic.png'}) no-repeat center`,
-    backgroundSize: 'contain',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'rgb(0,0,0,0)',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -38,14 +39,22 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     lineHeight: 1.5,
-    marginBottom: theme.spacing(0.5)
+    marginBottom: theme.spacing(0.5),
+    width: '100%',
+    display: '-webkit-box',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical'
   },
   description: {
     marginTop: theme.spacing(0.5),
     fontSize: '15px',
+    width: '100%',
     display: '-webkit-box',
+    textOverflow: 'ellipsis',
     overflow: 'hidden',
-    '-webkit-line-clamp': 4,
+    '-webkit-line-clamp': 2,
     '-webkit-box-orient': 'vertical'
   },
   footer: {
@@ -60,10 +69,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     flexDirection: 'column'
   },
+  primaryImage: {
+    background: `no-repeat center`,
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
+    height: '65%'
+  },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
-    minHeight: '40%',
-    backgroundColor: 'rgb(0,0,0,0.5)',
+    minHeight: '35%',
+    backgroundColor: 'rgb(0,0,0,0.3)',
     color: theme.palette.card.contrastText,
     transition: 'all .15s',
     '& p': {
@@ -141,9 +156,16 @@ export default function Top4SampleCard({ sample, updateTags }) {
 
   return (
     <Box height={1}>
-      <Card key={sample.id + 'Top4'} className={classes.root}>
+      <Card
+        key={sample.id + 'Top4'}
+        className={classes.root}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
-          <CardContent></CardContent>
+          <CardContent
+            style={{
+              backgroundImage: `url(${sample.preview_image_url})`
+            }}
+           className={classes.primaryImage}>
+          </CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
