@@ -4,11 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
 import Router from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaPlusSquare } from 'react-icons/fa';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import api from '../src/api';
-import { FadeIn } from '../src/components';
 import {
   Footer,
   Header,
@@ -16,6 +15,7 @@ import {
   LinkedSample,
   Results,
   SearchBar,
+  TagChipBar,
   TagFilter,
   Top4Results
 } from '../src/components';
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   iconTool: {
     width: '120px',
     height: '120px',
-    padding: '5px 5px',
+    padding: '10px 10px',
     cursor: 'pointer',
     opacity: 0
   },
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   iconToolOpen: {
     width: '120px',
     height: '120px',
-    padding: '5px 5px',
+    padding: '10px 10px',
     cursor: 'pointer',
     opacity: 1
   },
@@ -70,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: theme.spacing(8),
-    paddingRight: theme.spacing(9)
+    paddingRight: theme.spacing(9),
+    marginTop: theme.spacing(5)
   },
   executeTime: {
     fontWeight: 400
@@ -94,7 +95,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     paddingTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    fontWeight: 500
+    fontWeight: 500,
+    ['@media (max-width:780px)']: {
+      marginTop: '25px'
+    }
   },
   icon: {
     height: '40px',
@@ -120,6 +124,9 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff'
     },
     '& .MuiPaginationItem-page': {
+      color: '#fff'
+    },
+    '& .MuiPaginationItem-ellipsis': {
       color: '#fff'
     }
   }
@@ -169,7 +176,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
         } else {
           clearInterval(interval);
         }
-      }, 300);
+      }, 50);
     }, 50);
     return () => clearInterval(interval);
   }, []);
@@ -231,6 +238,27 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     }
   }, []);
 
+  const tagChips = useMemo(
+    () =>
+      Object.keys(tags)
+        .map((filter) =>
+          Object.keys(tags[filter])
+            .filter((tag) => tags[filter][tag])
+            .map((tag) => console.log(tag))
+        )
+        .flat(),
+    [tags]
+  );
+
+  const checkFilter = useMemo(() => {
+    console.log(tagChips.length);
+    if (tagChips.length > 0) {
+      setSearchFlag(true);
+    } else {
+      setSearchFlag(false);
+    }
+  }, [tagChips]);
+
   const updateTags = useCallback((tags) => {
     setOffset(0);
     setTags(tags);
@@ -249,6 +277,13 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     [updateTags]
   );
 
+  const clearFilters = useCallback(() => {
+    setOffset(0);
+    setTags({});
+    setTextFilter();
+    setSearchFlag(false);
+  }, []);
+
   const showExecutionTime = useMemo(
     () =>
       textFilter ||
@@ -263,7 +298,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
       <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0} mt={2}>
         <Grid className={classes.iconArea} container>
           <Grid item md={4} className={classes.title}>
-            <Typography component={'div'} variant="h3">
+            <Typography component={'div'} variant="h2">
               Redis <br /> Marketplace
             </Typography>
             <Typography component={'div'} variant="body1">
@@ -271,19 +306,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
               <br /> Get started with code samples.
             </Typography>
           </Grid>
-          <Grid item md={8}>
+          <Grid item md={7}>
             <Grid container>
               {iconTool[0].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 2;
+                let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
-                      <img
-                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
-                        src={imgSrc}
-                        alt=""
-                      />
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
                   </Grid>
                 );
@@ -291,16 +322,12 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             </Grid>
             <Grid container>
               {iconTool[1].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 2;
+                let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
-                      <img
-                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
-                        src={imgSrc}
-                        alt=""
-                      />
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
                   </Grid>
                 );
@@ -308,16 +335,12 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             </Grid>
             <Grid container>
               {iconTool[2].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 2;
+                let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
-                      <img
-                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
-                        src={imgSrc}
-                        alt=""
-                      />
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
                   </Grid>
                 );
@@ -325,16 +348,12 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             </Grid>
             <Grid container>
               {iconTool[3].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 2;
+                let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }} enter="1s">
-                      <img
-                        className={isOpen ? classes.iconToolOpen : classes.iconTool}
-                        src={imgSrc}
-                        alt=""
-                      />
+                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
                   </Grid>
                 );
@@ -343,7 +362,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           </Grid>
         </Grid>
       </Box>
-      <Box className={classes.addApp} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }}>
+      <Box className={classes.addApp}>
         <Grid container>
           <Grid item md={2}>
             <Link
@@ -375,6 +394,20 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           />
         )}
         <Grid container spacing={1}>
+          <Box clone order={1}>
+            <Grid item md={2} className={classes.addYourAppBox}></Grid>
+          </Box>
+          <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
+            <Grid item md={10}>
+              <TagChipBar
+                tags={tags}
+                textFilter={textFilter}
+                updateTextFilter={updateTextFilter}
+                updateTag={updateTag}
+                clearFilters={clearFilters}
+              />
+            </Grid>
+          </Box>
           <Box clone order={{ xs: 2, sm: 2, md: 3 }}>
             <Grid item md={2}>
               <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />

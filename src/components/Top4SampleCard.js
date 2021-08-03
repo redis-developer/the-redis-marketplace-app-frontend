@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     minHeight: '600px',
     background: `url(${'./cardImages/generic.png'}) no-repeat center`,
-    backgroundSize: 'contain',
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -148,12 +149,16 @@ export default function Top4SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
-                  {sample.app_name}
+                  {sample.app_name.length > 30
+                    ? sample.app_name.slice(0, 30) + '...'
+                    : sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
             <Typography component={'div'} variant="body2" className={classes.description}>
-              {sample.description}
+              {sample.description.length > 50
+                ? sample.description.slice(0, 50) + '...'
+                : sample.description}
             </Typography>
           </CardContent>
         </Box>

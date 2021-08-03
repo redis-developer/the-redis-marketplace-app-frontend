@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     color: theme.palette.text.primary,
+    backgroundColor: theme.palette.executionTimeBackground,
     margin: theme.spacing(0, 0.5, 0.5, 0),
     fontWeight: 500
   },

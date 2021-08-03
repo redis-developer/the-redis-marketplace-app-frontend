@@ -149,7 +149,9 @@ export default function SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
-                  {sample.app_name}
+                  {sample.app_name.length > 30
+                    ? sample.app_name.slice(0, 30) + '...'
+                    : sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
