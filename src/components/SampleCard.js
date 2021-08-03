@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '450px',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
+    backgroundColor: 'rgb(0,0,0,0)',
     boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 7px 17px 0 rgba(0,0,0,.1)',
     borderRadius: '10px',
     transition: 'box-shadow .15s',
@@ -62,6 +62,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column'
+  },
+  primaryImage: {
+    background: `no-repeat center`,
+    backgroundPosition: 'center center',
+    backgroundSize: 'cover',
+    height: '67%'
   },
   primaryContent: {
     paddingTop: theme.spacing(2.5),
@@ -148,11 +154,14 @@ export default function SampleCard({ sample, updateTags }) {
       <Card
         key={sample.id}
         className={classes.root}
-        style={{
-          backgroundImage: `url(${sample.preview_image_url})`
-        }}>
+      >
         <Box onClick={openSamplePopup} className={classes.actionArea}>
-          <CardContent></CardContent>
+          <CardContent
+            style={{
+              backgroundImage: `url(${sample.preview_image_url})`
+            }}
+            className={classes.primaryImage}
+          ></CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
