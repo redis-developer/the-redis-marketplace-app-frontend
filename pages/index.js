@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2)
   },
   title: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
-  marketplace:{
+  marketplace: {
     fontSize: '4.5rem',
     fontFamily: 'Mulish, sans-serif',
     fontWeight: 600,
@@ -151,7 +151,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 9;
 
-function Index({ initialProjectsData, linkedSampleData, filtersData }) {
+function Index({ initialProjectsData, linkedSampleData, filtersData, featuredProjects }) {
   const classes = useStyles();
 
   // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
@@ -197,18 +197,30 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     }, 50);
     return () => clearInterval(interval);
   }, []);
-
+  console.log(
+    Object.keys(tags).filter((tag) =>
+      Object.keys(tags[tag]).find((t) => {
+        return tags[tag][t] === true;
+      })
+    )
+  );
   const projectsParams = useMemo(
     () => ({
       offset,
       limit: LIMIT,
-      ...Object.keys(tags).reduce(
-        (selectedTags, filter) => ({
-          ...selectedTags,
-          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
-        }),
-        {}
-      ),
+      ...Object.keys(tags)
+        .filter((tag) =>
+          Object.keys(tags[tag]).find((t) => {
+            return tags[tag][t] === true;
+          })
+        )
+        .reduce(
+          (selectedTags, filter) => ({
+            ...selectedTags,
+            [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
+          }),
+          {}
+        ),
       ...(textFilter
         ? {
             text_filter: textFilter
@@ -218,6 +230,11 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     }),
     [offset, tags, textFilter]
   );
+
+  let filtersApplied = true;
+  if (Object.keys(projectsParams).length === 3 && projectsParams.offset === 0) {
+    filtersApplied = false;
+  }
 
   // Get Sample Projects
   const { data, loading, error } = useRequest({
@@ -437,19 +454,25 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
           </Box>
           <Box clone order={4}>
             <Grid item md={10} style={{ position: 'relative' }}>
-              {searchFlag === false ? (
+              {!filtersApplied ? (
                 <>
                   <Grid className={classes.featuredApps} container>
                     Featured
                   </Grid>
                   <Grid container>
-                    <Top4Results samples={data?.rows} updateTags={updateTags} limit={4} />
+                    <Top4Results
+                      samples={featuredProjects?.rows}
+                      updateTags={updateTags}
+                      limit={4}
+                    />
                   </Grid>
                 </>
               ) : null}
-              <Grid className={classes.featuredApps} container>
-                All
-              </Grid>
+              {!filtersApplied && (
+                <Grid className={classes.featuredApps} container>
+                  All
+                </Grid>
+              )}
               <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
               {error ? (
                 <Alert severity="error">Server Error. Please try again later!</Alert>
@@ -481,6 +504,15 @@ export async function getServerSideProps({ query }) {
     params: { limit: LIMIT }
   });
 
+  // Get Featured Projects
+  const { data: featuredProjects } = await api.get('/projects', {
+    params: {
+      offset: 0,
+      limit: 10,
+      featured: true
+    }
+  });
+
   // Get dynamic filter
   const { data: filtersData } = await api.get('/projects/filters');
 
@@ -491,7 +523,7 @@ export async function getServerSideProps({ query }) {
     linkedSampleData = linkedProjectResponse.data;
   }
 
-  return { props: { initialProjectsData, linkedSampleData, filtersData } };
+  return { props: { initialProjectsData, linkedSampleData, filtersData, featuredProjects } };
 }
 
 export default Index;
