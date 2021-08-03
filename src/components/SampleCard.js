@@ -39,7 +39,13 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     lineHeight: 1.5,
-    marginBottom: theme.spacing(0.5)
+    marginBottom: theme.spacing(0.5),
+    width: '100%',
+    display: '-webkit-box',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical'
   },
   description: {
     marginTop: theme.spacing(0.5),
@@ -48,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: '-webkit-box',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    '-webkit-line-clamp': 4,
+    '-webkit-line-clamp': 2,
     '-webkit-box-orient': 'vertical'
   },
   footer: {
@@ -166,16 +172,12 @@ export default function SampleCard({ sample, updateTags }) {
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
                 <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
-                  {sample.app_name.length > 18
-                    ? sample.app_name.slice(0, 18) + '...'
-                    : sample.app_name}
+                  {sample.app_name}
                 </Typography>
               </Grid>
             </Grid>
             <Typography component={'div'} variant="body2" className={classes.description}>
-              {sample.description.length > 50
-                ? sample.description.slice(0, 50) + '...'
-                : sample.description}
+              {sample.description}
             </Typography>
           </CardContent>
         </Box>
