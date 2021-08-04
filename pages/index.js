@@ -33,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     color: '#fff',
     textAlign: 'left',
-    paddingLeft: theme.spacing(8),
+    paddingLeft: '90px',
+    paddingRight: '90px',
+    paddingTop: '0',
+    paddingBottom: '20px',
     '& h3': {
       margin: theme.spacing(3, 0),
       fontWeight: 800,
@@ -48,20 +51,32 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2)
   },
   title: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
-  iconTool: {
-    width: '120px',
-    height: '120px',
-    padding: '10px 10px',
-    cursor: 'pointer',
-    opacity: 0
+  marketplace:{
+    fontSize: '4.5rem',
+    fontFamily: 'Mulish, sans-serif',
+    fontWeight: 600,
+    lineHeight: 1.2
   },
-
+  subtitle1: {
+    color: '#2caf62',
+    fontSize: '2.5rem',
+    fontFamily: 'Mulish sans-serif',
+    fontWeight: 400,
+    lineHeight: 1.5
+  },
+  subtitle2: {
+    color: '#5063ef',
+    fontSize: '2.5rem',
+    fontFamily: 'Mulish sans-serif',
+    fontWeight: 400,
+    lineHeight: 1.5
+  },
   iconToolOpen: {
-    width: '120px',
-    height: '120px',
-    padding: '10px 10px',
+    width: '80px',
+    height: '80px',
+    padding: '5px 5px',
     cursor: 'pointer',
     opacity: 1
   },
@@ -70,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: theme.spacing(8),
-    paddingRight: theme.spacing(9),
+    paddingRight: '75px',
     paddingTop: theme.spacing(5),
     backgroundColor: theme.palette.cardSectionBackground
   },
@@ -297,18 +312,20 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   return (
     <Box mt={9}>
       <Header />
-      <Box className={classes.hero} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }} pb={0} mt={2}>
+      <Box className={classes.hero}>
         <Grid className={classes.iconArea} container>
-          <Grid item md={4} className={classes.title}>
-            <Typography component={'div'} variant="h2">
-              Redis <br /> Marketplace
+          <Grid item md={7} className={classes.title}>
+            <Typography component={'div'} className={classes.marketplace}>
+              Redis Marketplace
             </Typography>
-            <Typography component={'div'} variant="body1">
+            <Typography component={'div'} className={classes.subtitle1}>
               See what you can build with Redis.
-              <br /> Get started with code samples.
+            </Typography>
+            <Typography component={'div'} className={classes.subtitle2}>
+              Get started with 75+ sample apps.
             </Typography>
           </Grid>
-          <Grid item md={7}>
+          <Grid item md={5}>
             <Grid container>
               {iconTool[0].row.map(({ imgSrc }) => {
                 let animationTime = Math.random() * 1;
