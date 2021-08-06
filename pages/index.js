@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2)
   },
   title: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
-  marketplace:{
+  marketplace: {
     fontSize: '4.5rem',
     fontFamily: 'Mulish, sans-serif',
     fontWeight: 600,
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchFeature: {
     display: 'flex',
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 12;
 
-function Index({ initialProjectsData, linkedSampleData, filtersData }) {
+function Index({ initialProjectsData, linkedSampleData, filtersData, featuredProjects }) {
   const classes = useStyles();
 
   // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
@@ -208,13 +208,19 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     () => ({
       offset,
       limit: LIMIT,
-      ...Object.keys(tags).reduce(
-        (selectedTags, filter) => ({
-          ...selectedTags,
-          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
-        }),
-        {}
-      ),
+      ...Object.keys(tags)
+        .filter((tag) =>
+          Object.keys(tags[tag]).find((t) => {
+            return tags[tag][t] === true;
+          })
+        )
+        .reduce(
+          (selectedTags, filter) => ({
+            ...selectedTags,
+            [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
+          }),
+          {}
+        ),
       ...(textFilter
         ? {
             text_filter: textFilter
@@ -224,6 +230,11 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
     }),
     [offset, tags, textFilter]
   );
+
+  let filtersApplied = true;
+  if (Object.keys(projectsParams).length === 3 && projectsParams.offset === 0) {
+    filtersApplied = false;
+  }
 
   // Get Sample Projects
   const { data, loading, error } = useRequest({
@@ -331,13 +342,13 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
               Get started with 75+ sample apps.
             </Typography>
           </Grid>
-          <Grid item md={6} style={{maxWidth: '600px'}}>
+          <Grid item md={6} style={{ maxWidth: '600px' }}>
             <Grid container>
               {iconTool[0].row.map(({ imgSrc }) => {
                 let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
-                  <Grid item md={2} key={imgSrc} >
+                  <Grid item md={2} key={imgSrc}>
                     <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                       <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
@@ -421,7 +432,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
                   </Box>
                 )}
               </Grid>
-            </Grid>            
+            </Grid>
           </Grid>
         </Grid>
       </Box>
@@ -434,27 +445,33 @@ function Index({ initialProjectsData, linkedSampleData, filtersData }) {
             isOpened={linkedSampleIsOpened}
           />
         )}
-        <Grid container spacing={1} >
+        <Grid container spacing={1}>
           <Box clone order={{ xs: 1, sm: 1, md: 1 }}>
             <Grid item md={2}>
               <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
             </Grid>
           </Box>
           <Box clone order={2}>
-            <Grid item md={10} style={{ position: 'relative',marginTop: '15px' }}>
-              {searchFlag === false ? (
+            <Grid item md={10} style={{ position: 'relative', marginTop: '15px' }}>
+              {!filtersApplied && featuredProjects?.rows.length > 0 ? (
                 <>
                   <Grid className={classes.featuredApps} container>
                     Featured
                   </Grid>
                   <Grid container>
-                    <Top4Results samples={data?.rows} updateTags={updateTags} limit={4} />
+                    <Top4Results
+                      samples={featuredProjects?.rows}
+                      updateTags={updateTags}
+                      limit={4}
+                    />
                   </Grid>
                 </>
               ) : null}
-              <Grid className={classes.featuredApps} container>
-                All
-              </Grid>
+              {filtersApplied && (
+                <Grid className={classes.featuredApps} container>
+                  All
+                </Grid>
+              )}
               <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
               {error ? (
                 <Alert severity="error">Server Error. Please try again later!</Alert>
@@ -486,6 +503,15 @@ export async function getServerSideProps({ query }) {
     params: { limit: LIMIT }
   });
 
+  // Get Featured Projects
+  const { data: featuredProjects } = await api.get('/projects', {
+    params: {
+      offset: 0,
+      limit: 10,
+      featured: true
+    }
+  });
+
   // Get dynamic filter
   const { data: filtersData } = await api.get('/projects/filters');
 
@@ -496,7 +522,7 @@ export async function getServerSideProps({ query }) {
     linkedSampleData = linkedProjectResponse.data;
   }
 
-  return { props: { initialProjectsData, linkedSampleData, filtersData } };
+  return { props: { initialProjectsData, linkedSampleData, filtersData, featuredProjects } };
 }
 
 export default Index;
