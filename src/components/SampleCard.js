@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
-
 // import { FaCube, FaRegWindowRestore, FaUserCog, FaUsers } from 'react-icons/fa';
 // import { SiRedis } from 'react-icons/si';
 import { SampleDialog, SampleTags } from './';
@@ -155,6 +154,7 @@ export default function SampleCard({ sample, updateTags }) {
     [sample, updateTags, closePopup]
   );
 
+
   return (
     <Box height={1}>
       <Card key={sample.id} className={classes.root}>
@@ -162,8 +162,8 @@ export default function SampleCard({ sample, updateTags }) {
           <CardContent
             style={{
               backgroundImage: `url(${sample.preview_image_url})`
-            }}
-            className={classes.primaryImage}></CardContent>
+            }}>
+            </CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
