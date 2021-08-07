@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2)
   },
   title: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
-  marketplace: {
+  marketplace:{
     fontSize: '4.5rem',
     fontFamily: 'Mulish, sans-serif',
     fontWeight: 600,
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   iconToolOpen: {
     width: '80px',
     height: '80px',
-    padding: '5px 5px',
+    margin: '5px 5px',
     cursor: 'pointer',
     opacity: 1
   },
@@ -88,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '75px',
     paddingTop: theme.spacing(5),
     backgroundColor: theme.palette.cardSectionBackground
+  },
+  searchFeature: {
+    display: 'flex',
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   executeTime: {
     fontWeight: 400
@@ -149,9 +155,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LIMIT = 9;
+const LIMIT = 12;
 
-function Index({ initialProjectsData, linkedSampleData, filtersData, featuredProjects }) {
+function Index({ initialProjectsData, linkedSampleData, filtersData }) {
   const classes = useStyles();
 
   // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
@@ -197,30 +203,18 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
     }, 50);
     return () => clearInterval(interval);
   }, []);
-  console.log(
-    Object.keys(tags).filter((tag) =>
-      Object.keys(tags[tag]).find((t) => {
-        return tags[tag][t] === true;
-      })
-    )
-  );
+
   const projectsParams = useMemo(
     () => ({
       offset,
       limit: LIMIT,
-      ...Object.keys(tags)
-        .filter((tag) =>
-          Object.keys(tags[tag]).find((t) => {
-            return tags[tag][t] === true;
-          })
-        )
-        .reduce(
-          (selectedTags, filter) => ({
-            ...selectedTags,
-            [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
-          }),
-          {}
-        ),
+      ...Object.keys(tags).reduce(
+        (selectedTags, filter) => ({
+          ...selectedTags,
+          [filter]: Object.keys(tags[filter]).filter((tag) => tags[filter][tag])
+        }),
+        {}
+      ),
       ...(textFilter
         ? {
             text_filter: textFilter
@@ -230,11 +224,6 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
     }),
     [offset, tags, textFilter]
   );
-
-  let filtersApplied = true;
-  if (Object.keys(projectsParams).length === 3 && projectsParams.offset === 0) {
-    filtersApplied = false;
-  }
 
   // Get Sample Projects
   const { data, loading, error } = useRequest({
@@ -331,7 +320,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
       <Header />
       <Box className={classes.hero}>
         <Grid className={classes.iconArea} container>
-          <Grid item md={7} className={classes.title}>
+          <Grid item md={6} className={classes.title}>
             <Typography component={'div'} className={classes.marketplace}>
               Redis Marketplace
             </Typography>
@@ -342,13 +331,13 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
               Get started with 75+ sample apps.
             </Typography>
           </Grid>
-          <Grid item md={5}>
+          <Grid item md={6} style={{maxWidth: '600px'}}>
             <Grid container>
               {iconTool[0].row.map(({ imgSrc }) => {
                 let animationTime = Math.random() * 1;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
-                  <Grid item md={2} key={imgSrc}>
+                  <Grid item md={2} key={imgSrc} >
                     <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                       <img className={classes.iconToolOpen} src={imgSrc} alt="" />
                     </Zoom>
@@ -410,14 +399,29 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
           </Grid>
           <Grid item md={10}>
             <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-            {data?.executeTime && (
-              // <Grow in={showExecutionTime} appear={false}>
-              <Box className={classes.executeTimeBox}>
-                <Typography component={'div'} variant="body2" className={classes.executeTime}>
-                  Search time: {data?.executeTime || 0} secs
-                </Typography>
-              </Box>
-            )}
+            <Grid container className={classes.searchFeature}>
+              <Grid item md={10}>
+                {Object.keys(tags).length > 0 && (
+                  <TagChipBar
+                    tags={tags}
+                    textFilter={textFilter}
+                    updateTextFilter={updateTextFilter}
+                    updateTag={updateTag}
+                    clearFilters={clearFilters}
+                  />
+                )}
+              </Grid>
+              <Grid item md={2}>
+                {data?.executeTime && searchFlag && (
+                  // <Grow in={showExecutionTime} appear={false}>
+                  <Box className={classes.executeTimeBox}>
+                    <Typography component={'div'} variant="body2" className={classes.executeTime}>
+                      Search time: {data?.executeTime || 0} secs
+                    </Typography>
+                  </Box>
+                )}
+              </Grid>
+            </Grid>            
           </Grid>
         </Grid>
       </Box>
@@ -430,49 +434,27 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
             isOpened={linkedSampleIsOpened}
           />
         )}
-        <Grid container spacing={1}>
-          <Box clone order={1}>
-            <Grid item md={2} className={classes.addYourAppBox}></Grid>
-          </Box>
-          <Box clone order={{ xs: 3, sm: 3, md: 2 }}>
-            <Grid item md={10}>
-              {Object.keys(tags).length > 0 && (
-                <TagChipBar
-                  tags={tags}
-                  textFilter={textFilter}
-                  updateTextFilter={updateTextFilter}
-                  updateTag={updateTag}
-                  clearFilters={clearFilters}
-                />
-              )}
-            </Grid>
-          </Box>
-          <Box clone order={{ xs: 2, sm: 2, md: 3 }}>
+        <Grid container spacing={1} >
+          <Box clone order={{ xs: 1, sm: 1, md: 1 }}>
             <Grid item md={2}>
               <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
             </Grid>
           </Box>
-          <Box clone order={4}>
-            <Grid item md={10} style={{ position: 'relative' }}>
-              {!filtersApplied ? (
+          <Box clone order={2}>
+            <Grid item md={10} style={{ position: 'relative',marginTop: '15px' }}>
+              {searchFlag === false ? (
                 <>
                   <Grid className={classes.featuredApps} container>
                     Featured
                   </Grid>
                   <Grid container>
-                    <Top4Results
-                      samples={featuredProjects?.rows}
-                      updateTags={updateTags}
-                      limit={4}
-                    />
+                    <Top4Results samples={data?.rows} updateTags={updateTags} limit={4} />
                   </Grid>
                 </>
               ) : null}
-              {!filtersApplied && (
-                <Grid className={classes.featuredApps} container>
-                  All
-                </Grid>
-              )}
+              <Grid className={classes.featuredApps} container>
+                All
+              </Grid>
               <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
               {error ? (
                 <Alert severity="error">Server Error. Please try again later!</Alert>
@@ -504,15 +486,6 @@ export async function getServerSideProps({ query }) {
     params: { limit: LIMIT }
   });
 
-  // Get Featured Projects
-  const { data: featuredProjects } = await api.get('/projects', {
-    params: {
-      offset: 0,
-      limit: 10,
-      featured: true
-    }
-  });
-
   // Get dynamic filter
   const { data: filtersData } = await api.get('/projects/filters');
 
@@ -523,7 +496,7 @@ export async function getServerSideProps({ query }) {
     linkedSampleData = linkedProjectResponse.data;
   }
 
-  return { props: { initialProjectsData, linkedSampleData, filtersData, featuredProjects } };
+  return { props: { initialProjectsData, linkedSampleData, filtersData } };
 }
 
 export default Index;

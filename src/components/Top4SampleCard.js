@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     display: '-webkit-box',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    '-webkit-line-clamp': 1,
+    '-webkit-line-clamp': 2,
     '-webkit-box-orient': 'vertical'
   },
   description: {
