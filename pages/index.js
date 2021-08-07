@@ -467,7 +467,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   </Grid>
                 </>
               ) : null}
-              {filtersApplied && (
+              {!filtersApplied && (
                 <Grid className={classes.featuredApps} container>
                   All
                 </Grid>
