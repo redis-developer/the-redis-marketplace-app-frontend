@@ -60,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: 1.2
   },
   subtitle1: {
-    color: '#2caf62',
+    color: '#FFF',
     fontSize: '2.5rem',
     fontFamily: 'Mulish sans-serif',
     fontWeight: 400,
     lineHeight: 1.5
   },
   subtitle2: {
-    color: '#5063ef',
+    color: '#FFF',
     fontSize: '2.5rem',
     fontFamily: 'Mulish sans-serif',
     fontWeight: 400,
