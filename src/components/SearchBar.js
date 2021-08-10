@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  Input,
   InputAdornment,
   Paper,
   Popper,
@@ -8,6 +9,7 @@ import {
   Typography,
   useMediaQuery
 } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
@@ -25,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     // maxWidth: '680px',
     width: '100%',
+    boxSizing: 'border-box',
+    borderRadius: '10px',
+    paddingRight: `${theme.spacing(1)}px !important`,
+    background: 'white',
+    marginTop: '10px',
+    paddingLeft: '15px',
     // margin: theme.spacing(4, 'auto', 3),
     padding: theme.spacing(0.25, 0.5),
     [theme.breakpoints.down('sm')]: {
@@ -393,30 +401,37 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   );
 
   return (
-    <Autocomplete
-      id="search-bar"
+    <Input
+      id="outlined-secondary"
       className={classes.root}
-      clearOnBlur={false}
-      open={suggestionsOpen && (loading || !!options.length)}
-      onOpen={onOpen}
-      onClose={() => {
-        setSuggestionsOpen(false);
-      }}
-      onInputChange={onInputChange}
-      onChange={onSelect}
-      disableClearable
-      freeSolo
-      getOptionSelected={() => false}
-      getOptionLabel={(option) => option?.label || option}
-      renderOption={renderOption}
-      groupBy={(option) => option.group}
-      options={options}
-      ListboxProps={{ className: classes.listBox }}
-      loading={loading}
-      filterOptions={(options) => options}
-      renderInput={renderInput}
-      PaperComponent={AutocompletePaper}
-      PopperComponent={AutocompletePopper}
-    />
+      onChange={onInputChange}
+      variant="outlined"
+      >
+    </Input>
+    // <Autocomplete
+    //   id="search-bar"
+    //   className={classes.root}
+    //   clearOnBlur={false}
+    //   open={suggestionsOpen && (loading || !!options.length)}
+    //   onOpen={onOpen}
+    //   onClose={() => {
+    //     setSuggestionsOpen(false);
+    //   }}
+    //   onInputChange={onInputChange}
+    //   onChange={onSelect}
+    //   disableClearable
+    //   freeSolo
+    //   getOptionSelected={() => false}
+    //   getOptionLabel={(option) => option?.label || option}
+    //   renderOption={renderOption}
+    //   groupBy={(option) => option.group}
+    //   options={options}
+    //   ListboxProps={{ className: classes.listBox }}
+    //   loading={loading}
+    //   filterOptions={(options) => options}
+    //   renderInput={renderInput}
+    //   PaperComponent={AutocompletePaper}
+    //   PopperComponent={AutocompletePopper}
+    // />
   );
 }
