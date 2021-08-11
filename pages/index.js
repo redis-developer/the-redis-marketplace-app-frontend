@@ -422,7 +422,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   />
                 )}
               </Grid>
-              <Grid item md={2}>
+              <Grid item md={2} style={{ textAlign: 'right' }}>
                 {data?.executeTime && searchFlag && (
                   // <Grow in={showExecutionTime} appear={false}>
                   <Box className={classes.executeTimeBox}>

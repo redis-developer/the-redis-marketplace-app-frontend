@@ -9,7 +9,6 @@ import {
   Typography,
   useMediaQuery
 } from '@material-ui/core';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
@@ -401,37 +400,32 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   );
 
   return (
-    <Input
-      id="outlined-secondary"
+    <Autocomplete
+      id="search-bar"
+      autoComplete="off"
       className={classes.root}
-      onChange={onInputChange}
-      variant="outlined"
-      >
-    </Input>
-    // <Autocomplete
-    //   id="search-bar"
-    //   className={classes.root}
-    //   clearOnBlur={false}
-    //   open={suggestionsOpen && (loading || !!options.length)}
-    //   onOpen={onOpen}
-    //   onClose={() => {
-    //     setSuggestionsOpen(false);
-    //   }}
-    //   onInputChange={onInputChange}
-    //   onChange={onSelect}
-    //   disableClearable
-    //   freeSolo
-    //   getOptionSelected={() => false}
-    //   getOptionLabel={(option) => option?.label || option}
-    //   renderOption={renderOption}
-    //   groupBy={(option) => option.group}
-    //   options={options}
-    //   ListboxProps={{ className: classes.listBox }}
-    //   loading={loading}
-    //   filterOptions={(options) => options}
-    //   renderInput={renderInput}
-    //   PaperComponent={AutocompletePaper}
-    //   PopperComponent={AutocompletePopper}
-    // />
+      clearOnBlur={false}
+      // open={suggestionsOpen && (loading || !!options.length)}
+      open={false}
+      onOpen={onOpen}
+      onClose={() => {
+        setSuggestionsOpen(false);
+      }}
+      onInputChange={onInputChange}
+      onChange={onSelect}
+      disableClearable
+      freeSolo
+      getOptionSelected={() => false}
+      getOptionLabel={(option) => option?.label || option}
+      renderOption={renderOption}
+      groupBy={(option) => option.group}
+      options={options}
+      ListboxProps={{ className: classes.listBox }}
+      loading={loading}
+      filterOptions={(options) => options}
+      renderInput={renderInput}
+      PaperComponent={AutocompletePaper}
+      PopperComponent={AutocompletePopper}
+    />
   );
 }
