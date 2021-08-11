@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  Input,
   InputAdornment,
   Paper,
   Popper,
@@ -25,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     // maxWidth: '680px',
     width: '100%',
+    boxSizing: 'border-box',
+    borderRadius: '10px',
+    paddingRight: `${theme.spacing(1)}px !important`,
+    background: 'white',
+    marginTop: '10px',
+    paddingLeft: '15px',
     // margin: theme.spacing(4, 'auto', 3),
     padding: theme.spacing(0.25, 0.5),
     [theme.breakpoints.down('sm')]: {
@@ -395,9 +402,11 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   return (
     <Autocomplete
       id="search-bar"
+      autoComplete="off"
       className={classes.root}
       clearOnBlur={false}
-      open={suggestionsOpen && (loading || !!options.length)}
+      // open={suggestionsOpen && (loading || !!options.length)}
+      open={false}
       onOpen={onOpen}
       onClose={() => {
         setSuggestionsOpen(false);
