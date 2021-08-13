@@ -24,7 +24,12 @@ const renderers = {
 export default function Markdown({ url, ...rest }) {
   const { data } = useRequest({ url });
   return (
-    <ReactMarkdown renderers={renderers} plugins={[gfm]} skipHtml {...rest}>
+    <ReactMarkdown
+      renderers={renderers}
+      plugins={[gfm]}
+      skipHtml
+      {...rest}
+      className="markdown-container">
       {data}
     </ReactMarkdown>
   );
