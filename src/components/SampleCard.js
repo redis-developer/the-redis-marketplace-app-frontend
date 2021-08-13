@@ -177,7 +177,9 @@ export default function SampleCard({ sample, updateTags }) {
             </Typography>
           </CardContent>
         </Box>
-        <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
+        {isOpened && (
+          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
+        )}
       </Card>
     </Box>
   );

@@ -156,16 +156,13 @@ export default function Top4SampleCard({ sample, updateTags }) {
 
   return (
     <Box height={1}>
-      <Card
-        key={sample.id + 'Top4'}
-        className={classes.root}>
+      <Card key={sample.id + 'Top4'} className={classes.root}>
         <Box onClick={openSamplePopup} className={classes.actionArea}>
           <CardContent
             style={{
               backgroundImage: `url(${sample.preview_image_url})`
             }}
-           className={classes.primaryImage}>
-          </CardContent>
+            className={classes.primaryImage}></CardContent>
           <CardContent className={classes.primaryContent}>
             <Grid container wrap="nowrap" alignItems="baseline">
               <Grid item>
@@ -179,7 +176,9 @@ export default function Top4SampleCard({ sample, updateTags }) {
             </Typography>
           </CardContent>
         </Box>
-        <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
+        {isOpened && (
+          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
+        )}
       </Card>
     </Box>
   );
