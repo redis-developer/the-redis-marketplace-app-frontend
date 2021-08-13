@@ -18,7 +18,7 @@ export default function Top4Results({ samples, updateTags }) {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={1}>
+    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={2}>
       {samples?.map((sample, i) =>
         i < 4 ? (
           <Grid item sm={6} md={3} key={sample.id}>
