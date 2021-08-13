@@ -400,7 +400,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
       </Box>
       <Box className={classes.addApp}>
         <Grid container>
-          <Grid item md={2}>
+          <Grid item md={2} xs={12}>
             <Link
               href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
               target="_blank"
@@ -408,11 +408,11 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
               <FaPlusCircle className={classes.icon} mt={4} /> Add your App
             </Link>
           </Grid>
-          <Grid item md={10}>
+          <Grid item md={10} xs={12}>
             <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
             <Grid container className={classes.searchFeature}>
               <Grid item md={10}>
-                {Object.keys(tags).length > 0 && (
+                {(Object.keys(tags).length > 0 || textFilter) && (
                   <TagChipBar
                     tags={tags}
                     textFilter={textFilter}

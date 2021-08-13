@@ -17,7 +17,7 @@ export default function Results({ samples, updateTags }) {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={1}>
+    <Grid className={classes.resultsBody} container wrap="wrap" justify="space-between" spacing={2}>
       {samples?.map((sample) => (
         <Grid item sm={6} md={3} key={sample.id}>
           <SampleCard sample={sample} updateTags={updateTags} />
