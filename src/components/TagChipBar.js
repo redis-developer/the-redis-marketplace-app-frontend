@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '32px'
   },
   chip: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
     backgroundColor: theme.palette.executionTimeBackground,
     margin: theme.spacing(0, 0.5, 0.5, 0),
     fontWeight: 500
