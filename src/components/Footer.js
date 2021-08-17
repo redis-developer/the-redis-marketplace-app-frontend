@@ -70,7 +70,7 @@ export default function Footer() {
 
       <Typography component={'div'} variant="body2" align="center" className={classes.copyright}>
         {`Copyright © ${year} `}
-        Redis Labs. Redis and the cube logo are registered trademarks of Redis Labs Ltd.
+        Redis. Redis and the cube logo are registered trademarks of Redis Ltd.
       </Typography>
     </Box>
   );
