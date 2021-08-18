@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600
   },
   redisearch: {
-    width: '28px'
-    // marginLeft: theme.spacing(0.5)
+    width: '28px',
+    marginLeft: theme.spacing(0.5)
   },
   descriptionOptionAppName: {
     fontSize: '12px'
@@ -314,6 +314,16 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
           startAdornment: (
             <InputAdornment position="start">
               <SearchIcon className={classes.icon} />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment style={{display: 'flex', flexDirection:'column', alignItems:'center', whiteSpace: 'nowrap', height: '2rem'}}>
+              <Grid container>
+                <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+              </Grid>
+              <Grid container style={{fontSize:'0.6rem'}}>
+                Powered by RediSearch
+              </Grid>
             </InputAdornment>
           )
         }}
