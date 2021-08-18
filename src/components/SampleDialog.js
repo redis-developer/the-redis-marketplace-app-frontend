@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '90vw',
     borderRadius: '10px',
-    marginTop: theme.spacing(10),
+    maxHeight: '100%',
+    margin:0,
     [theme.breakpoints.down('sm')]: {
       margin: 0,
       display: 'inline'

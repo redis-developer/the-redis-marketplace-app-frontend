@@ -9,6 +9,7 @@ export { default as Markdown } from './Markdown';
 export { default as Results } from './Results';
 export { default as SampleCard } from './SampleCard';
 export { default as SampleDialog } from './SampleDialog';
+export { default as AddDialog } from './AddDialog';
 export { default as SampleTags } from './SampleTags';
 export { default as SearchBar } from './SearchBar';
 export { default as TagChipBar } from './TagChipBar';
