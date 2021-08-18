@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     width: '90vw',
     borderRadius: '10px',
     maxHeight: '100%',
-    margin:0,
+    margin: 0,
     [theme.breakpoints.down('sm')]: {
       margin: 0,
       display: 'inline'

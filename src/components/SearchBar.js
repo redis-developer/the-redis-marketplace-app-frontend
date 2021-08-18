@@ -317,11 +317,18 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             </InputAdornment>
           ),
           endAdornment: (
-            <InputAdornment style={{display: 'flex', flexDirection:'column', alignItems:'center', whiteSpace: 'nowrap', height: '2rem'}}>
+            <InputAdornment
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                whiteSpace: 'nowrap',
+                height: '2rem'
+              }}>
               <Grid container>
                 <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
               </Grid>
-              <Grid container style={{fontSize:'0.6rem'}}>
+              <Grid container style={{ fontSize: '0.6rem' }}>
                 Powered by RediSearch
               </Grid>
             </InputAdornment>
@@ -338,7 +345,8 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       classes.inputWithSuggestions,
       classes.inputWithoutSuggestions,
       classes.input,
-      classes.icon
+      classes.icon,
+      classes.redisearch
     ]
   );
 

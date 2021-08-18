@@ -355,6 +355,9 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
   const closePopup = () => {
     setIsOpened(false);
   };
+  const openPopup = () => {
+    setIsOpened(true);
+  };
   return (
     <>
       <Box mt={9} className={classes.main}>
@@ -431,9 +434,9 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
         <Box className={classes.addApp}>
           <Grid container>
             <Grid item md={2} xs={12} style={{ marginTop: '10px', cursor: 'pointer' }}>
-              <div onClick={() => setIsOpened(true)} className={classes.addYourAppLink}>
+              <Box onClick={openPopup} className={classes.addYourAppLink}>
                 <FaPlusCircle className={classes.icon} mt={4} /> Add your App
-              </div>
+              </Box>
             </Grid>
             <Grid item md={10} xs={12}>
               <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />

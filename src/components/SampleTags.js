@@ -89,7 +89,7 @@ export default function SampleTags({ sample, closePopup, updateTags, disabled })
             );
           })
       ),
-    [sample, classes, updateTags, closePopup, disabled]
+    [sample, classes, updateTags, closePopup, disabled, keynum]
   );
 
   return <>{tags}</>;

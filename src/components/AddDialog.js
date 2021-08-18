@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     padding: theme.spacing(1, 1, 1, 3),
-    paddingBottom:0,
+    paddingBottom: 0,
     backgroundColor: theme.palette.popupBackgroundColor,
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(1, 1, 1, 2)
     }
   },
   appName: {
-    marginTop:'10px',
+    marginTop: '10px',
     fontWeight: '600',
     marginRight: theme.spacing(1)
   },
@@ -153,7 +153,6 @@ const useStyles = makeStyles((theme) => ({
 const Transition = forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 export default function AddDialog({ closePopup, isOpened, tags }) {
   const classes = useStyles();
