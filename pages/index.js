@@ -345,7 +345,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
           <Grid item md={6} style={{ maxWidth: '600px' }}>
             <Grid container>
               {iconTool[0].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
+                let animationTime = Math.random() * 0.5;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
@@ -358,7 +358,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
             </Grid>
             <Grid container>
               {iconTool[1].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
+                let animationTime = Math.random() * 0.5;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
@@ -371,7 +371,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
             </Grid>
             <Grid container>
               {iconTool[2].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
+                let animationTime = Math.random() * 0.5;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>
@@ -384,7 +384,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
             </Grid>
             <Grid container>
               {iconTool[3].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
+                let animationTime = Math.random() * 0.5;
                 let animationTimeStr = animationTime.toString() + 's';
                 return (
                   <Grid item md={2} key={imgSrc}>

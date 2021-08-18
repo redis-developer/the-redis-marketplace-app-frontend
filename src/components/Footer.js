@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   redisLogo: {
     height: '40px',
+    maxWidth: '120px',
     opacity: '0.5',
     '&:hover': {
       opacity: '1'

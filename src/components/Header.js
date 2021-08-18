@@ -41,7 +41,12 @@ export default function Header() {
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
-          <img src="/logo-redis-reversed.svg" alt="logo-redis" className={classes.redisLogo} />
+          <img
+            src="/logo-redis-reversed.svg"
+            alt="logo-redis"
+            className={classes.redisLogo}
+            style={{ width: '120px' }}
+          />
         </MuiLink>
 
         <Box display={{ xs: 'none', sm: 'block', md: 'block' }} className="containerBox" width={1}>
