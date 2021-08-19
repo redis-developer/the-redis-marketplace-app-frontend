@@ -19,10 +19,33 @@ import {
   TagFilter,
   Top4Results
 } from '../src/components';
+import { AddDialog } from '../src/components/';
 import { iconTool } from '../src/constants';
 import { useRequest } from '../src/hooks';
 
 const useStyles = makeStyles((theme) => ({
+  main: {
+    display: 'block',
+    ['@media (max-width:780px)']: {
+      display: 'none'
+    }
+  },
+  mobileView: {
+    display: 'none',
+    ['@media (max-width:780px)']: {
+      marginTop: '5rem',
+      display: 'block',
+      padding: '20px'
+    }
+  },
+  mobileAlert: {
+    fontSize: '2rem',
+    fontFamily: 'Mulish, sans-serif',
+    fontWeight: 700,
+    lineHeight: 1.2,
+    color: 'white',
+    wordBreak: 'break-all'
+  },
   hero: {
     [theme.breakpoints.down('xs')]: {
       backgroundSize: '48%'
@@ -96,7 +119,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   executeTime: {
-    fontWeight: 400
+    fontWeight: 400,
+    color: 'white'
   },
   executeTimeBox: {
     backgroundColor: theme.palette.executionTimeBackground,
@@ -265,8 +289,10 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
   const updateTextFilter = useCallback((text) => {
     setOffset(0);
     setTextFilter(text);
-    if (text.length > 0) {
-      setSearchFlag(true);
+    if (text) {
+      if (text.length > 0) {
+        setSearchFlag(true);
+      }
     } else if (!text || text.length === 0) {
       setSearchFlag(false);
     }
@@ -326,174 +352,190 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
       ),
     [tags, textFilter]
   );
+  const [isOpened, setIsOpened] = useState(false);
+  const closePopup = () => {
+    setIsOpened(false);
+  };
+  const openPopup = () => {
+    setIsOpened(true);
+  };
   return (
-    <Box mt={9}>
-      <Header />
-      <Box className={classes.hero}>
-        <Grid className={classes.iconArea} container>
-          <Grid item md={6} className={classes.title}>
-            <Typography component={'div'} className={classes.marketplace}>
-              Redis Marketplace
-            </Typography>
-            <Typography component={'div'} className={classes.subtitle1}>
-              See what you can build with Redis.
-            </Typography>
-            <Typography component={'div'} className={classes.subtitle2}>
-              Get started with 75+ sample apps.
-            </Typography>
-          </Grid>
-          <Grid item md={6} style={{ maxWidth: '600px' }}>
-            <Grid container>
-              {iconTool[0].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
-                let animationTimeStr = animationTime.toString() + 's';
-                return (
-                  <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
-                    </Zoom>
-                  </Grid>
-                );
-              })}
+    <>
+      <Box mt={9} className={classes.main}>
+        <Header />
+        <Box className={classes.hero}>
+          <Grid className={classes.iconArea} container>
+            <Grid item md={6} className={classes.title}>
+              <Typography component={'div'} className={classes.marketplace}>
+                Redis Marketplace
+              </Typography>
+              <Typography component={'div'} className={classes.subtitle1}>
+                See what you can build with Redis.
+              </Typography>
+              <Typography component={'div'} className={classes.subtitle2}>
+                Get started with 75+ sample apps.
+              </Typography>
             </Grid>
-            <Grid container>
-              {iconTool[1].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
-                let animationTimeStr = animationTime.toString() + 's';
-                return (
-                  <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
-                    </Zoom>
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid container>
-              {iconTool[2].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
-                let animationTimeStr = animationTime.toString() + 's';
-                return (
-                  <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
-                    </Zoom>
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Grid container>
-              {iconTool[3].row.map(({ imgSrc }) => {
-                let animationTime = Math.random() * 1;
-                let animationTimeStr = animationTime.toString() + 's';
-                return (
-                  <Grid item md={2} key={imgSrc}>
-                    <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                      <img className={classes.iconToolOpen} src={imgSrc} alt="" />
-                    </Zoom>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-      <Box className={classes.addApp}>
-        <Grid container>
-          <Grid item md={2} xs={12}>
-            <Link
-              href="https://github.com/redis-developer/adding-apps-to-redis-marketplace"
-              target="_blank"
-              className={classes.addYourAppLink}>
-              <FaPlusCircle className={classes.icon} mt={4} /> Add your App
-            </Link>
-          </Grid>
-          <Grid item md={10} xs={12}>
-            <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
-            <Grid container className={classes.searchFeature}>
-              <Grid item md={10}>
-                {(Object.keys(tags).length > 0 || textFilter) && (
-                  <TagChipBar
-                    tags={tags}
-                    textFilter={textFilter}
-                    updateTextFilter={updateTextFilter}
-                    updateTag={updateTag}
-                    clearFilters={clearFilters}
-                  />
-                )}
+            <Grid item md={6} style={{ maxWidth: '600px' }}>
+              <Grid container>
+                {iconTool[0].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
               </Grid>
-              <Grid item md={2} style={{ textAlign: 'right' }}>
-                {data?.executeTime && searchFlag && (
-                  // <Grow in={showExecutionTime} appear={false}>
-                  <Box className={classes.executeTimeBox}>
-                    <Typography component={'div'} variant="body2" className={classes.executeTime}>
-                      Search time: {data?.executeTime || 0} secs
-                    </Typography>
-                  </Box>
-                )}
+              <Grid container>
+                {iconTool[1].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid container>
+                {iconTool[2].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid container>
+                {iconTool[3].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Box>
-      <div className={classes.cardArea}>
-        {linkedSample && (
-          <LinkedSample
-            sample={linkedSample}
-            closeLinkedSample={closeLinkedSample}
-            updateTags={updateTags}
-            isOpened={linkedSampleIsOpened}
-          />
-        )}
-        <Grid container spacing={1}>
-          <Box clone order={{ xs: 1, sm: 1, md: 1 }}>
-            <Grid item md={2}>
-              <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
+        </Box>
+        <Box className={classes.addApp}>
+          <Grid container>
+            <Grid item md={2} xs={12} style={{ marginTop: '10px', cursor: 'pointer' }}>
+              <Box onClick={openPopup} className={classes.addYourAppLink}>
+                <FaPlusCircle className={classes.icon} mt={4} /> Add your App
+              </Box>
             </Grid>
-          </Box>
-          <Box clone order={2}>
-            <Grid item md={10} style={{ position: 'relative', marginTop: '15px' }}>
-              {!filtersApplied && featuredProjects?.rows.length > 0 ? (
-                <>
+            <Grid item md={10} xs={12}>
+              <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
+              <Grid container className={classes.searchFeature}>
+                <Grid item md={10}>
+                  {(Object.keys(tags).length > 0 || textFilter) && (
+                    <TagChipBar
+                      tags={tags}
+                      textFilter={textFilter}
+                      updateTextFilter={updateTextFilter}
+                      updateTag={updateTag}
+                      clearFilters={clearFilters}
+                    />
+                  )}
+                </Grid>
+                <Grid item md={2} style={{ textAlign: 'right' }}>
+                  {data?.executeTime && searchFlag && (
+                    // <Grow in={showExecutionTime} appear={false}>
+                    <Box className={classes.executeTimeBox}>
+                      <Typography component={'div'} variant="body2" className={classes.executeTime}>
+                        Search time: {data?.executeTime || 0} secs
+                      </Typography>
+                    </Box>
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+        <div className={classes.cardArea}>
+          {linkedSample && (
+            <LinkedSample
+              sample={linkedSample}
+              closeLinkedSample={closeLinkedSample}
+              updateTags={updateTags}
+              isOpened={linkedSampleIsOpened}
+            />
+          )}
+          <Grid container spacing={1}>
+            <Box clone order={{ xs: 1, sm: 1, md: 1 }}>
+              <Grid item md={2}>
+                <TagFilter updateTag={updateTag} tags={tags} filtersData={filtersData} />
+              </Grid>
+            </Box>
+            <Box clone order={2}>
+              <Grid item md={10} style={{ position: 'relative', marginTop: '15px' }}>
+                {!filtersApplied && featuredProjects?.rows.length > 0 ? (
+                  <>
+                    <Grid className={classes.featuredApps} container>
+                      Featured
+                    </Grid>
+                    <Grid container>
+                      <Top4Results
+                        samples={featuredProjects?.rows}
+                        updateTags={updateTags}
+                        limit={4}
+                      />
+                    </Grid>
+                  </>
+                ) : null}
+                {!filtersApplied && (
                   <Grid className={classes.featuredApps} container>
-                    Featured
+                    All
                   </Grid>
-                  <Grid container>
-                    <Top4Results
-                      samples={featuredProjects?.rows}
-                      updateTags={updateTags}
-                      limit={4}
+                )}
+                <div
+                  id="top-of-results"
+                  style={{ position: 'absolute', top: '-100px', left: '0' }}
+                />
+                {error ? (
+                  <Alert severity="error">Server Error. Please try again later!</Alert>
+                ) : (
+                  <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
+                )}
+                {data && !error && (
+                  <Grid className={classes.pagination} container justify="center">
+                    <Pagination
+                      count={maxPage}
+                      page={page}
+                      onChange={changePage}
+                      disabled={loading}
                     />
                   </Grid>
-                </>
-              ) : null}
-              {!filtersApplied && (
-                <Grid className={classes.featuredApps} container>
-                  All
-                </Grid>
-              )}
-              <div id="top-of-results" style={{ position: 'absolute', top: '-100px', left: '0' }} />
-              {error ? (
-                <Alert severity="error">Server Error. Please try again later!</Alert>
-              ) : (
-                <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
-              )}
-              {data && !error && (
-                <Grid className={classes.pagination} container justify="center">
-                  <Pagination
-                    count={maxPage}
-                    page={page}
-                    onChange={changePage}
-                    disabled={loading}
-                  />
-                </Grid>
-              )}
-            </Grid>
-          </Box>
-        </Grid>
-      </div>
-      <Footer />
-    </Box>
+                )}
+              </Grid>
+            </Box>
+          </Grid>
+        </div>
+        {isOpened && <AddDialog tags={tags} closePopup={closePopup} isOpened={isOpened} />}
+        <Footer />
+      </Box>
+      <Box className={classes.mobileView}>
+        <Typography component={'div'} className={classes.mobileAlert}>
+          We currently are working on the portrait view for mobile devices. Please use a desktop or
+          landscape mode
+        </Typography>
+      </Box>
+    </>
   );
 }
 

@@ -1,3 +1,4 @@
+export { default as AddDialog } from './AddDialog';
 export { default as FadeIn } from './FadeIn';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';

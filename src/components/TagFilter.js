@@ -123,6 +123,27 @@ const useStyles = makeStyles((theme) => ({
 
 const REDIS_COMMANDS_LIMIT = 5;
 
+const VERTICALS_PREFERRED_ORDER = [
+  'Financial Services',
+  'Retail',
+  'Gaming',
+  'Healthcare',
+  'Others'
+];
+const reorderVericals = (verticals) => {
+  const newVerticals = VERTICALS_PREFERRED_ORDER.filter((v) => verticals.includes(v));
+
+  verticals.forEach((v) => {
+    if (!VERTICALS_PREFERRED_ORDER.includes(v)) {
+      newVerticals.push(v);
+    } else {
+      // skip
+    }
+  });
+
+  return newVerticals;
+};
+
 export default function TagFilter({ updateTag, tags, filtersData }) {
   const classes = useStyles();
 
@@ -143,7 +164,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
           name: <Box className="category verticalsCategory">Verticals</Box>,
           filter: 'verticals'
         },
-        options: filtersData?.verticals.map((name) => ({ name }))
+        options: reorderVericals(filtersData?.verticals).map((name) => ({ name }))
       });
     }
     if (filtersData?.redis_features?.length) {

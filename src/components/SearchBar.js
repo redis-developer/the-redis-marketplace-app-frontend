@@ -100,11 +100,12 @@ const useStyles = makeStyles((theme) => ({
   },
   executeTime: {
     fontSize: '12px',
-    fontWeight: 600
+    fontWeight: 600,
+    color: 'white'
   },
   redisearch: {
-    width: '28px'
-    // marginLeft: theme.spacing(0.5)
+    width: '28px',
+    marginLeft: theme.spacing(0.5)
   },
   descriptionOptionAppName: {
     fontSize: '12px'
@@ -315,6 +316,23 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             <InputAdornment position="start">
               <SearchIcon className={classes.icon} />
             </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                whiteSpace: 'nowrap',
+                height: '2rem'
+              }}>
+              <Grid container>
+                <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+              </Grid>
+              <Grid container style={{ fontSize: '0.6rem' }}>
+                Powered by RediSearch
+              </Grid>
+            </InputAdornment>
           )
         }}
       />
@@ -328,7 +346,8 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
       classes.inputWithSuggestions,
       classes.inputWithoutSuggestions,
       classes.input,
-      classes.icon
+      classes.icon,
+      classes.redisearch
     ]
   );
 
@@ -362,7 +381,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             </Grid>
             <Grid item xs={6}>
               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
-                Powered by: Redisearch
+                Powered by RediSearch
                 <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
               </Grid>
             </Grid>
