@@ -100,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
   },
   executeTime: {
     fontSize: '12px',
-    fontWeight: 600
+    fontWeight: 600,
+    color: 'white'
   },
   redisearch: {
     width: '28px',
@@ -380,7 +381,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             </Grid>
             <Grid item xs={6}>
               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
-                Powered by: Redisearch
+                Powered by RediSearch
                 <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
               </Grid>
             </Grid>

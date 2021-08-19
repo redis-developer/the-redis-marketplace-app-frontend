@@ -119,7 +119,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   executeTime: {
-    fontWeight: 400
+    fontWeight: 400,
+    color: 'white'
   },
   executeTimeBox: {
     backgroundColor: theme.palette.executionTimeBackground,

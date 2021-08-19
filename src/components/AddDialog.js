@@ -76,7 +76,9 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2)
     },
     // padding: theme.spacing(6),
-    padding: '0 15%'
+    padding: '0 15%',
+    paddingTop: '40px',
+    paddingBottom: '40px'
   },
   image: {
     display: 'block',
@@ -174,7 +176,7 @@ export default function AddDialog({ closePopup, isOpened, tags }) {
           <Grid item xs={11}>
             <Grid container alignItems="center">
               <Typography component={'div'} variant="h5" className={classes.appName}>
-                Adding-apps-to-redis-marketplace
+                Add your application.
               </Typography>
             </Grid>
           </Grid>
@@ -188,7 +190,7 @@ export default function AddDialog({ closePopup, isOpened, tags }) {
         </Grid>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <Paper elevation={3} className={classes.details}>
+        <Paper className={classes.details}>
           <Markdown url="https://raw.githubusercontent.com/redis-developer/adding-apps-to-redis-marketplace/master/README.md" />
         </Paper>
       </DialogContent>
