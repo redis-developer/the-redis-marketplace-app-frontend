@@ -219,7 +219,7 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             );
             return sample;
           })
-          .sort((a, b) => a.group.localeCompare(b.group))) ||
+          .sort((a, b) => (a.group ? a.group.localeCompare(b.group) : -1))) ||
       [],
     [error, data?.rows, loading, autocompleteText]
   );

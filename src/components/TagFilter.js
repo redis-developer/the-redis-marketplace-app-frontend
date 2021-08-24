@@ -149,15 +149,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
 
   const dynamicFilters = useMemo(() => {
     const formattedFilters = [];
-    if (filtersData?.redis_modules?.length) {
-      formattedFilters.push({
-        category: {
-          name: <Box className="category redisModulesCategory">Modules</Box>,
-          filter: 'redis_modules'
-        },
-        options: filtersData?.redis_modules.map((name) => ({ name }))
-      });
-    }
+    formattedFilters.push(staticFilters[0]);
     if (filtersData?.verticals?.length) {
       formattedFilters.push({
         category: {
@@ -167,6 +159,20 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
         options: reorderVericals(filtersData?.verticals).map((name) => ({ name }))
       });
     }
+    formattedFilters.push(staticFilters[1]);
+
+    if (filtersData?.redis_modules?.length) {
+      formattedFilters.push({
+        category: {
+          name: <Box className="category redisModulesCategory">Modules</Box>,
+          filter: 'redis_modules'
+        },
+        options: filtersData?.redis_modules.map((name) => ({ name }))
+      });
+    }
+
+    formattedFilters.push(staticFilters[2]);
+
     if (filtersData?.redis_features?.length) {
       formattedFilters.push({
         category: {
@@ -206,7 +212,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
   const [showAllCommands, setShowAllCommands] = useState(false);
   const toggleCommands = useCallback(() => setShowAllCommands((show) => !show), []);
 
-  const filters = useMemo(() => staticFilters.concat(dynamicFilters), [dynamicFilters]);
+  const filters = dynamicFilters;
 
   return (
     <Grid container className={classes.root} px={{ xs: 1, md: 6 }} pt={{ xs: 1, md: 6 }}>
