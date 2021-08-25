@@ -367,7 +367,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
           <Grid className={classes.iconArea} container>
             <Grid item md={6} className={classes.title}>
               <Typography component={'div'} className={classes.marketplace}>
-                Redis Marketplace
+                Redis Launchpad
               </Typography>
               <Typography component={'div'} className={classes.subtitle1}>
                 See what you can build with Redis.
