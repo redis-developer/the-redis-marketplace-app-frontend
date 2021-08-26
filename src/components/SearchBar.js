@@ -45,7 +45,27 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       maxWidth: '85%'
-    }
+    },
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  logoRedis: {
+    display: 'flex',
+    alignSelf: 'stretch',
+    marginTop: '10px',
+    borderRadius: '10px',
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(3, 'auto', 4)
+    },
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    background: '#dcdad9',
+    marginLeft: '10px',
+    flexDirection: 'column',
+    whiteSpace: 'nowrap',
+    justifyContent: 'center',
+    padding: '0px 10px',
+    alignItems: 'center'
   },
   input: {
     boxSizing: 'border-box',
@@ -316,23 +336,6 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
             <InputAdornment position="start">
               <SearchIcon className={classes.icon} />
             </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                whiteSpace: 'nowrap',
-                height: '2rem'
-              }}>
-              <Grid container>
-                <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
-              </Grid>
-              <Grid container style={{ fontSize: '0.6rem' }}>
-                Powered by RediSearch
-              </Grid>
-            </InputAdornment>
           )
         }}
       />
@@ -419,32 +422,44 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   );
 
   return (
-    <Autocomplete
-      id="search-bar"
-      autoComplete="off"
-      className={classes.root}
-      clearOnBlur={false}
-      // open={suggestionsOpen && (loading || !!options.length)}
-      open={false}
-      onOpen={onOpen}
-      onClose={() => {
-        setSuggestionsOpen(false);
-      }}
-      onInputChange={onInputChange}
-      onChange={onSelect}
-      disableClearable
-      freeSolo
-      getOptionSelected={() => false}
-      getOptionLabel={(option) => option?.label || option}
-      renderOption={renderOption}
-      groupBy={(option) => option.group}
-      options={options}
-      ListboxProps={{ className: classes.listBox }}
-      loading={loading}
-      filterOptions={(options) => options}
-      renderInput={renderInput}
-      PaperComponent={AutocompletePaper}
-      PopperComponent={AutocompletePopper}
-    />
+    <Grid
+      style={{
+        display: 'flex',
+        alignItems: 'center'
+      }}>
+      <Autocomplete
+        id="search-bar"
+        autoComplete="off"
+        className={classes.root}
+        clearOnBlur={false}
+        // open={suggestionsOpen && (loading || !!options.length)}
+        open={false}
+        onOpen={onOpen}
+        onClose={() => {
+          setSuggestionsOpen(false);
+        }}
+        onInputChange={onInputChange}
+        onChange={onSelect}
+        disableClearable
+        freeSolo
+        getOptionSelected={() => false}
+        getOptionLabel={(option) => option?.label || option}
+        renderOption={renderOption}
+        groupBy={(option) => option.group}
+        options={options}
+        ListboxProps={{ className: classes.listBox }}
+        loading={loading}
+        filterOptions={(options) => options}
+        renderInput={renderInput}
+        PaperComponent={AutocompletePaper}
+        PopperComponent={AutocompletePopper}
+      />
+      <Grid className={classes.logoRedis}>
+        <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+        <Grid container style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+          Powered by RediSearch
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
