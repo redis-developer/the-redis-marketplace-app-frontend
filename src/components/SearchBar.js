@@ -59,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
     },
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    background: '#dcdad9',
-    marginLeft: '10px',
+    background: '#FFF',
     flexDirection: 'column',
     whiteSpace: 'nowrap',
     justifyContent: 'center',
     padding: '0px 10px',
-    alignItems: 'center'
+    alignItems: 'center',
+    boxShadow: '-3px 0px 3px 1px #323954'
   },
   input: {
     boxSizing: 'border-box',
