@@ -147,7 +147,7 @@ export default function TagChipBar({
           <Chip
             label={textFilter}
             size="small"
-            onDelete={() => updateTextFilter()}
+            onDelete={() => updateTextFilter('')}
             className={classes.chip}
           />
         </Grow>

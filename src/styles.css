@@ -2,6 +2,19 @@
   font-size: 1.3rem;
   line-height: 1.7;
 }
+.markdown-container ul,
+.markdown-container li,
+.markdown-container pre {
+  font-size: 1.3rem;
+  line-height: 1.7;
+}
+
+.markdown-container p code {
+  padding: 5px 7px;
+  background-color: #282a3633;
+  color: coral;
+  border-radius: 5px;
+}
 .markdown-container h1 {
   font-size: 2.5rem;
   line-height: 2;
