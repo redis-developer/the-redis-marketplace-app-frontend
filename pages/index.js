@@ -440,7 +440,11 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
               </Box>
             </Grid>
             <Grid item md={10} xs={12}>
-              <SearchBar updateTextFilter={updateTextFilter} openLinkedSample={openLinkedSample} />
+              <SearchBar
+                textFilter={textFilter}
+                updateTextFilter={updateTextFilter}
+                openLinkedSample={openLinkedSample}
+              />
               <Grid container className={classes.searchFeature}>
                 <Grid item md={10}>
                   {(Object.keys(tags).length > 0 || textFilter) && (

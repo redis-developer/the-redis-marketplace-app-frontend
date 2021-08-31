@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import clsx from 'clsx';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { useDebouncedCallback } from 'use-debounce';
@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 10;
 
-export default function SearchBar({ updateTextFilter, openLinkedSample }) {
+export default function SearchBar({ textFilter, updateTextFilter, openLinkedSample }) {
   const classes = useStyles();
 
   // autocompleteText for fetching suggestions
@@ -160,6 +160,13 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
     }),
     [autocompleteText]
   );
+
+  // clear the autocomplete when textfilter is cleared
+  useEffect(() => {
+    if (!textFilter) {
+      setAutocompleteText('');
+    }
+  }, [textFilter]);
   // Only fetch API for suggestions when more than 2 characters pressed
   const preCheckParams = useCallback(
     (params) => params.text_filter && params.text_filter.length > 2,
@@ -245,17 +252,17 @@ export default function SearchBar({ updateTextFilter, openLinkedSample }) {
   );
 
   // Listener for typing
-  const { callback: deouncedUpdateTextFilter } = useDebouncedCallback((text) => {
+  const { callback: debouncedUpdateTextFilter } = useDebouncedCallback((text) => {
     updateTextFilter(text);
   }, 300);
   const onInputChange = useCallback(
     (e) => {
       setAutocompleteText(e?.target?.value || '');
       if (e?.target?.value?.length > 2 || e?.target?.value === '') {
-        deouncedUpdateTextFilter(e.target.value.trim());
+        debouncedUpdateTextFilter(e.target.value.trim());
       }
     },
-    [deouncedUpdateTextFilter]
+    [debouncedUpdateTextFilter]
   );
 
   // Action for selecting an option
