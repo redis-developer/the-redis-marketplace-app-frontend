@@ -4,7 +4,7 @@ export default [
     items: [
       {
         label: '/logo-redis-reversed.svg',
-        link: 'https://redislabs.com/'
+        link: 'https://redis.com/'
       }
     ]
   },
@@ -13,23 +13,23 @@ export default [
     items: [
       {
         label: 'Create Database',
-        link: 'https://developer.redislabs.com/create/rediscloud'
+        link: 'https://developer.redis.com/create/rediscloud'
       },
       {
         label: 'Develop',
-        link: 'https://developer.redislabs.com/develop'
+        link: 'https://developer.redis.com/develop'
       },
       {
         label: 'Explore your data',
-        link: 'https://developer.redislabs.com/explore/redisinsight'
+        link: 'https://developer.redis.com/explore/redisinsight'
       },
       {
         label: 'Best Practices',
-        link: 'https://redislabs.com/redis-best-practices/introduction/'
+        link: 'https://redis.com/redis-best-practices/introduction/'
       },
       {
         label: 'Build with Redis Modules',
-        link: 'https://developer.redislabs.com/howtos/redisearch'
+        link: 'https://developer.redis.com/howtos/redisearch'
       }
     ]
   },
@@ -38,11 +38,11 @@ export default [
     items: [
       {
         label: 'Community',
-        link: 'https://redislabs.com/community/'
+        link: 'https://redis.com/community/'
       },
       {
         label: 'Redis University',
-        link: 'https://university.redislabs.com/'
+        link: 'https://university.redis.com/'
       },
       {
         label: 'Command Reference',
@@ -50,7 +50,7 @@ export default [
       },
       {
         label: 'How-tos & tutorials',
-        link: 'https://developer.redislabs.com/howtos/moviesdatabase/'
+        link: 'https://developer.redis.com/howtos/moviesdatabase/'
       }
     ]
   }
