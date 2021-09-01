@@ -85,8 +85,8 @@ const useStyles = makeStyles((theme) => ({
   subtitle1: {
     color: '#FFF',
     fontSize: '2.5rem',
-    fontFamily: 'Mulish sans-serif',
-    fontWeight: 400,
+    fontFamily: 'Mulish, sans-serif',
+    fontWeight: 600,
     lineHeight: 1.5
   },
   subtitle2: {
@@ -370,11 +370,14 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                 Redis Launchpad
               </Typography>
               <Typography component={'div'} className={classes.subtitle1}>
-                See what you can build with Redis.
+                Build fast apps faster{' '}
+                <span role="img" aria-label="launch">
+                  🚀
+                </span>
               </Typography>
-              <Typography component={'div'} className={classes.subtitle2}>
+              {/* <Typography component={'div'} className={classes.subtitle2}>
                 Get started with 75+ sample apps.
-              </Typography>
+              </Typography> */}
             </Grid>
             <Grid item md={6} style={{ maxWidth: '600px' }}>
               <Grid container>
