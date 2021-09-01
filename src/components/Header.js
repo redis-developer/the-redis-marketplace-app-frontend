@@ -40,7 +40,7 @@ export default function Header() {
   return (
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <MuiLink color="inherit" target="_blank" href="https://redislabs.com/">
+        <MuiLink color="inherit" target="_blank" href="https://redis.com/">
           <img
             src="/logo-redis-reversed.svg"
             alt="logo-redis"

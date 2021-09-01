@@ -1,7 +1,7 @@
 # Redis Marketplace
 
 - staging: https://marketplace-client-staging.herokuapp.com
-- production: https://marketplace.redislabs.com/
+- production: https://marketplace.redis.com/
 
 
 ## Setup
