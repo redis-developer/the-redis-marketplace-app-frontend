@@ -149,7 +149,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
 
   const dynamicFilters = useMemo(() => {
     const formattedFilters = [];
-    formattedFilters.push(staticFilters[0]);
+    formattedFilters.push(staticFilters[1]);
     if (filtersData?.verticals?.length) {
       formattedFilters.push({
         category: {
@@ -159,7 +159,6 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
         options: reorderVericals(filtersData?.verticals).map((name) => ({ name }))
       });
     }
-    formattedFilters.push(staticFilters[1]);
 
     if (filtersData?.redis_modules?.length) {
       formattedFilters.push({
@@ -170,6 +169,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
         options: filtersData?.redis_modules.map((name) => ({ name }))
       });
     }
+    formattedFilters.push(staticFilters[0]);
 
     formattedFilters.push(staticFilters[2]);
 
