@@ -1,7 +1,7 @@
 export default [
   {
     label: 'Developer Hub',
-    link: 'https://developer.redis.com/create/rediscloud'
+    link: 'https://developer.redis.com/'
   },
   {
     label: 'Try Free',
