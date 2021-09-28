@@ -30,7 +30,8 @@ const staticFilters = [
       { name: 'GO', icon: <LanguageIcon language="GO" className="filterIcon" /> },
       { name: 'C#', icon: <LanguageIcon language="C#" className="filterIcon" /> },
       { name: 'Ruby', icon: <LanguageIcon language="Ruby" className="filterIcon" /> },
-      { name: 'PHP', icon: <LanguageIcon language="PHP" className="filterIcon" /> }
+      { name: 'PHP', icon: <LanguageIcon language="PHP" className="filterIcon" /> },
+      { name: 'NodeJS', icon: <LanguageIcon language="NodeJS" className="filterIcon" /> }
     ]
   },
   {
