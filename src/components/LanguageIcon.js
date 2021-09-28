@@ -1,5 +1,14 @@
 import React from 'react';
-import { SiCsharp, SiGo, SiJava, SiJavascript, SiPhp, SiPython, SiRuby } from 'react-icons/si';
+import {
+  SiCsharp,
+  SiGo,
+  SiJava,
+  SiJavascript,
+  SiNodeDotJs,
+  SiPhp,
+  SiPython,
+  SiRuby
+} from 'react-icons/si';
 
 export default function LanguageIcon({ language, ...rest }) {
   switch (language.toLowerCase()) {
@@ -17,6 +26,8 @@ export default function LanguageIcon({ language, ...rest }) {
       return <SiRuby {...rest} />;
     case 'php':
       return <SiPhp {...rest} />;
+    case 'nodejs':
+      return <SiNodeDotJs {...rest} />;
     default:
       return null;
   }
