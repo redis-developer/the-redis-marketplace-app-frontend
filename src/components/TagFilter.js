@@ -40,7 +40,7 @@ const staticFilters = [
       filter: 'contributed_by'
     },
     options: [
-      { name: 'Redis Labs', icon: <SiRedis className="filterIcon" /> },
+      { name: 'Redis', filter: 'Redis Labs', icon: <SiRedis className="filterIcon" /> },
       { name: 'Community', icon: <FaUsers className="filterIcon" /> },
       { name: 'Partner', icon: <FaUserCog className="filterIcon" /> }
     ]
@@ -242,7 +242,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
                         onChange={(e) =>
                           updateTag({
                             filter: category.filter,
-                            tag: e.target.name,
+                            tag: option.filter ?? e.target.name,
                             value: e.target.checked
                           })
                         }
