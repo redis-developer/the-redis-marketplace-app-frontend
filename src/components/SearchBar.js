@@ -436,7 +436,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
       }}>
       <Autocomplete
         id="search-bar"
-        autoComplete="off"
+        autoComplete={false}
         className={classes.root}
         clearOnBlur={false}
         // open={suggestionsOpen && (loading || !!options.length)}
