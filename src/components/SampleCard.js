@@ -135,25 +135,18 @@ export default function SampleCard({ sample, updateTags }) {
 
   const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
-    setIsOpened(true);
-    Router.push(
-      {
-        pathname: '/',
-        query: { id: sample.id }
-      },
-      null,
-      { scroll: false, shallow: true }
-    );
+    Router.push(`/project/${sample.id}`);
   }, [sample.id]);
   const closePopup = useCallback(() => {
     setIsOpened(false);
     Router.push({ pathname: '/' }, null, { scroll: false, shallow: true });
   }, []);
 
-  const tags = useMemo(
-    () => <SampleTags sample={sample} closePopup={closePopup} updateTags={updateTags} />,
-    [sample, updateTags, closePopup]
-  );
+  const tags = useMemo(() => <SampleTags sample={sample} updateTags={updateTags} />, [
+    sample,
+    updateTags,
+    closePopup
+  ]);
 
   return (
     <Box height={1}>

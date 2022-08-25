@@ -132,20 +132,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Top4SampleCard({ sample, updateTags }) {
   const classes = useStyles();
 
-  const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
-    setIsOpened(true);
-    Router.push(
-      {
-        pathname: '/',
-        query: { id: sample.id }
-      },
-      null,
-      { scroll: false, shallow: true }
-    );
+    Router.push(`/project/${sample.id}`);
   }, [sample.id]);
+
   const closePopup = useCallback(() => {
-    setIsOpened(false);
     Router.push({ pathname: '/' }, null, { scroll: false, shallow: true });
   }, []);
 
@@ -176,9 +167,6 @@ export default function Top4SampleCard({ sample, updateTags }) {
             </Typography>
           </CardContent>
         </Box>
-        {isOpened && (
-          <SampleDialog tags={tags} sample={sample} closePopup={closePopup} isOpened={isOpened} />
-        )}
       </Card>
     </Box>
   );
