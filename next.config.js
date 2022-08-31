@@ -4,5 +4,8 @@ module.exports = {
   },
   images: {
     domains: ['deploy.cloud.run', 'vercel.com', 'www.herokucdn.com']
+  },
+  experimental: {
+    concurrentFeatures: true
   }
 };

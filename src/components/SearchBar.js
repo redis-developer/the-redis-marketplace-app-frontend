@@ -21,130 +21,135 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { useRequest } from '../hooks';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    // maxWidth: '680px',
-    width: '100%',
-    boxSizing: 'border-box',
-    borderRadius: '10px',
-    paddingRight: `${theme.spacing(1)}px !important`,
-    background: 'white',
-    marginTop: '10px',
-    paddingLeft: '15px',
-    // margin: theme.spacing(4, 'auto', 3),
-    padding: theme.spacing(0.25, 0.5),
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(3, 'auto', 4)
+const useStyles = makeStyles(
+  (theme) => ({
+    root: {
+      display: 'flex',
+      alignItems: 'center',
+      // maxWidth: '680px',
+      width: '100%',
+      boxSizing: 'border-box',
+      borderRadius: '10px',
+      paddingRight: `${theme.spacing(1)}px !important`,
+      background: 'white',
+      marginTop: '10px',
+      paddingLeft: '15px',
+      // margin: theme.spacing(4, 'auto', 3),
+      padding: theme.spacing(0.25, 0.5),
+      [theme.breakpoints.down('sm')]: {
+        margin: theme.spacing(3, 'auto', 4)
+      },
+      '& .MuiFormControl-root': {
+        zIndex: 1301
+      },
+      '& .MuiFormLabel-root': {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: '85%'
+      },
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0
     },
-    '& .MuiFormControl-root': {
-      zIndex: 1301
-    },
-    '& .MuiFormLabel-root': {
+    logoRedis: {
+      display: 'flex',
+      alignSelf: 'stretch',
+      marginTop: '10px',
+      borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        margin: theme.spacing(3, 'auto', 4)
+      },
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      background: '#FFF',
+      flexDirection: 'column',
       whiteSpace: 'nowrap',
+      justifyContent: 'center',
+      padding: '0px 10px',
+      alignItems: 'center',
+      boxShadow: '-3px 0px 3px 1px #323954'
+    },
+    input: {
+      boxSizing: 'border-box',
+      paddingRight: `${theme.spacing(1)}px !important`,
+      background: 'white',
+      '& fieldset': {
+        border: 'none !important'
+      }
+    },
+    inputWithSuggestions: {
+      borderRadius: '5px 5px 0 0'
+    },
+    inputWithoutSuggestions: {
+      borderRadius: '5px'
+    },
+    icon: {
+      color: theme.palette.icon,
+      width: '40px',
+      height: '40px',
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2)
+    },
+    dropdown: {
       overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      maxWidth: '85%'
+      marginTop: '-57px',
+      paddingTop: '57px',
+      paddingLeft: '0',
+      zIndex: 1,
+      borderRadius: '5px',
+      boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
     },
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  logoRedis: {
-    display: 'flex',
-    alignSelf: 'stretch',
-    marginTop: '10px',
-    borderRadius: '10px',
-    [theme.breakpoints.down('sm')]: {
-      margin: theme.spacing(3, 'auto', 4)
+    listBox: {
+      padding: theme.spacing(0, 0, 5.25, 0),
+      margin: 0,
+      '& .MuiAutocomplete-groupUl': {
+        borderBottom: `1px solid ${theme.palette.borderColor}`
+      }
     },
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    background: '#FFF',
-    flexDirection: 'column',
-    whiteSpace: 'nowrap',
-    justifyContent: 'center',
-    padding: '0px 10px',
-    alignItems: 'center',
-    boxShadow: '-3px 0px 3px 1px #323954'
-  },
-  input: {
-    boxSizing: 'border-box',
-    paddingRight: `${theme.spacing(1)}px !important`,
-    background: 'white',
-    '& fieldset': {
-      border: 'none !important'
+    footer: {
+      alignItems: 'center',
+      position: 'fixed',
+      right: 0,
+      zIndex: 1,
+      bottom: '0px',
+      minHeight: '44px',
+      width: '100%',
+      padding: theme.spacing(0.5, 2, 0.5, 2),
+      backgroundColor: 'white',
+      borderTop: `1px solid ${theme.palette.borderColor}`,
+      borderRadius: '0 0 30px 30px',
+      fontSize: '14px'
+    },
+    executeTime: {
+      fontSize: '12px',
+      fontWeight: 600,
+      color: 'white'
+    },
+    redisearch: {
+      width: '28px',
+      marginLeft: theme.spacing(0.5)
+    },
+    descriptionOptionAppName: {
+      fontSize: '12px'
+    },
+    scrollBarThumb: {
+      zIndex: 2,
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+      cursor: 'pointer',
+      borderRadius: 'inherit'
+    },
+    scrollBarTrack: {
+      right: '2px',
+      bottom: '2px',
+      top: '2px',
+      borderRadius: '3px',
+      zIndex: 2
     }
-  },
-  inputWithSuggestions: {
-    borderRadius: '5px 5px 0 0'
-  },
-  inputWithoutSuggestions: {
-    borderRadius: '5px'
-  },
-  icon: {
-    color: theme.palette.icon,
-    width: '40px',
-    height: '40px',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2)
-  },
-  dropdown: {
-    overflow: 'hidden',
-    marginTop: '-57px',
-    paddingTop: '57px',
-    paddingLeft: '0',
-    zIndex: 1,
-    borderRadius: '5px',
-    boxShadow: '0 1px 5px 0 rgba(0,0,0,.07), 0 0 10px 0 rgba(0,0,0,.1)'
-  },
-  listBox: {
-    padding: theme.spacing(0, 0, 5.25, 0),
-    margin: 0,
-    '& .MuiAutocomplete-groupUl': {
-      borderBottom: `1px solid ${theme.palette.borderColor}`
-    }
-  },
-  footer: {
-    alignItems: 'center',
-    position: 'fixed',
-    right: 0,
-    zIndex: 1,
-    bottom: '0px',
-    minHeight: '44px',
-    width: '100%',
-    padding: theme.spacing(0.5, 2, 0.5, 2),
-    backgroundColor: 'white',
-    borderTop: `1px solid ${theme.palette.borderColor}`,
-    borderRadius: '0 0 30px 30px',
-    fontSize: '14px'
-  },
-  executeTime: {
-    fontSize: '12px',
-    fontWeight: 600,
-    color: 'white'
-  },
-  redisearch: {
-    width: '28px',
-    marginLeft: theme.spacing(0.5)
-  },
-  descriptionOptionAppName: {
-    fontSize: '12px'
-  },
-  scrollBarThumb: {
-    zIndex: 2,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    cursor: 'pointer',
-    borderRadius: 'inherit'
-  },
-  scrollBarTrack: {
-    right: '2px',
-    bottom: '2px',
-    top: '2px',
-    borderRadius: '3px',
-    zIndex: 2
+  }),
+  {
+    name: 'MuiSearchBarStyle'
   }
-}));
+);
 
 const LIMIT = 10;
 
@@ -391,7 +396,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
+              <Grid container justifyContent="flex-end" alignItems="center" wrap="nowrap">
                 Powered by RediSearch
                 <Image
                   width={28}
