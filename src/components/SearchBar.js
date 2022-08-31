@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import clsx from 'clsx';
+import Image from 'next/image';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -392,7 +393,13 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
             <Grid item xs={6}>
               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
                 Powered by RediSearch
-                <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+                <Image
+                  width={28}
+                  height={23}
+                  src="/redisearch.svg"
+                  alt="redisearch"
+                  className={classes.redisearch}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -462,7 +469,13 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
         PopperComponent={AutocompletePopper}
       />
       <Grid className={classes.logoRedis}>
-        <img src="/redisearch.svg" alt="redisearch" className={classes.redisearch} />
+        <Image
+          width={28}
+          height={23}
+          src="/redisearch.svg"
+          alt="redisearch"
+          className={classes.redisearch}
+        />
         <Grid container style={{ fontSize: '0.8rem', marginTop: '5px' }}>
           Powered by RediSearch
         </Grid>

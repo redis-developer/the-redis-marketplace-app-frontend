@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Close as CloseIcon, GetApp as GetAppIcon, GitHub as GitHubIcon } from '@material-ui/icons';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
+import Image from 'next/image';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import { AiOutlineShareAlt } from 'react-icons/ai';
 
@@ -153,17 +154,18 @@ const Transition = forwardRef((props, ref) => {
 function DeployerImage({ deployer }) {
   switch (deployer) {
     case 'google':
-      return (
-        <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" height="36px" />
-      );
+      return <Image src="https://deploy.cloud.run/button.svg" width={205} height={36} />;
     case 'vercel':
-      return <img src="https://vercel.com/button" alt="Deploy with Vercel" height="36px" />;
+      return (
+        <Image width={104} height={36} src="https://vercel.com/button" alt="Deploy with Vercel" />
+      );
     case 'heroku':
       return (
-        <img
+        <Image
+          width={166}
+          height={36}
           src="https://www.herokucdn.com/deploy/button.svg"
           alt="Deploy to Heroku"
-          height="36px"
         />
       );
     default:
