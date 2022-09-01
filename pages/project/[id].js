@@ -11,10 +11,10 @@ function Project({ sample }) {
     setTags(tags);
   }, []);
 
-  const tagsComponent = useMemo(() => <SampleTags sample={sample} updateTags={updateTags} />, [
-    sample,
-    updateTags
-  ]);
+  const tagsComponent = useMemo(
+    () => <SampleTags sample={sample} updateTags={updateTags} />,
+    [sample, updateTags]
+  );
 
   const goBack = useCallback(() => {
     Router.back();

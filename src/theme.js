@@ -1,8 +1,8 @@
 import { red } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
-const theme = createMuiTheme({
+const theme = createTheme({
   spacing: 8,
   typography: {
     fontFamily: "'Mulish', sans-serif"
