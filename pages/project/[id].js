@@ -47,7 +47,7 @@ function Project({ id }) {
   );
 
   const goBack = useCallback(() => {
-    Router.back();
+    Router.push('/');
   }, []);
 
   return (
