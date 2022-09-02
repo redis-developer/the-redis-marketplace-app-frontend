@@ -76,6 +76,9 @@ const useStyles = makeStyles(
           left: 0
         }
       },
+      '& .languageCategory': {
+        border: 'none'
+      },
       '& .typeCategory::before': {
         backgroundColor: theme.palette.filterCategoryColors.type.main
       },

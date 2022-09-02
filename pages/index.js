@@ -206,8 +206,23 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 12;
 
+const defaultFilters = {
+  redis_commands: [],
+  redis_features: [],
+  redis_modules: [],
+  special_tags: [],
+  verticals: []
+};
+
 function Index({ linkedSampleData, filtersData }) {
   const classes = useStyles();
+
+  const { data: filtersResult } = useRequest({
+    url: '/projects/filters',
+    skipFirstFetch: false
+  });
+
+  if (filtersResult) filtersData = filtersResult;
 
   // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
   const [linkedSample, setLinkedSample] = useState(linkedSampleData);
@@ -523,9 +538,6 @@ function Index({ linkedSampleData, filtersData }) {
 }
 
 export async function getServerSideProps({ query }) {
-  // Get dynamic filter
-  const { data: filtersData } = await api.get('/projects/filters');
-
   // Get linked project from query
   let linkedSampleData = null;
   if (query.id) {
@@ -533,7 +545,7 @@ export async function getServerSideProps({ query }) {
     linkedSampleData = linkedProjectResponse.data;
   }
 
-  return { props: { linkedSampleData, filtersData } };
+  return { props: { linkedSampleData, filtersData: defaultFilters } };
 }
 
 export default Index;
