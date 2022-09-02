@@ -42,6 +42,9 @@ const useStyles = makeStyles(
       '& .MuiFormControl-root': {
         zIndex: 1301
       },
+      '& .MuiInputBase-root': {
+        height: 60
+      },
       '& .MuiFormLabel-root': {
         whiteSpace: 'nowrap',
         overflow: 'hidden',

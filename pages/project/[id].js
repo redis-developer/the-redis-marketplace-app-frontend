@@ -1,11 +1,41 @@
+import { Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import dynamic from 'next/dynamic';
 import Router from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { Suspense, useCallback, useMemo, useState } from 'react';
 
 import api from '../../src/api';
-import { SampleContent, SampleTags } from '../../src/components';
+import { useRequest } from '../../src/hooks';
 
-function Project({ sample }) {
+const SampleContent = dynamic(() => import('../../src/components/SampleContent'), {
+  suspense: true
+});
+
+const SampleTags = dynamic(() => import('../../src/components/SampleTags'), {
+  suspense: true
+});
+
+const useStyles = makeStyles(
+  (theme) => ({
+    main: {
+      backgroundColor: theme.palette.background.default,
+      position: 'absolute',
+      width: '100%',
+      height: '100%'
+    }
+  }),
+  {
+    name: 'MuiProjectIdStyle'
+  }
+);
+
+function Project({ id }) {
+  const classes = useStyles();
   const [tags, setTags] = useState({});
+  const { data: sample } = useRequest({
+    url: '/project/' + id,
+    skipFirstFetch: false
+  });
 
   const updateTags = useCallback((tags) => {
     setTags(tags);
@@ -20,12 +50,19 @@ function Project({ sample }) {
     Router.back();
   }, []);
 
-  return <SampleContent sample={sample} tags={tagsComponent} goBack={goBack} />;
+  return (
+    <Suspense fallback={`Loading...`}>
+      {sample ? (
+        <SampleContent sample={sample} tags={tagsComponent} goBack={goBack} />
+      ) : (
+        <Box className={classes.main}></Box>
+      )}
+    </Suspense>
+  );
 }
 
 export async function getServerSideProps({ params }) {
-  const linkedProjectResponse = await api.get(`/project/${params.id}`);
-  return { props: { sample: linkedProjectResponse?.data } };
+  return { props: { id: params.id } };
 }
 
 export default Project;
