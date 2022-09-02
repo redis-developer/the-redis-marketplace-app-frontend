@@ -29,7 +29,9 @@ const useStyles = makeStyles(
     menuCategories: {
       height: '100%'
     },
-
+    menuContainer: {
+      marginTop: '0!important'
+    },
     menuItem: {
       padding: theme.spacing(1)
     }
@@ -55,8 +57,11 @@ export default function Header() {
           />
         </MuiLink>
 
-        <Box display={{ xs: 'none', sm: 'block', md: 'block' }} className="containerBox" width={1}>
-          <Grid justifyContent="flex-end" container className={classes.menuContainer}>
+        <Box
+          display={{ xs: 'none', sm: 'block', md: 'block' }}
+          className={classes.menuContainer}
+          width={1}>
+          <Grid justifyContent="flex-end" container>
             {simpleToolbar.map(({ label, link }) => (
               <Grid key={label} className={classes.gridItem} item>
                 <MuiLink color="inherit" target="_blank" href={link}>

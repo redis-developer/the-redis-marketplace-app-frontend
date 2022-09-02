@@ -106,6 +106,9 @@ const useStyles = makeStyles(
       fontSize: '14px'
     },
     tag: {
+      '& input[type=checkbox]': {
+        display: 'none!important'
+      },
       '&:hover span, &:active span': {
         fontWeight: '600'
       }
@@ -123,7 +126,7 @@ const useStyles = makeStyles(
     }
   }),
   {
-    name: 'MuiTagFilterStyle'
+    name: 'MuiTagFilterStyles'
   }
 );
 

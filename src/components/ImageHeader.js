@@ -1,7 +1,6 @@
 import { Grid, Grow, Typography } from '@material-ui/core';
 import { Zoom } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Image from 'next/image';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { iconTool } from '../constants';
@@ -35,6 +34,8 @@ const useStyles = makeStyles(
     iconToolOpen: {
       width: '80px',
       height: '80px',
+      minHeight: '80px',
+      minWidth: '80px',
       cursor: 'pointer',
       opacity: 1
     }
@@ -72,7 +73,7 @@ const ImageHeader = ({ isOpen }) => {
               <Grid item md={2} key={imgSrc}>
                 <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                   <div className={classes.iconToolWrapper}>
-                    <Image width={80} height={80} className={classes.en} src={imgSrc} alt="" />
+                    <img width={80} height={80} className={classes.en} src={imgSrc} alt="" />
                   </div>
                 </Zoom>
               </Grid>
@@ -87,7 +88,7 @@ const ImageHeader = ({ isOpen }) => {
               <Grid item md={2} key={imgSrc}>
                 <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                   <div className={classes.iconToolWrapper}>
-                    <Image
+                    <img
                       width={80}
                       height={80}
                       className={classes.iconToolOpen}
@@ -108,7 +109,7 @@ const ImageHeader = ({ isOpen }) => {
               <Grid item md={2} key={imgSrc}>
                 <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                   <div className={classes.iconToolWrapper}>
-                    <Image
+                    <img
                       width={80}
                       height={80}
                       className={classes.iconToolOpen}
@@ -129,7 +130,7 @@ const ImageHeader = ({ isOpen }) => {
               <Grid item md={2} key={imgSrc}>
                 <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
                   <div className={classes.iconToolWrapper}>
-                    <Image
+                    <img
                       width={80}
                       height={80}
                       className={classes.iconToolOpen}
