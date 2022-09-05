@@ -149,7 +149,7 @@ export default function SampleCard({ sample, updateTags }) {
 
   const tags = useMemo(
     () => <SampleTags sample={sample} updateTags={updateTags} />,
-    [sample, updateTags, closePopup]
+    [sample, updateTags]
   );
 
   return (

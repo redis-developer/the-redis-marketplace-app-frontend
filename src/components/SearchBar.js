@@ -365,8 +365,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
       classes.inputWithSuggestions,
       classes.inputWithoutSuggestions,
       classes.input,
-      classes.icon,
-      classes.redisearch
+      classes.icon
     ]
   );
 
