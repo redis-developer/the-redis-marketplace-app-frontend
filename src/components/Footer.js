@@ -1,5 +1,6 @@
 import { Box, Grid, Link as MuiLink, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Image from 'next/image';
 import React from 'react';
 
 import { footer } from '../constants';
@@ -56,7 +57,13 @@ export default function Footer() {
               <Grid key={label} className={classes.gridItem} item>
                 <MuiLink color="inherit" target="_blank" href={link}>
                   {category === 'Made with </> by' ? (
-                    <img src={label} alt="logo-redis" className={classes.redisLogo} />
+                    <Image
+                      height={40}
+                      width={120}
+                      src={label}
+                      alt="logo-redis"
+                      className={classes.redisLogo}
+                    />
                   ) : (
                     label
                   )}

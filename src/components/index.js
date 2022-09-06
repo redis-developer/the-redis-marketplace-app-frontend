@@ -9,6 +9,7 @@ export { default as LinkedSampleTags } from './LinkedSampleTags';
 export { default as Markdown } from './Markdown';
 export { default as Results } from './Results';
 export { default as SampleCard } from './SampleCard';
+export { default as SampleContent } from './SampleContent';
 export { default as SampleDialog } from './SampleDialog';
 export { default as SampleTags } from './SampleTags';
 export { default as SearchBar } from './SearchBar';

@@ -242,7 +242,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
                         onChange={(e) =>
                           updateTag({
                             filter: category.filter,
-                            tag: !!option.filter ? option.filter : e.target.name,
+                            tag: option.filter ? option.filter : e.target.name,
                             value: e.target.checked
                           })
                         }

@@ -2,6 +2,7 @@ import { Box, Grid, Grow, Typography } from '@material-ui/core';
 import { Zoom } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
+import Image from 'next/image';
 import Router from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaPlusCircle, FaPlusSquare } from 'react-icons/fa';
@@ -99,9 +100,11 @@ const useStyles = makeStyles((theme) => ({
   iconToolOpen: {
     width: '80px',
     height: '80px',
-    margin: '5px 5px',
     cursor: 'pointer',
     opacity: 1
+  },
+  iconToolWrapper: {
+    margin: '5px 5px'
   },
   addApp: {
     display: 'flex',
@@ -270,9 +273,10 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
 
   // Pagination
   const page = useMemo(() => Math.floor(offset / LIMIT) + 1, [offset]);
-  const maxPage = useMemo(() => Math.floor((data?.totalResults || 0) / LIMIT) + 1, [
-    data?.totalResults
-  ]);
+  const maxPage = useMemo(
+    () => Math.floor((data?.totalResults || 0) / LIMIT) + 1,
+    [data?.totalResults]
+  );
 
   const changePage = useCallback((e, newPage) => {
     setOffset((newPage - 1) * LIMIT);
@@ -387,7 +391,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   return (
                     <Grid item md={2} key={imgSrc}>
                       <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.en}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
                       </Zoom>
                     </Grid>
                   );
@@ -400,7 +412,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   return (
                     <Grid item md={2} key={imgSrc}>
                       <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
                       </Zoom>
                     </Grid>
                   );
@@ -413,7 +433,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   return (
                     <Grid item md={2} key={imgSrc}>
                       <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
                       </Zoom>
                     </Grid>
                   );
@@ -426,7 +454,15 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   return (
                     <Grid item md={2} key={imgSrc}>
                       <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
-                        <img className={classes.iconToolOpen} src={imgSrc} alt="" />
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
                       </Zoom>
                     </Grid>
                   );

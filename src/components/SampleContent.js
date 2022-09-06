@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   CardMedia,
-  Dialog,
   DialogContent,
   DialogTitle,
   Grid,
@@ -73,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2)
     },
     // padding: theme.spacing(6),
-    padding: '0 15%'
+    padding: '0 15% 50px 15%'
   },
   image: {
     display: 'block',
@@ -154,7 +153,14 @@ const Transition = forwardRef((props, ref) => {
 function DeployerImage({ deployer }) {
   switch (deployer) {
     case 'google':
-      return <Image src="https://deploy.cloud.run/button.svg" width={205} height={36} />;
+      return (
+        <Image
+          src="https://deploy.cloud.run/button.svg"
+          width={205}
+          height={36}
+          alt="Run on Google Cloud"
+        />
+      );
     case 'vercel':
       return (
         <Image width={104} height={36} src="https://vercel.com/button" alt="Deploy with Vercel" />
@@ -173,7 +179,7 @@ function DeployerImage({ deployer }) {
   }
 }
 
-export default function SampleCard({ closePopup, sample, isOpened, tags }) {
+export default function SampleCard({ goBack, sample, tags }) {
   const classes = useStyles();
 
   // Deployers
@@ -204,17 +210,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
   const showCopiedMessage = useMemo(() => Boolean(copiedAnchorEl), [copiedAnchorEl]);
 
   return (
-    <Dialog
-      className={classes.dialogRoot}
-      open={isOpened}
-      keepMounted
-      TransitionComponent={Transition}
-      scroll="paper"
-      maxWidth={false}
-      onClose={closePopup}
-      aria-labelledby="sample-dialog-title"
-      PaperProps={{ className: classes.root }}
-      aria-describedby="sample-dialog-description">
+    <>
       <DialogTitle disableTypography id="sample-dialog-title" className={classes.header}>
         <Grid container alignItems="flex-start" justify="space-between">
           <Grid item xs={11}>
@@ -248,7 +244,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
           </Grid>
           <Grid item xs={1}>
             <Grid container justify="flex-end">
-              <IconButton aria-label="close" onClick={closePopup}>
+              <IconButton aria-label="close" onClick={goBack}>
                 <CloseIcon className={classes.iconButton} />
               </IconButton>
             </Grid>
@@ -363,6 +359,6 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
           {sample.markdown && <Markdown url={sample.markdown} />}
         </Paper>
       </DialogContent>
-    </Dialog>
+    </>
   );
 }

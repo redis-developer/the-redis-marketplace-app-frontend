@@ -16,16 +16,17 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
-    "next": "10.0.5",
+    "next": "^12.2.5",
     "prop-types": "^15.7.2",
-    "react": "17.0.1",
+    "react": "^18.0.0-rc.3",
     "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "17.0.1",
+    "react-dom": "^18.0.0-rc.3",
     "react-icons": "^4.1.0",
     "react-markdown": "^5.0.3",
     "react-syntax-highlighter": "^15.4.3",
     "remark-gfm": "^1.0.0",
     "scroll-into-view-if-needed": "^2.2.26",
+    "sharp": "^0.31.0",
     "styled-components": "^5.3.0",
     "use-debounce": "^5.2.0"
   },
@@ -50,5 +51,9 @@
     "./**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ]
+  },
+  "engines": {
+    "node": "v18.6.0",
+    "npm": " v8.13.2"
   }
 }

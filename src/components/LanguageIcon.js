@@ -4,7 +4,7 @@ import {
   SiGo,
   SiJava,
   SiJavascript,
-  SiNodeDotJs,
+  SiNodedotjs,
   SiPhp,
   SiPython,
   SiRuby
@@ -27,7 +27,7 @@ export default function LanguageIcon({ language, ...rest }) {
     case 'php':
       return <SiPhp {...rest} />;
     case 'nodejs':
-      return <SiNodeDotJs {...rest} />;
+      return <SiNodedotjs {...rest} />;
     default:
       return null;
   }

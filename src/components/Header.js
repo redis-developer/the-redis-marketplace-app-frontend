@@ -1,5 +1,6 @@
 import { AppBar, Box, Grid, Link as MuiLink, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Image from 'next/image';
 import React from 'react';
 
 import { simpleToolbar } from '../constants';
@@ -41,7 +42,9 @@ export default function Header() {
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <MuiLink color="inherit" target="_blank" href="https://redis.com/">
-          <img
+          <Image
+            width={120}
+            height={40}
             src="/logo-redis-reversed.svg"
             alt="logo-redis"
             className={classes.redisLogo}
