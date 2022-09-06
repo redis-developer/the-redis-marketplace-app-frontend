@@ -2,47 +2,27 @@ import { Box, Grid, Grow, Typography } from '@material-ui/core';
 import { Zoom } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, Pagination } from '@material-ui/lab';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Router from 'next/router';
-import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaPlusCircle, FaPlusSquare } from 'react-icons/fa';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 import api from '../src/api';
-import Link from '../src/components/Link';
+import {
+  Footer,
+  Header,
+  Link,
+  LinkedSample,
+  Results,
+  SearchBar,
+  TagChipBar,
+  TagFilter,
+  Top4Results
+} from '../src/components';
+import { AddDialog } from '../src/components/';
+import { iconTool } from '../src/constants';
 import { useRequest } from '../src/hooks';
-
-const ImageHeader = dynamic(() => import('../src/components/ImageHeader'), {
-  suspense: true
-});
-const Footer = dynamic(() => import('../src/components/Footer'), {
-  suspense: true
-});
-const Header = dynamic(() => import('../src/components/Header'), {
-  suspense: true
-});
-const LinkedSample = dynamic(() => import('../src/components/LinkedSample'), {
-  suspense: true
-});
-const Results = dynamic(() => import('../src/components/Results'), {
-  suspense: true
-});
-const Top4Results = dynamic(() => import('../src/components/Top4Results'), {
-  suspense: true
-});
-const TagFilter = dynamic(() => import('../src/components/TagFilter'), {
-  suspense: true
-});
-const SearchBar = dynamic(() => import('../src/components/SearchBar'), {
-  suspense: true
-});
-const TagChipBar = dynamic(() => import('../src/components/TagChipBar'), {
-  suspense: true
-});
-const AddDialog = dynamic(() => import('../src/components/AddDialog'), {
-  suspense: true
-});
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -67,36 +47,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     wordBreak: 'break-all'
   },
-  iconArea: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingRight: theme.spacing(2)
-  },
-  marketplace: {
-    fontSize: '4.5rem',
-    fontFamily: 'Mulish, sans-serif',
-    fontWeight: 600,
-    lineHeight: 1.2
-  },
-  subtitle1: {
-    color: '#FFF',
-    fontSize: '2.5rem',
-    fontFamily: 'Mulish, sans-serif',
-    fontWeight: 600,
-    lineHeight: 1.5
-  },
-  title: {
-    marginTop: theme.spacing(4)
-  },
-  iconToolWrapper: {
-    margin: '5px 5px 10px 5px'
-  },
-  iconToolOpen: {
-    width: '80px',
-    height: '80px',
-    cursor: 'pointer',
-    opacity: 1
-  },
   hero: {
     [theme.breakpoints.down('xs')]: {
       backgroundSize: '48%'
@@ -119,7 +69,27 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
-
+  iconArea: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingRight: theme.spacing(2)
+  },
+  title: {
+    marginTop: theme.spacing(4)
+  },
+  marketplace: {
+    fontSize: '4.5rem',
+    fontFamily: 'Mulish, sans-serif',
+    fontWeight: 600,
+    lineHeight: 1.2
+  },
+  subtitle1: {
+    color: '#FFF',
+    fontSize: '2.5rem',
+    fontFamily: 'Mulish, sans-serif',
+    fontWeight: 600,
+    lineHeight: 1.5
+  },
   subtitle2: {
     color: '#FFF',
     fontSize: '2.5rem',
@@ -127,7 +97,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     lineHeight: 1.5
   },
-
+  iconToolOpen: {
+    width: '80px',
+    height: '80px',
+    cursor: 'pointer',
+    opacity: 1
+  },
+  iconToolWrapper: {
+    margin: '5px 5px'
+  },
   addApp: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -206,23 +184,8 @@ const useStyles = makeStyles((theme) => ({
 
 const LIMIT = 12;
 
-const defaultFilters = {
-  redis_commands: [],
-  redis_features: [],
-  redis_modules: [],
-  special_tags: [],
-  verticals: []
-};
-
-function Index({ linkedSampleData, filtersData }) {
+function Index({ initialProjectsData, linkedSampleData, filtersData, featuredProjects }) {
   const classes = useStyles();
-
-  const { data: filtersResult } = useRequest({
-    url: '/projects/filters',
-    skipFirstFetch: false
-  });
-
-  if (filtersResult) filtersData = filtersResult;
 
   // linkedSample can come from query param (serverside) or by the search bar on clicking a suggestion
   const [linkedSample, setLinkedSample] = useState(linkedSampleData);
@@ -300,31 +263,12 @@ function Index({ linkedSampleData, filtersData }) {
     filtersApplied = false;
   }
 
-  const featuredProjectsParams = useMemo(() => {
-    return {
-      offset: 0,
-      limit: 10,
-      featured: true
-    };
-  }, []);
-
   // Get Sample Projects
   const { data, loading, error } = useRequest({
     url: '/projects',
     params: projectsParams,
-    skipFirstFetch: false, // first data (without filters) is loaded server side form initialProjectsData
-    initialData: { rows: [] }
-  });
-
-  const {
-    data: featuredProjects,
-    loading: featuredLoading,
-    error: featuredError
-  } = useRequest({
-    url: '/projects',
-    params: featuredProjectsParams,
-    skipFirstFetch: false,
-    initialData: { rows: [] }
+    skipFirstFetch: true, // first data (without filters) is loaded server side form initialProjectsData
+    initialData: initialProjectsData
   });
 
   // Pagination
@@ -371,6 +315,7 @@ function Index({ linkedSampleData, filtersData }) {
   );
 
   const checkFilter = useMemo(() => {
+    console.log(tagChips.length);
     if (tagChips.length > 0) {
       setSearchFlag(true);
     } else {
@@ -418,13 +363,113 @@ function Index({ linkedSampleData, filtersData }) {
   const openPopup = () => {
     setIsOpened(true);
   };
-
   return (
-    <Suspense fallback={`Loading...`}>
+    <>
       <Box mt={9} className={classes.main}>
         <Header />
         <Box className={classes.hero}>
-          <ImageHeader isOpen={isOpen} />
+          <Grid className={classes.iconArea} container>
+            <Grid item md={6} className={classes.title}>
+              <Typography component={'div'} className={classes.marketplace}>
+                Redis Launchpad
+              </Typography>
+              <Typography component={'div'} className={classes.subtitle1}>
+                Build fast apps faster{' '}
+                <span role="img" aria-label="launch">
+                  🚀
+                </span>
+              </Typography>
+              {/* <Typography component={'div'} className={classes.subtitle2}>
+                Get started with 75+ sample apps.
+              </Typography> */}
+            </Grid>
+            <Grid item md={6} style={{ maxWidth: '600px' }}>
+              <Grid container>
+                {iconTool[0].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.en}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid container>
+                {iconTool[1].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid container>
+                {iconTool[2].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid container>
+                {iconTool[3].row.map(({ imgSrc }) => {
+                  let animationTime = Math.random() * 0.5;
+                  let animationTimeStr = animationTime.toString() + 's';
+                  return (
+                    <Grid item md={2} key={imgSrc}>
+                      <Zoom in={isOpen} style={{ transitionDelay: animationTimeStr }}>
+                        <div className={classes.iconToolWrapper}>
+                          <Image
+                            width={80}
+                            height={80}
+                            className={classes.iconToolOpen}
+                            src={imgSrc}
+                            alt=""
+                          />
+                        </div>
+                      </Zoom>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
         </Box>
         <Box className={classes.addApp}>
           <Grid container>
@@ -511,7 +556,7 @@ function Index({ linkedSampleData, filtersData }) {
                   <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
                 )}
                 {data && !error && (
-                  <Grid className={classes.pagination} container justifyContent="center">
+                  <Grid className={classes.pagination} container justify="center">
                     <Pagination
                       count={maxPage}
                       page={page}
@@ -533,11 +578,28 @@ function Index({ linkedSampleData, filtersData }) {
           landscape mode
         </Typography>
       </Box>
-    </Suspense>
+    </>
   );
 }
 
 export async function getServerSideProps({ query }) {
+  // Get first page of the browser without filters
+  const { data: initialProjectsData } = await api.get('/projects', {
+    params: { limit: LIMIT }
+  });
+
+  // Get Featured Projects
+  const { data: featuredProjects } = await api.get('/projects', {
+    params: {
+      offset: 0,
+      limit: 10,
+      featured: true
+    }
+  });
+
+  // Get dynamic filter
+  const { data: filtersData } = await api.get('/projects/filters');
+
   // Get linked project from query
   let linkedSampleData = null;
   if (query.id) {
@@ -545,7 +607,7 @@ export async function getServerSideProps({ query }) {
     linkedSampleData = linkedProjectResponse.data;
   }
 
-  return { props: { linkedSampleData, filtersData: defaultFilters } };
+  return { props: { initialProjectsData, linkedSampleData, filtersData, featuredProjects } };
 }
 
 export default Index;

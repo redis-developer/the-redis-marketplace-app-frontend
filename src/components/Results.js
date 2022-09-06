@@ -3,20 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 import { SampleCard } from './';
-const useStyles = makeStyles(
-  (theme) => ({
-    resultsBody: {
-      marginBottom: theme.spacing(2.5),
-      '&::after': {
-        content: '""',
-        flex: '0 0 33%'
-      }
+const useStyles = makeStyles((theme) => ({
+  resultsBody: {
+    marginBottom: theme.spacing(2.5),
+    '&::after': {
+      content: '""',
+      flex: '0 0 33%'
     }
-  }),
-  {
-    name: 'MuiResultsStyle'
   }
-);
+}));
 
 export default function Results({ samples, updateTags }) {
   const classes = useStyles();

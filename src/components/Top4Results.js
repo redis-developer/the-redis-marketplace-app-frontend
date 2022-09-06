@@ -4,20 +4,15 @@ import React from 'react';
 
 import { Top4SampleCard } from './';
 
-const useStyles = makeStyles(
-  (theme) => ({
-    resultsBody: {
-      marginBottom: theme.spacing(2.5),
-      '&::after': {
-        content: '""',
-        flex: '0 0 33%'
-      }
+const useStyles = makeStyles((theme) => ({
+  resultsBody: {
+    marginBottom: theme.spacing(2.5),
+    '&::after': {
+      content: '""',
+      flex: '0 0 33%'
     }
-  }),
-  {
-    name: 'MuiTop4ResultsStyle'
   }
-);
+}));
 
 export default function Top4Results({ samples, updateTags }) {
   const classes = useStyles();

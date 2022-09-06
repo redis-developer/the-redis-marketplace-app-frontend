@@ -3,101 +3,96 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
 
-const useStyles = makeStyles(
-  (theme) => ({
-    chips: {
-      minHeight: '32px'
+const useStyles = makeStyles((theme) => ({
+  chips: {
+    minHeight: '32px'
+  },
+  chip: {
+    color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.executionTimeBackground,
+    margin: theme.spacing(0, 0.5, 0.5, 0),
+    fontWeight: 500
+  },
+  tag: {
+    position: 'relative',
+    '& span': {
+      padding: theme.spacing(0.25, 1, 0.25, 2)
     },
-    chip: {
-      color: theme.palette.text.secondary,
-      backgroundColor: theme.palette.executionTimeBackground,
-      margin: theme.spacing(0, 0.5, 0.5, 0),
-      fontWeight: 500
-    },
-    tag: {
-      position: 'relative',
-      '& span': {
-        padding: theme.spacing(0.25, 1, 0.25, 2)
-      },
-      transition: 'all .15s ease-in-out !important',
-      '&::before': {
-        content: '""',
-        width: theme.spacing(1),
-        height: theme.spacing(1),
-        borderRadius: '100%',
-        position: 'absolute',
-        left: theme.spacing(0.5)
-      }
-    },
-    chip_type: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.type.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.type.main
-      }
-    },
-    chip_language: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.language.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.language.main
-      }
-    },
-    chip_contributed_by: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.contributed_by.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
-      }
-    },
-    chip_redis_modules: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
-      }
-    },
-    chip_verticals: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.verticals.main
-      }
-    },
-    chip_redis_features: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_features.main
-      }
-    },
-    chip_redis_commands: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
-      }
-    },
-    chip_special_tags: {
-      '&:hover, &:active': {
-        backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
-      },
-      '&::before': {
-        backgroundColor: theme.palette.filterCategoryColors.special_tags.main
-      }
+    transition: 'all .15s ease-in-out !important',
+    '&::before': {
+      content: '""',
+      width: theme.spacing(1),
+      height: theme.spacing(1),
+      borderRadius: '100%',
+      position: 'absolute',
+      left: theme.spacing(0.5)
     }
-  }),
-  {
-    name: 'MuiTagChipBarStyle'
+  },
+  chip_type: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.type.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.type.main
+    }
+  },
+  chip_language: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.language.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.language.main
+    }
+  },
+  chip_contributed_by: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.contributed_by.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
+    }
+  },
+  chip_redis_modules: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
+    }
+  },
+  chip_verticals: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.verticals.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main
+    }
+  },
+  chip_redis_features: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
+    }
+  },
+  chip_redis_commands: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_commands.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
+    }
+  },
+  chip_special_tags: {
+    '&:hover, &:active': {
+      backgroundColor: `${theme.palette.filterCategoryColors.special_tags.main} !important`
+    },
+    '&::before': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main
+    }
   }
-);
+}));
 
 export default function TagChipBar({
   tags,

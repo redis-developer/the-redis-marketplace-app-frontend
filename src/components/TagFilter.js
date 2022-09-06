@@ -47,91 +47,80 @@ const staticFilters = [
   }
 ];
 
-const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      '& .filterIcon': {
-        marginRight: theme.spacing(1),
-        height: '20px',
-        width: '20px',
-        color: theme.palette.icon
-      },
-      '& .category': {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        position: 'relative',
-        fontSize: '15px',
-        fontWeight: 'bold',
-        color: theme.palette.text.secondary,
-        width: '100%',
-        borderRadius: '0',
-        padding: theme.spacing(1, 2, 1, 3),
-        '&::before': {
-          content: '""',
-          width: '15px',
-          height: '15px',
-          borderRadius: '100%',
-          position: 'absolute',
-          left: 0
-        }
-      },
-      '& .languageCategory': {
-        border: 'none'
-      },
-      '& .typeCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.type.main
-      },
-      '& .languageCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.language.main
-      },
-      '& .contributedByCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
-      },
-      '& .redisModulesCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
-      },
-      '& .verticalsCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.verticals.main
-      },
-      '& .redisFeaturesCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_features.main
-      },
-      '& .redisCommandsCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
-      },
-      '& .specialTagsCategory::before': {
-        backgroundColor: theme.palette.filterCategoryColors.special_tags.main
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .filterIcon': {
+      marginRight: theme.spacing(1),
+      height: '20px',
+      width: '20px',
+      color: theme.palette.icon
+    },
+    '& .category': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      position: 'relative',
+      fontSize: '15px',
+      fontWeight: 'bold',
+      color: theme.palette.text.secondary,
+      width: '100%',
+      borderRadius: '0',
+      padding: theme.spacing(1, 2, 1, 3),
+      '&::before': {
+        content: '""',
+        width: '15px',
+        height: '15px',
+        borderRadius: '100%',
+        position: 'absolute',
+        left: 0
       }
     },
-    tagLabel: {
-      transition: 'all .2s ease-in-out',
-      fontSize: '14px'
+    '& .typeCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.type.main
     },
-    tag: {
-      '& input[type=checkbox]': {
-        display: 'none!important'
-      },
-      '&:hover span, &:active span': {
-        fontWeight: '600'
-      }
+    '& .languageCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.language.main
     },
-    tagsCategory: {
-      marginBottom: theme.spacing(2),
-      color: theme.palette.text.secondary
+    '& .contributedByCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     },
-    checkbox: {
-      padding: theme.spacing(1)
+    '& .redisModulesCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
     },
-    iconButton: {
-      color: theme.palette.icon,
-      padding: theme.spacing(1)
+    '& .verticalsCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.verticals.main
+    },
+    '& .redisFeaturesCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
+    },
+    '& .redisCommandsCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
+    },
+    '& .specialTagsCategory::before': {
+      backgroundColor: theme.palette.filterCategoryColors.special_tags.main
     }
-  }),
-  {
-    name: 'MuiTagFilterStyles'
+  },
+  tagLabel: {
+    transition: 'all .2s ease-in-out',
+    fontSize: '14px'
+  },
+  tag: {
+    '&:hover span, &:active span': {
+      fontWeight: '600'
+    }
+  },
+  tagsCategory: {
+    marginBottom: theme.spacing(2),
+    color: theme.palette.text.secondary
+  },
+  checkbox: {
+    padding: theme.spacing(1)
+  },
+  iconButton: {
+    color: theme.palette.icon,
+    padding: theme.spacing(1)
   }
-);
+}));
 
 const REDIS_COMMANDS_LIMIT = 5;
 

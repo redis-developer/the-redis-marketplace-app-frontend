@@ -4,55 +4,50 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { Link } from './';
 
-const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      height: '100%'
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%'
+  },
+  menuList: {
+    display: 'flex',
+    padding: theme.spacing(4, 3.5, 4.5, 3.5),
+    boxShadow:
+      '0 100px 80px 0 rgba(0,0,0,.07), 0 41.8px 33.4px 0 rgba(0,0,0,.05), 0 22.3px 17.9px 0 rgba(0,0,0,.04), 0 12.5px 10px 0 rgba(0,0,0,.04), 0 6.7px 5.3px 0 rgba(0,0,0,.03), 0 2.8px 2.2px 0 rgba(0,0,0,.02)'
+  },
+  menuTitle: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+    fontWeight: '600',
+    padding: theme.spacing(0, 1.5),
+    cursor: 'default'
+  },
+  category: {
+    width: '200px'
+  },
+  categoryTitle: {
+    paddingLeft: theme.spacing(2),
+    fontWeight: '600',
+    fontSize: '15px',
+    paddingBottom: theme.spacing(1),
+    color: theme.palette.appBar.contrastText,
+    cursor: 'default'
+  },
+  menuItem: {
+    padding: theme.spacing(0.25, 2),
+    '&:hover, &:active': {
+      background: theme.palette.appBar.main
     },
-    menuList: {
-      display: 'flex',
-      padding: theme.spacing(4, 3.5, 4.5, 3.5),
-      boxShadow:
-        '0 100px 80px 0 rgba(0,0,0,.07), 0 41.8px 33.4px 0 rgba(0,0,0,.05), 0 22.3px 17.9px 0 rgba(0,0,0,.04), 0 12.5px 10px 0 rgba(0,0,0,.04), 0 6.7px 5.3px 0 rgba(0,0,0,.03), 0 2.8px 2.2px 0 rgba(0,0,0,.02)'
-    },
-    menuTitle: {
-      display: 'flex',
-      height: '100%',
-      alignItems: 'center',
-      fontWeight: '600',
-      padding: theme.spacing(0, 1.5),
-      cursor: 'default'
-    },
-    category: {
-      width: '200px'
-    },
-    categoryTitle: {
-      paddingLeft: theme.spacing(2),
-      fontWeight: '600',
-      fontSize: '15px',
-      paddingBottom: theme.spacing(1),
-      color: theme.palette.appBar.contrastText,
-      cursor: 'default'
-    },
-    menuItem: {
-      padding: theme.spacing(0.25, 2),
-      '&:hover, &:active': {
-        background: theme.palette.appBar.main
-      },
-      '&:hover p, &:active p': {
-        fontWeight: '600'
-      }
-    },
-    linkTitle: {
-      color: theme.palette.appBar.contrastText,
-      fontSize: '14px',
-      transition: 'all .2s ease-in-out'
+    '&:hover p, &:active p': {
+      fontWeight: '600'
     }
-  }),
-  {
-    name: 'MuiToolbarMenuStyle'
+  },
+  linkTitle: {
+    color: theme.palette.appBar.contrastText,
+    fontSize: '14px',
+    transition: 'all .2s ease-in-out'
   }
-);
+}));
 
 export default function ToolbarMenu({ menuTitle, menuCategories }) {
   const classes = useStyles();
