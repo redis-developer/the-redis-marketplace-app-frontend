@@ -305,17 +305,12 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
   const tagChips = useMemo(
     () =>
       Object.keys(tags)
-        .map((filter) =>
-          Object.keys(tags[filter])
-            .filter((tag) => tags[filter][tag])
-            .map((tag) => console.log(tag))
-        )
+        .map((filter) => Object.keys(tags[filter]).filter((tag) => tags[filter][tag]))
         .flat(),
     [tags]
   );
 
   const checkFilter = useMemo(() => {
-    console.log(tagChips.length);
     if (tagChips.length > 0) {
       setSearchFlag(true);
     } else {
