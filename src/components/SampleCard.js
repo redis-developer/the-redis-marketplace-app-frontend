@@ -135,7 +135,7 @@ export default function SampleCard({ sample, updateTags }) {
 
   const [isOpened, setIsOpened] = useState(false);
   const openSamplePopup = useCallback(() => {
-    Router.push(`/project/${sample.id}`);
+    Router.push(`/project/${(sample.id || '').substr(8)}`);
   }, [sample.id]);
   const closePopup = useCallback(() => {
     setIsOpened(false);

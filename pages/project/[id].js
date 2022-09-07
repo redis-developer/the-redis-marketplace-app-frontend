@@ -24,7 +24,7 @@ function Project({ sample }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const linkedProjectResponse = await api.get(`/project/${params.id}`);
+  const linkedProjectResponse = await api.get(`/project/project:${params.id}`);
   return { props: { sample: linkedProjectResponse?.data } };
 }
 

@@ -133,7 +133,7 @@ export default function Top4SampleCard({ sample, updateTags }) {
   const classes = useStyles();
 
   const openSamplePopup = useCallback(() => {
-    Router.push(`/project/${sample.id}`);
+    Router.push(`/project/${(sample.id || '').substr(8)}`);
   }, [sample.id]);
 
   const closePopup = useCallback(() => {
