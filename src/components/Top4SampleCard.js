@@ -132,10 +132,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Top4SampleCard({ sample, updateTags }) {
   const classes = useStyles();
 
-  const openSamplePopup = useCallback(() => {
-    Router.push(`/project/${(sample.id || '').substr(8)}`);
-  }, [sample.id]);
-
   const closePopup = useCallback(() => {
     Router.push({ pathname: '/' }, null, { scroll: false, shallow: true });
   }, []);
@@ -148,24 +144,32 @@ export default function Top4SampleCard({ sample, updateTags }) {
   return (
     <Box height={1}>
       <Card key={sample.id + 'Top4'} className={classes.root}>
-        <Box onClick={openSamplePopup} className={classes.actionArea}>
-          <CardContent
-            style={{
-              backgroundImage: `url(${sample.preview_image_url})`
-            }}
-            className={classes.primaryImage}></CardContent>
-          <CardContent className={classes.primaryContent}>
-            <Grid container wrap="nowrap" alignItems="baseline">
-              <Grid item>
-                <Typography component={'div'} gutterBottom variant="h6" className={classes.appName}>
-                  {sample.app_name}
-                </Typography>
+        <Box className={classes.actionArea}>
+          <a
+            style={{ height: '100%', width: '100%' }}
+            href={`/project/${(sample.id || '').substr(8)}`}>
+            <CardContent
+              style={{
+                backgroundImage: `url(${sample.preview_image_url})`
+              }}
+              className={classes.primaryImage}></CardContent>
+            <CardContent className={classes.primaryContent}>
+              <Grid container wrap="nowrap" alignItems="baseline">
+                <Grid item>
+                  <Typography
+                    component={'div'}
+                    gutterBottom
+                    variant="h6"
+                    className={classes.appName}>
+                    {sample.app_name}
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Typography component={'div'} variant="body2" className={classes.description}>
-              {sample.description}
-            </Typography>
-          </CardContent>
+              <Typography component={'div'} variant="body2" className={classes.description}>
+                {sample.description}
+              </Typography>
+            </CardContent>
+          </a>
         </Box>
       </Card>
     </Box>
