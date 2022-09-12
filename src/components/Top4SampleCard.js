@@ -146,7 +146,7 @@ export default function Top4SampleCard({ sample, updateTags }) {
       <Card key={sample.id + 'Top4'} className={classes.root}>
         <Box className={classes.actionArea}>
           <a
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: '100%', width: '100%', textDecoration: 'none!important' }}
             href={`/project/${(sample.id || '').substr(8)}`}>
             <CardContent
               style={{
