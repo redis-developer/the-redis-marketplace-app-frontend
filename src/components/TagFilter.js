@@ -166,7 +166,9 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
         Redis: 'Redis OSS',
         Redisearch: 'Search and Query',
         RedisJSON: 'JSON',
-        RedisGraph: 'Graph'
+        RedisGraph: 'Graph',
+        RedisBloom: 'Probabilistic',
+        RedisTimeSeries: 'Time Series'
       };
       formattedFilters.push({
         category: {
@@ -174,7 +176,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
           filter: 'redis_modules'
         },
         options: filtersData?.redis_modules
-          .filter((name) => !/AI/i.test(name))
+          .filter((name) => !/AI|RediJSON|RedisTimeseries/.test(name))
           .map((name) => ({ name: nameMap[name] }))
       });
     }
