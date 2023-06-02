@@ -164,10 +164,11 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     if (filtersData?.redis_modules?.length) {
       const nameMap = {
         Redis: 'Redis OSS',
-        Redisearch: 'Search and Query',
+        RediSearch: 'Search and Query',
         RedisJSON: 'JSON',
         RedisGraph: 'Graph',
         RedisBloom: 'Probabilistic',
+        RedisGears: 'Triggers and Functions',
         RedisTimeSeries: 'Time Series'
       };
       formattedFilters.push({
