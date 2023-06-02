@@ -122,18 +122,18 @@ export default [
         ]
       },
       {
-        categoryTitle: 'MODULES',
+        categoryTitle: 'FEATURES',
         links: [
           {
-            linkTitle: 'RediSearch',
+            linkTitle: 'Search and Query',
             link: 'https://redis.com/modules/redis-search/'
           },
           {
-            linkTitle: 'RedisJSON',
+            linkTitle: 'JSON',
             link: 'https://redis.com/modules/redis-json/'
           },
           {
-            linkTitle: 'RedisGears',
+            linkTitle: 'Triggers and Functions',
             link: 'https://redis.com/modules/redis-gears/'
           },
           {
@@ -145,11 +145,7 @@ export default [
             link: 'https://redis.com/modules/redis-graph/'
           },
           {
-            linkTitle: 'RedisTimeSeries',
-            link: 'https://redis.com/modules/redis-timeseries/'
-          },
-          {
-            linkTitle: 'RedisBloom',
+            linkTitle: 'Probabilistic',
             link: 'https://redis.com/modules/redis-bloom/'
           }
         ]
@@ -255,8 +251,8 @@ export default [
             link: 'https://redis.com/get-started-with-redis/'
           },
           {
-            linkTitle: 'Documentation',
-            link: 'https://docs.redis.com/latest/index.html'
+            linkTitle: 'Developers',
+            link: 'https://developers.redis.com/'
           },
           {
             linkTitle: 'University',

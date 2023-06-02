@@ -12,6 +12,10 @@ export default [
     category: 'Get Started',
     items: [
       {
+        label: 'Build with Redis Stack',
+        link: 'https://developer.redis.com/howtos/quick-start/'
+      },
+      {
         label: 'Create Database',
         link: 'https://developer.redis.com/create/rediscloud'
       },
@@ -26,10 +30,6 @@ export default [
       {
         label: 'Best Practices',
         link: 'https://redis.com/redis-best-practices/introduction/'
-      },
-      {
-        label: 'Build with Redis Modules',
-        link: 'https://developer.redis.com/howtos/redisearch'
       }
     ]
   },
@@ -50,7 +50,7 @@ export default [
       },
       {
         label: 'How-tos & tutorials',
-        link: 'https://developer.redis.com/howtos/moviesdatabase/'
+        link: 'https://developer.redis.com/howtos/'
       }
     ]
   }

@@ -162,12 +162,20 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     }
 
     if (filtersData?.redis_modules?.length) {
+      const nameMap = {
+        Redis: 'Redis OSS',
+        Redisearch: 'Search and Query',
+        RedisJSON: 'JSON',
+        RedisGraph: 'Graph'
+      };
       formattedFilters.push({
         category: {
-          name: <Box className="category redisModulesCategory">Modules</Box>,
+          name: <Box className="category redisModulesCategory">Features</Box>,
           filter: 'redis_modules'
         },
-        options: filtersData?.redis_modules.map((name) => ({ name }))
+        options: filtersData?.redis_modules
+          .filter((name) => !/AI/i.test(name))
+          .map((name) => ({ name: nameMap[name] }))
       });
     }
     formattedFilters.push(staticFilters[0]);
@@ -177,7 +185,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     if (filtersData?.redis_features?.length) {
       formattedFilters.push({
         category: {
-          name: <Box className="category redisFeaturesCategory">Features</Box>,
+          name: <Box className="category redisFeaturesCategory">Use Cases</Box>,
           filter: 'redis_features'
         },
         options: filtersData?.redis_features.map((name) => ({ name }))
