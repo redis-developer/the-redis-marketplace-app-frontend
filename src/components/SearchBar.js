@@ -391,7 +391,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
             </Grid>
             <Grid item xs={6}>
               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
-                Powered by RediSearch
+                Powered by Redis
                 <Image
                   width={28}
                   height={23}
@@ -476,7 +476,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
           className={classes.redisearch}
         />
         <Grid container style={{ fontSize: '0.8rem', marginTop: '5px' }}>
-          Powered by RediSearch
+          Powered by Redis
         </Grid>
       </Grid>
     </Grid>
