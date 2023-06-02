@@ -15,7 +15,7 @@ import { Autocomplete } from '@material-ui/lab';
 import clsx from 'clsx';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
+// import { Scrollbars } from 'react-custom-scrollbars';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -361,63 +361,63 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
     ]
   );
 
-  const ScrollBarThumb = useCallback(
-    (props) => <div {...props} className={classes.scrollBarThumb} />,
-    [classes.scrollBarThumb]
-  );
-  const ScrollBarTrack = useCallback(
-    (props) => <div {...props} className={classes.scrollBarTrack} />,
-    [classes.scrollBarTrack]
-  );
+  //   const ScrollBarThumb = useCallback(
+  //     (props) => <div {...props} className={classes.scrollBarThumb} />,
+  //     [classes.scrollBarThumb]
+  //   );
+  //   const ScrollBarTrack = useCallback(
+  //     (props) => <div {...props} className={classes.scrollBarTrack} />,
+  //     [classes.scrollBarTrack]
+  //   );
 
-  const AutocompletePaper = useCallback(
-    ({ children, ...rest }) => (
-      <Paper {...rest} className={classes.dropdown} elevation={0}>
-        <Scrollbars
-          universal={true}
-          autoHide
-          autoHeight
-          autoHeightMax="50vh"
-          renderThumbVertical={ScrollBarThumb}
-          renderTrackVertical={ScrollBarTrack}>
-          {children}
-        </Scrollbars>
-        {suggestionsOpen && !loading && !!options.length && (
-          <Grid container className={classes.footer}>
-            <Grid item xs={6}>
-              <Typography component={'div'} variant="body2" className={classes.executeTime}>
-                Search time: {data?.executeTime} secs
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
-                Powered by Redis
-                <Image
-                  width={28}
-                  height={23}
-                  src="/redisearch.svg"
-                  alt="redisearch"
-                  className={classes.redisearch}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        )}
-      </Paper>
-    ),
-    [
-      classes.dropdown,
-      classes.footer,
-      classes.executeTime,
-      classes.redisearch,
-      ScrollBarThumb,
-      ScrollBarTrack,
-      suggestionsOpen,
-      loading,
-      options.length,
-      data?.executeTime
-    ]
-  );
+  //   const AutocompletePaper = useCallback(
+  //     ({ children, ...rest }) => (
+  //       <Paper {...rest} className={classes.dropdown} elevation={0}>
+  //         <Scrollbars
+  //           universal={true}
+  //           autoHide
+  //           autoHeight
+  //           autoHeightMax="50vh"
+  //           renderThumbVertical={ScrollBarThumb}
+  //           renderTrackVertical={ScrollBarTrack}>
+  //           {children}
+  //         </Scrollbars>
+  //         {suggestionsOpen && !loading && !!options.length && (
+  //           <Grid container className={classes.footer}>
+  //             <Grid item xs={6}>
+  //               <Typography component={'div'} variant="body2" className={classes.executeTime}>
+  //                 Search time: {data?.executeTime} secs
+  //               </Typography>
+  //             </Grid>
+  //             <Grid item xs={6}>
+  //               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
+  //                 Powered by Redis
+  //                 <Image
+  //                   width={28}
+  //                   height={23}
+  //                   src="/redisearch.svg"
+  //                   alt="redisearch"
+  //                   className={classes.redisearch}
+  //                 />
+  //               </Grid>
+  //             </Grid>
+  //           </Grid>
+  //         )}
+  //       </Paper>
+  //     ),
+  //     [
+  //       classes.dropdown,
+  //       classes.footer,
+  //       classes.executeTime,
+  //       classes.redisearch,
+  //       ScrollBarThumb,
+  //       ScrollBarTrack,
+  //       suggestionsOpen,
+  //       loading,
+  //       options.length,
+  //       data?.executeTime
+  //     ]
+  //   );
 
   const AutocompletePopper = useCallback(
     ({ children, ...rest }) => (
@@ -464,7 +464,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
         loading={loading}
         filterOptions={(options) => options}
         renderInput={renderInput}
-        PaperComponent={AutocompletePaper}
+        // PaperComponent={AutocompletePaper}
         PopperComponent={AutocompletePopper}
       />
       <Grid className={classes.logoRedis}>
