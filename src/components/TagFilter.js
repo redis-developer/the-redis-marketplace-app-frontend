@@ -85,13 +85,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     },
     '& .redisModulesCategory::before': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     },
     '& .verticalsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.verticals.main
     },
     '& .redisFeaturesCategory::before': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
+      backgroundColor: theme.palette.filterCategoryColors.redis_use_cases.main
     },
     '& .redisCommandsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_commands.main
@@ -161,34 +161,26 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
       });
     }
 
-    if (filtersData?.redis_modules?.length) {
-      const nameMap = {
-        Redis: 'Redis OSS',
-        Redisearch: 'Search and Query',
-        RedisJSON: 'JSON',
-        RedisGraph: 'Graph'
-      };
+    if (filtersData?.redis_features?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category redisModulesCategory">Features</Box>,
-          filter: 'redis_modules'
+          filter: 'redis_features'
         },
-        options: filtersData?.redis_modules
-          .filter((name) => !/AI/i.test(name))
-          .map((name) => ({ name: nameMap[name] }))
+        options: filtersData?.redis_features.map((name) => ({ name }))
       });
     }
     formattedFilters.push(staticFilters[0]);
 
     formattedFilters.push(staticFilters[2]);
 
-    if (filtersData?.redis_features?.length) {
+    if (filtersData?.redis_use_cases?.length) {
       formattedFilters.push({
         category: {
           name: <Box className="category redisFeaturesCategory">Use Cases</Box>,
-          filter: 'redis_features'
+          filter: 'redis_use_cases'
         },
-        options: filtersData?.redis_features.map((name) => ({ name }))
+        options: filtersData?.redis_use_cases.map((name) => ({ name }))
       });
     }
     if (filtersData?.redis_commands?.length) {
@@ -212,8 +204,8 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     return formattedFilters;
   }, [
     filtersData?.redis_commands,
+    filtersData?.redis_use_cases,
     filtersData?.redis_features,
-    filtersData?.redis_modules,
     filtersData?.special_tags,
     filtersData?.verticals
   ]);
