@@ -52,12 +52,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     }
   },
-  chip_redis_modules: {
+  chip_redis_features: {
     '&:hover, &:active': {
-      backgroundColor: `${theme.palette.filterCategoryColors.redis_modules.main} !important`
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
     },
     '&::before': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_modules.main
+      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     }
   },
   chip_verticals: {
@@ -68,12 +68,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.filterCategoryColors.verticals.main
     }
   },
-  chip_redis_features: {
+  chip_redis_use_cases: {
     '&:hover, &:active': {
-      backgroundColor: `${theme.palette.filterCategoryColors.redis_features.main} !important`
+      backgroundColor: `${theme.palette.filterCategoryColors.redis_use_cases.main} !important`
     },
     '&::before': {
-      backgroundColor: theme.palette.filterCategoryColors.redis_features.main
+      backgroundColor: theme.palette.filterCategoryColors.redis_use_cases.main
     }
   },
   chip_redis_commands: {

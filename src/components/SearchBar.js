@@ -199,13 +199,15 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
               sample.group = 'Redis Commands';
               sample.label = sample.redis_commands.join(', ');
             } else if (
-              sample.redis_features.some((redis_feature) => redis_feature.includes('<b>'))
+              sample.redis_use_cases.some((redis_use_case) => redis_use_case.includes('<b>'))
             ) {
               sample.group = 'Redis Features';
-              sample.label = sample.redis_features.join(', ');
-            } else if (sample.redis_modules.some((redis_module) => redis_module.includes('<b>'))) {
+              sample.label = sample.redis_use_cases.join(', ');
+            } else if (
+              sample.redis_features.some((redis_feature) => redis_feature.includes('<b>'))
+            ) {
               sample.group = 'Redis Modules';
-              sample.label = sample.redis_modules.join(', ');
+              sample.label = sample.redis_features.join(', ');
             } else if (sample.special_tags.some((special_tag) => special_tag.includes('<b>'))) {
               sample.group = 'Special Tags';
               sample.label = sample.special_tags.join(', ');
@@ -233,11 +235,11 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
             sample.redis_commands = sample.redis_commands.map((redis_command) =>
               redis_command.replace('<b>', '').replace('</b>', '')
             );
+            sample.redis_use_cases = sample.redis_use_cases.map((redis_use_case) =>
+              redis_use_case.replace('<b>', '').replace('</b>', '')
+            );
             sample.redis_features = sample.redis_features.map((redis_feature) =>
               redis_feature.replace('<b>', '').replace('</b>', '')
-            );
-            sample.redis_modules = sample.redis_modules.map((redis_module) =>
-              redis_module.replace('<b>', '').replace('</b>', '')
             );
             sample.special_tags = sample.special_tags.map((special_tag) =>
               special_tag.replace('<b>', '').replace('</b>', '')

@@ -58,7 +58,7 @@ const theme = createTheme({
         main: '#b39ddb',
         contrastText: '#673ab7'
       },
-      redis_modules: {
+      redis_features: {
         main: '#80cbc4',
         contrastText: '#009688'
       },
@@ -66,7 +66,7 @@ const theme = createTheme({
         main: '#ffeb3b',
         contrastText: '#fbc02d'
       },
-      redis_features: {
+      redis_use_cases: {
         main: '#ffcc80',
         contrastText: '#ff9800'
       },
