@@ -172,7 +172,7 @@ export default function AddDialog({ closePopup, isOpened, tags }) {
       PaperProps={{ className: classes.root }}
       aria-describedby="sample-dialog-description">
       <DialogTitle id="sample-dialog-title" className={classes.header}>
-        <Grid container alignItems="flex-start" justify="space-between">
+        <Grid container alignItems="flex-start" justifyContent="space-between">
           <Grid item xs={11}>
             <Grid container alignItems="center">
               <Typography component={'div'} variant="h5" className={classes.appName}>
@@ -181,7 +181,7 @@ export default function AddDialog({ closePopup, isOpened, tags }) {
             </Grid>
           </Grid>
           <Grid item xs={1}>
-            <Grid container justify="flex-end">
+            <Grid container justifyContent="flex-end">
               <IconButton aria-label="close" onClick={closePopup}>
                 <CloseIcon className={classes.iconButton} />
               </IconButton>

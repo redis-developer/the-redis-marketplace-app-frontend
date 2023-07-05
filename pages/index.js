@@ -551,7 +551,7 @@ function Index({ initialProjectsData, linkedSampleData, filtersData, featuredPro
                   <Results samples={data?.rows} updateTags={updateTags} limit={LIMIT} />
                 )}
                 {data && !error && (
-                  <Grid className={classes.pagination} container justify="center">
+                  <Grid className={classes.pagination} container justifyContent="center">
                     <Pagination
                       count={maxPage}
                       page={page}

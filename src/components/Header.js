@@ -53,7 +53,7 @@ export default function Header() {
         </MuiLink>
 
         <Box display={{ xs: 'none', sm: 'block', md: 'block' }} className="containerBox" width={1}>
-          <Grid justify="flex-end" container className={classes.menuContainer}>
+          <Grid justifyContent="flex-end" container className={classes.menuContainer}>
             {simpleToolbar.map(({ label, link }) => (
               <Grid key={label} className={classes.gridItem} item>
                 <MuiLink color="inherit" target="_blank" href={link}>

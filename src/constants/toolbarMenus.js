@@ -83,7 +83,7 @@ export default [
             link: 'https://redis.com/redis-enterprise/data-structures/'
           },
           {
-            linkTitle: 'Modules',
+            linkTitle: 'Features',
             link: 'https://redis.com/redis-enterprise/modules/'
           },
           {
@@ -135,14 +135,6 @@ export default [
           {
             linkTitle: 'Triggers and Functions',
             link: 'https://redis.com/modules/redis-gears/'
-          },
-          {
-            linkTitle: 'RedisAI',
-            link: 'https://redis.com/modules/redis-ai/'
-          },
-          {
-            linkTitle: 'RedisGraph',
-            link: 'https://redis.com/modules/redis-graph/'
           },
           {
             linkTitle: 'Probabilistic',

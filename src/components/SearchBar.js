@@ -392,7 +392,7 @@ export default function SearchBar({ textFilter, updateTextFilter, openLinkedSamp
   //               </Typography>
   //             </Grid>
   //             <Grid item xs={6}>
-  //               <Grid container justify="flex-end" alignItems="center" wrap="nowrap">
+  //               <Grid container justifyContent="flex-end" alignItems="center" wrap="nowrap">
   //                 Powered by Redis
   //                 <Image
   //                   width={28}

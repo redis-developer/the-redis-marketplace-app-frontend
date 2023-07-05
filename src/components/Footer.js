@@ -37,7 +37,7 @@ export default function Footer() {
 
   return (
     <Box className={classes.root}>
-      <Grid justify="space-evenly" className={classes.gridContainer} container>
+      <Grid justifyContent="space-evenly" className={classes.gridContainer} container>
         <Grid item md={2} direction="column" className={classes.gridColumn} container></Grid>
 
         {footer.map(({ category, items }) => (

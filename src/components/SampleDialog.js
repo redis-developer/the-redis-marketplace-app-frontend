@@ -216,7 +216,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
       PaperProps={{ className: classes.root }}
       aria-describedby="sample-dialog-description">
       <DialogTitle disableTypography id="sample-dialog-title" className={classes.header}>
-        <Grid container alignItems="flex-start" justify="space-between">
+        <Grid container alignItems="flex-start" justifyContent="space-between">
           <Grid item xs={11}>
             <Grid container alignItems="center">
               <Typography component={'div'} variant="h5" className={classes.appName}>
@@ -247,7 +247,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
             </Grid>
           </Grid>
           <Grid item xs={1}>
-            <Grid container justify="flex-end">
+            <Grid container justifyContent="flex-end">
               <IconButton aria-label="close" onClick={closePopup}>
                 <CloseIcon className={classes.iconButton} />
               </IconButton>
@@ -270,7 +270,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
               </Box>
             </Box>
           )}
-          <Grid container justify="center" spacing={2} className={classes.actions}>
+          <Grid container justifyContent="center" spacing={2} className={classes.actions}>
             {sample.quick_deploy &&
               Object.keys(deployers).map((deployer) => (
                 <Grid item key={deployer}>
@@ -313,7 +313,7 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
             )}
           </Grid>
           {sample.hosted_url && (
-            <Grid container justify="center" className={classes.liveDemoBox}>
+            <Grid container justifyContent="center" className={classes.liveDemoBox}>
               <Grid item>
                 <Button
                   size="medium"
@@ -329,13 +329,13 @@ export default function SampleCard({ closePopup, sample, isOpened, tags }) {
               </Grid>
             </Grid>
           )}
-          <Grid container justify="center" className={classes.tags}>
+          <Grid container justifyContent="center" className={classes.tags}>
             {tags}
           </Grid>
           <Grid
             container
             spacing={1}
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             className={classes.languages}>
             <Grid item>Language(s):</Grid>

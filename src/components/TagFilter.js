@@ -40,7 +40,7 @@ const staticFilters = [
       filter: 'contributed_by'
     },
     options: [
-      { name: 'Redis', filter: 'Redis Labs', icon: <SiRedis className="filterIcon" /> },
+      { name: 'Redis', filter: 'Redis', icon: <SiRedis className="filterIcon" /> },
       { name: 'Community', icon: <FaUsers className="filterIcon" /> },
       { name: 'Partner', icon: <FaUserCog className="filterIcon" /> }
     ]
@@ -84,13 +84,13 @@ const useStyles = makeStyles((theme) => ({
     '& .contributedByCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.contributed_by.main
     },
-    '& .redisModulesCategory::before': {
+    '& .redisFeaturesCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_features.main
     },
     '& .verticalsCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.verticals.main
     },
-    '& .redisFeaturesCategory::before': {
+    '& .redisUseCasesCategory::before': {
       backgroundColor: theme.palette.filterCategoryColors.redis_use_cases.main
     },
     '& .redisCommandsCategory::before': {
@@ -164,7 +164,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     if (filtersData?.redis_features?.length) {
       formattedFilters.push({
         category: {
-          name: <Box className="category redisModulesCategory">Features</Box>,
+          name: <Box className="category redisFeaturesCategory">Features</Box>,
           filter: 'redis_features'
         },
         options: filtersData?.redis_features.map((name) => ({ name }))
@@ -177,7 +177,7 @@ export default function TagFilter({ updateTag, tags, filtersData }) {
     if (filtersData?.redis_use_cases?.length) {
       formattedFilters.push({
         category: {
-          name: <Box className="category redisFeaturesCategory">Use Cases</Box>,
+          name: <Box className="category redisUseCasesCategory">Use Cases</Box>,
           filter: 'redis_use_cases'
         },
         options: filtersData?.redis_use_cases.map((name) => ({ name }))
