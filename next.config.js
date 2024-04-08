@@ -7,5 +7,14 @@ module.exports = {
   },
   experimental: {
     concurrentFeatures: true
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        destination: 'https://redis.io/learn/',
+        permanent: true
+      }
+    ];
   }
 };
